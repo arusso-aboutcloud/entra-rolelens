@@ -8,11 +8,16 @@ Required environment variables:
   CLOUDFLARE_API_TOKEN
   CLOUDFLARE_KV_NAMESPACE_ID
   D1_DATABASE_ID
+
+D1 REST API note: the /query endpoint accepts ONE statement per request
+({sql, params} object). Statements are sent individually and parallelised
+with a thread pool.
 """
 
 import json
 import os
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date
 from pathlib import Path
 
@@ -23,6 +28,7 @@ MASTER_PATH = DATA_DIR / "master.json"
 CHANGELOG_PATH = DATA_DIR / "changelog.json"
 
 CF_BASE = "https://api.cloudflare.com/client/v4"
+D1_WORKERS = 8
 
 
 def get_env(name: str) -> str:
@@ -33,19 +39,19 @@ def get_env(name: str) -> str:
     return val
 
 
-def cf_headers(token: str) -> dict:
-    return {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-    }
+# ---------------------------------------------------------------------------
+# KV
+# ---------------------------------------------------------------------------
 
-
-def kv_put(session, account_id, namespace_id, token, key, value: str) -> None:
-    url = f"{CF_BASE}/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/values/{key}"
-    resp = session.put(
+def kv_put(account_id: str, namespace_id: str, token: str,
+           key: str, value: str) -> None:
+    url = (f"{CF_BASE}/accounts/{account_id}/storage/kv"
+           f"/namespaces/{namespace_id}/values/{key}")
+    resp = requests.put(
         url,
         headers={"Authorization": f"Bearer {token}"},
         data=value.encode("utf-8"),
+        timeout=30,
     )
     print(f"  KV PUT {key!r}: HTTP {resp.status_code}")
     if not resp.ok:
@@ -53,36 +59,71 @@ def kv_put(session, account_id, namespace_id, token, key, value: str) -> None:
         sys.exit(1)
 
 
-def d1_batch(session, account_id, database_id, token, statements: list[dict]) -> None:
+# ---------------------------------------------------------------------------
+# D1 — one statement per request, parallelised
+# ---------------------------------------------------------------------------
+
+def d1_exec(account_id: str, database_id: str, token: str,
+            sql: str, params: list | None = None) -> None:
+    """Execute a single SQL statement against the D1 REST API."""
     url = f"{CF_BASE}/accounts/{account_id}/d1/database/{database_id}/query"
-    resp = session.post(url, headers=cf_headers(token), json=statements)
-    print(f"  D1 batch ({len(statements)} stmts): HTTP {resp.status_code}")
+    body: dict = {"sql": sql}
+    if params:
+        body["params"] = params
+    resp = requests.post(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        json=body,
+        timeout=30,
+    )
     if not resp.ok:
-        print(f"    {resp.text}", file=sys.stderr)
+        raise RuntimeError(f"HTTP {resp.status_code}: {resp.text}")
+    result = resp.json()
+    # D1 can return success:false even on HTTP 200
+    results_list = result if isinstance(result, list) else [result]
+    for r in results_list:
+        if not r.get("success"):
+            raise RuntimeError(f"D1 error: {json.dumps(r.get('errors', r))}")
+
+
+def d1_run_many(account_id: str, database_id: str, token: str,
+                statements: list[dict], label: str) -> None:
+    """
+    Execute a list of {"sql": ..., "params": [...]} dicts, each as a
+    separate /query call, parallelised with a thread pool.
+    """
+    errors: list[str] = []
+    completed = 0
+
+    def run_one(stmt: dict) -> None:
+        d1_exec(account_id, database_id, token,
+                stmt["sql"], stmt.get("params"))
+
+    with ThreadPoolExecutor(max_workers=D1_WORKERS) as pool:
+        futures = {pool.submit(run_one, s): i for i, s in enumerate(statements)}
+        for future in as_completed(futures):
+            try:
+                future.result()
+            except RuntimeError as exc:
+                errors.append(str(exc))
+
+    print(f"  D1 {label}: {len(statements)} stmts, {len(errors)} errors")
+    if errors:
+        for e in errors[:5]:
+            print(f"    {e}", file=sys.stderr)
         sys.exit(1)
-    results = resp.json()
-    if isinstance(results, list):
-        for r in results:
-            if not r.get("success"):
-                print(f"  D1 statement failed: {json.dumps(r)}", file=sys.stderr)
-                sys.exit(1)
-    elif not results.get("success"):
-        print(f"  D1 batch failed: {json.dumps(results)}", file=sys.stderr)
-        sys.exit(1)
 
 
-def d1_query(session, account_id, database_id, token, sql: str) -> None:
-    url = f"{CF_BASE}/accounts/{account_id}/d1/database/{database_id}/query"
-    resp = session.post(url, headers=cf_headers(token), json={"sql": sql})
-    print(f"  D1 query: HTTP {resp.status_code}")
-    if not resp.ok:
-        print(f"    {resp.text}", file=sys.stderr)
-        sys.exit(1)
+# ---------------------------------------------------------------------------
+# Push operations
+# ---------------------------------------------------------------------------
 
-
-def push_kv(session, account_id, namespace_id, token, master: dict) -> None:
+def push_kv(account_id: str, namespace_id: str, token: str, master: dict) -> None:
     print("Pushing to Cloudflare KV...")
-    kv_put(session, account_id, namespace_id, token,
+    kv_put(account_id, namespace_id, token,
            "master", json.dumps(master, ensure_ascii=False))
     status = {
         "last_updated": date.today().isoformat(),
@@ -90,82 +131,85 @@ def push_kv(session, account_id, namespace_id, token, master: dict) -> None:
         "task_count": master["task_count"],
         "pipeline": "healthy",
     }
-    kv_put(session, account_id, namespace_id, token,
+    kv_put(account_id, namespace_id, token,
            "pipeline_status", json.dumps(status))
 
 
-def push_roles(session, account_id, database_id, token, roles: list[dict]) -> None:
+def push_roles(account_id: str, database_id: str, token: str,
+               roles: list[dict]) -> None:
     print(f"Upserting {len(roles)} roles into D1...")
     sql = (
-        "INSERT INTO roles (id, display_name, description, is_built_in, is_privileged, permissions) "
+        "INSERT INTO roles "
+        "(id, display_name, description, is_built_in, is_privileged, permissions) "
         "VALUES (?, ?, ?, ?, ?, ?) "
         "ON CONFLICT(id) DO UPDATE SET "
-        "display_name=excluded.display_name, description=excluded.description, "
-        "is_privileged=excluded.is_privileged, permissions=excluded.permissions, "
+        "display_name=excluded.display_name, "
+        "description=excluded.description, "
+        "is_privileged=excluded.is_privileged, "
+        "permissions=excluded.permissions, "
         "updated_at=CURRENT_TIMESTAMP"
     )
-    batch_size = 25
-    for i in range(0, len(roles), batch_size):
-        chunk = roles[i : i + batch_size]
-        statements = [
-            {
-                "sql": sql,
-                "params": [
-                    r["id"],
-                    r["displayName"],
-                    r.get("description", ""),
-                    1 if r.get("isBuiltIn") else 0,
-                    1 if r.get("isPrivileged") else 0,
-                    json.dumps(r.get("permissions", [])),
-                ],
-            }
-            for r in chunk
-        ]
-        d1_batch(session, account_id, database_id, token, statements)
-    print(f"  Upserted {len(roles)} roles")
+    statements = [
+        {
+            "sql": sql,
+            "params": [
+                r["id"],
+                r["displayName"],
+                r.get("description", ""),
+                1 if r.get("isBuiltIn") else 0,
+                1 if r.get("isPrivileged") else 0,
+                json.dumps(r.get("permissions", [])),
+            ],
+        }
+        for r in roles
+    ]
+    d1_run_many(account_id, database_id, token, statements, "roles upsert")
 
 
-def push_tasks(session, account_id, database_id, token, tasks: list[dict]) -> None:
+def push_tasks(account_id: str, database_id: str, token: str,
+               tasks: list[dict]) -> None:
     print(f"Upserting {len(tasks)} tasks into D1...")
     sql = (
-        "INSERT INTO tasks (feature_area, task, min_role, role_id, alt_roles, "
-        "is_privileged, source_url) VALUES (?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO tasks "
+        "(feature_area, task, min_role, role_id, alt_roles, is_privileged, source_url) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT(feature_area, task) DO UPDATE SET "
-        "min_role=excluded.min_role, role_id=excluded.role_id, "
-        "alt_roles=excluded.alt_roles, is_privileged=excluded.is_privileged, "
+        "min_role=excluded.min_role, "
+        "role_id=excluded.role_id, "
+        "alt_roles=excluded.alt_roles, "
+        "is_privileged=excluded.is_privileged, "
         "source_url=excluded.source_url"
     )
-    batch_size = 25
-    for i in range(0, len(tasks), batch_size):
-        chunk = tasks[i : i + batch_size]
-        statements = [
-            {
-                "sql": sql,
-                "params": [
-                    t["feature_area"],
-                    t["task"],
-                    t["min_role"],
-                    t.get("role_id"),
-                    json.dumps(t.get("alt_roles", [])),
-                    1 if t.get("is_privileged") else 0,
-                    t.get("source_url", ""),
-                ],
-            }
-            for t in chunk
-        ]
-        d1_batch(session, account_id, database_id, token, statements)
-    print(f"  Upserted {len(tasks)} tasks")
+    statements = [
+        {
+            "sql": sql,
+            "params": [
+                t["feature_area"],
+                t["task"],
+                t["min_role"],
+                t.get("role_id"),
+                json.dumps(t.get("alt_roles", [])),
+                1 if t.get("is_privileged") else 0,
+                t.get("source_url", ""),
+            ],
+        }
+        for t in tasks
+    ]
+    d1_run_many(account_id, database_id, token, statements, "tasks upsert")
 
+    # Rebuild FTS table (serial — order matters)
     print("  Rebuilding task_search FTS table...")
-    d1_query(session, account_id, database_id, token, "DELETE FROM task_search")
-    d1_query(
-        session, account_id, database_id, token,
+    d1_exec(account_id, database_id, token, "DELETE FROM task_search")
+    d1_exec(
+        account_id, database_id, token,
         "INSERT INTO task_search (rowid, task, feature_area, min_role) "
         "SELECT id, task, feature_area, min_role FROM tasks",
     )
+    print("  task_search rebuilt: OK")
 
 
-def push_changelog(session, account_id, database_id, token, changelog: list[dict]) -> None:
+def push_changelog(account_id: str, database_id: str, token: str,
+                   changelog: list[dict]) -> None:
     today = date.today().isoformat()
     today_entries = [c for c in changelog if c.get("date") == today]
     print(f"Inserting {len(today_entries)} changelog entries for {today}...")
@@ -180,17 +224,19 @@ def push_changelog(session, account_id, database_id, token, changelog: list[dict
         {
             "sql": sql,
             "params": [
-                c["date"], c["change_type"], c.get("role_id", ""),
-                c.get("role_name", ""), c.get("field", "") or "", c.get("detail", ""),
+                c["date"], c["change_type"],
+                c.get("role_id", ""), c.get("role_name", ""),
+                c.get("field") or "", c.get("detail", ""),
             ],
         }
         for c in today_entries
     ]
-    batch_size = 25
-    for i in range(0, len(statements), batch_size):
-        d1_batch(session, account_id, database_id, token, statements[i : i + batch_size])
-    print(f"  Inserted {len(today_entries)} changelog entries")
+    d1_run_many(account_id, database_id, token, statements, "changelog insert")
 
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main() -> None:
     account_id   = get_env("CLOUDFLARE_ACCOUNT_ID")
@@ -205,16 +251,13 @@ def main() -> None:
     master = json.loads(MASTER_PATH.read_text(encoding="utf-8"))
     changelog = (
         json.loads(CHANGELOG_PATH.read_text(encoding="utf-8"))
-        if CHANGELOG_PATH.exists()
-        else []
+        if CHANGELOG_PATH.exists() else []
     )
 
-    session = requests.Session()
-
-    push_kv(session, account_id, namespace_id, api_token, master)
-    push_roles(session, account_id, database_id, api_token, master["roles"])
-    push_tasks(session, account_id, database_id, api_token, master["tasks"])
-    push_changelog(session, account_id, database_id, api_token, changelog)
+    push_kv(account_id, namespace_id, api_token, master)
+    push_roles(account_id, database_id, api_token, master["roles"])
+    push_tasks(account_id, database_id, api_token, master["tasks"])
+    push_changelog(account_id, database_id, api_token, changelog)
 
     print("Push complete")
 
