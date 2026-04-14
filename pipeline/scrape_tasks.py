@@ -2,22 +2,10 @@
 scrape_tasks.py
 
 Scrapes the Microsoft Learn "least privileged role by task" page and writes
-a structured task→role mapping to data/tasks.json.
+a structured task->role mapping to data/tasks.json.
 
 Source:
   https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task
-
-Page structure:
-  <h2>Feature Area least privileged roles</h2>
-  <div class="mx-tableFixed">
-    <table>
-      <thead><tr><th>Task</th><th>Least privileged role</th><th>Additional roles</th></tr></thead>
-      <tbody>
-        <tr><td>task text</td><td><a>Role Name</a></td><td><a>Alt</a><br/><a>Alt2</a></td></tr>
-        ...
-      </tbody>
-    </table>
-  </div>
 """
 
 import json
@@ -33,10 +21,7 @@ SOURCE_URL = (
 OUTPUT_PATH = Path(__file__).parent.parent / "data" / "tasks.json"
 MIN_TASKS = 50
 
-# h2 headings that are not feature-area sections
 SKIP_HEADINGS = {"next steps", "feedback", "additional resources", "in this article"}
-
-# Suffix to strip from h2 text to get the clean feature-area name
 HEADING_SUFFIXES = [
     " least privileged roles",
     " least privileged role",
@@ -60,7 +45,6 @@ def fetch_page(url: str) -> str:
 
 
 def clean_heading(text: str) -> str:
-    """Strip trailing 'least privileged roles' variants from an h2 to get feature area name."""
     text = text.strip()
     lower = text.lower()
     for suffix in HEADING_SUFFIXES:
@@ -71,17 +55,10 @@ def clean_heading(text: str) -> str:
 
 
 def cell_text(td) -> str:
-    """Return stripped plain-text content of a table cell."""
     return td.get_text(separator=" ", strip=True)
 
 
 def cell_roles(td) -> list[str]:
-    """
-    Extract role name(s) from a table cell.
-    Prefers <a> link text; falls back to plain text.
-    Multiple roles may be separated by <br> tags.
-    Returns a list (may be empty).
-    """
     links = td.find_all("a")
     if links:
         return [a.get_text(strip=True) for a in links if a.get_text(strip=True)]
@@ -90,13 +67,12 @@ def cell_roles(td) -> list[str]:
     return parts
 
 
-def scrape(html: str) -> list[dict]:
+def scrape(html: str) -> tuple[list[dict], set[str]]:
     soup = BeautifulSoup(html, "lxml")
     tasks = []
     feature_areas_seen = set()
 
-    # The page has two div.content elements; the second one holds the article body.
-    # Pick the one that contains tables (i.e. has the most h2s / tables).
+    # The page has two div.content elements; pick the one with the most tables
     candidates = soup.find_all("div", class_="content")
     content = max(candidates, key=lambda d: len(d.find_all("table"))) if candidates else soup
 
@@ -109,14 +85,13 @@ def scrape(html: str) -> list[dict]:
         if not feature_area:
             continue
 
-        # Find the next <table> sibling (may be wrapped in a div)
         table = None
         for sibling in h2.find_next_siblings():
             if sibling.name == "table":
                 table = sibling
                 break
             if sibling.name in ("h2", "h3"):
-                break  # next section started, no table for this heading
+                break
             inner = sibling.find("table") if hasattr(sibling, "find") else None
             if inner:
                 table = inner
@@ -126,7 +101,8 @@ def scrape(html: str) -> list[dict]:
             continue
 
         feature_areas_seen.add(feature_area)
-        rows = table.find("tbody").find_all("tr") if table.find("tbody") else table.find_all("tr")[1:]
+        tbody = table.find("tbody")
+        rows = tbody.find_all("tr") if tbody else table.find_all("tr")[1:]
 
         for row in rows:
             cols = row.find_all("td")

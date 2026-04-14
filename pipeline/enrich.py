@@ -22,26 +22,20 @@ MASTER_PATH = Path(__file__).parent.parent / "data" / "master.json"
 
 def load_json(path: Path) -> object:
     if not path.exists():
-        print(f"ERROR: {path} not found — run fetch_roles.py and scrape_tasks.py first",
-              file=sys.stderr)
+        print(f"ERROR: {path} not found", file=sys.stderr)
         sys.exit(1)
     with path.open(encoding="utf-8") as fh:
         return json.load(fh)
 
 
 def build_role_index(roles: list[dict]) -> dict[str, dict]:
-    """Return a dict keyed by displayName (case-insensitive) → role object."""
     return {r["displayName"].lower(): r for r in roles}
 
 
-def enrich_tasks(tasks: list[dict], role_index: dict[str, dict]) -> tuple[list[dict], int]:
-    """
-    Add role_id and is_privileged to each task based on min_role lookup.
-    Returns (enriched_tasks, matched_count).
-    """
+def enrich_tasks(tasks: list[dict], role_index: dict) -> tuple[list[dict], int]:
     enriched = []
     matched = 0
-    unmatched_names: set[str] = set()
+    unmatched: set[str] = set()
 
     for task in tasks:
         role = role_index.get(task["min_role"].lower())
@@ -53,11 +47,10 @@ def enrich_tasks(tasks: list[dict], role_index: dict[str, dict]) -> tuple[list[d
         else:
             enriched_task["role_id"] = None
             enriched_task["is_privileged"] = None
-            unmatched_names.add(task["min_role"])
-
+            unmatched.add(task["min_role"])
         enriched.append(enriched_task)
 
-    for name in sorted(unmatched_names):
+    for name in sorted(unmatched):
         print(f"  WARN: min_role not found in roles catalog: '{name}'")
 
     return enriched, matched
@@ -82,7 +75,7 @@ def main() -> None:
         json.dump(master, fh, indent=2, ensure_ascii=False)
 
     print(
-        f"master.json built — {len(roles)} roles, {len(tasks)} tasks, "
+        f"master.json built -- {len(roles)} roles, {len(tasks)} tasks, "
         f"{matched} tasks matched to role IDs"
     )
 

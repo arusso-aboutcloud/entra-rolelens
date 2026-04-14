@@ -2,19 +2,21 @@ name: Refresh role and task data
 
 on:
   schedule:
-    - cron: '0 1 * * *'   # 01:00 UTC daily
-  workflow_dispatch:        # allow manual trigger from GitHub UI
+    - cron: '0 1 * * *'
+  workflow_dispatch:
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # push data/ back to main
-      issues: write         # validate.py opens an issue on failure
+      contents: write
+      issues: write
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -26,28 +28,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r pipeline/requirements.txt
 
-      # ── Data collection ───────────────────────────────────────────────────
       - name: Fetch roles
         run: python pipeline/fetch_roles.py
 
       - name: Scrape task-to-role mappings
         run: python pipeline/scrape_tasks.py
 
-      # ── Diff + enrich ─────────────────────────────────────────────────────
-      - name: Diff roles (build changelog)
+      - name: Diff roles
         run: python pipeline/diff_roles.py
 
-      - name: Enrich (build master.json)
+      - name: Enrich
         run: python pipeline/enrich.py
 
-      # ── Validate — abort pipeline on failure ──────────────────────────────
-      - name: Validate master.json
+      - name: Validate
         run: python pipeline/validate.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
 
-      # ── Push to Cloudflare ────────────────────────────────────────────────
       - name: Push to Cloudflare KV and D1
         run: python pipeline/push_to_cloudflare.py
         env:
@@ -56,18 +54,12 @@ jobs:
           CLOUDFLARE_KV_NAMESPACE_ID: ${{ secrets.CLOUDFLARE_KV_NAMESPACE_ID }}
           D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
 
-      # ── Commit data/ back to repo ─────────────────────────────────────────
-      - name: Commit and push if data changed
+      - name: Commit and push data to master
         run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/roles.json \
-                  data/tasks.json \
-                  data/master.json \
-                  data/changelog.json \
-                  data/previous_roles.json
-          git diff --staged --quiet \
-            || git commit -m "data: nightly refresh [skip ci]"
-          git push
+          git add data/
+          git diff --staged --quiet || git commit -m "data: nightly refresh [skip ci]"
+          git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

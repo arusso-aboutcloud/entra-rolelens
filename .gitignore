@@ -1,0 +1,7 @@
+.claude/
+.vscode/
+.wrangler/
+__pycache__/
+*.pyc
+*.pyo
+.env
