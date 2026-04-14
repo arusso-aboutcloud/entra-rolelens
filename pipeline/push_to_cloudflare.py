@@ -92,7 +92,11 @@ def kv_put(account_id: str, namespace_id: str, token: str,
 
 def d1_exec(account_id: str, database_id: str, token: str,
             sql: str, params: list | None = None) -> list[dict]:
-    """Execute one SQL statement; return result rows."""
+    """Execute one SQL statement; return result rows.
+
+    Cloudflare D1 REST response shape:
+      {"success": true, "result": [{"success": true, "results": [...rows...], "meta": {...}}]}
+    """
     url = f"{CF_BASE}/accounts/{account_id}/d1/database/{database_id}/query"
     body: dict = {"sql": sql}
     if params:
@@ -108,13 +112,18 @@ def d1_exec(account_id: str, database_id: str, token: str,
     )
     if not resp.ok:
         raise RuntimeError(f"HTTP {resp.status_code}: {resp.text}")
-    result = resp.json()
-    items = result if isinstance(result, list) else [result]
-    for r in items:
-        if not r.get("success"):
-            raise RuntimeError(f"D1 error: {json.dumps(r.get('errors', r))}")
-    # Return rows from first result set
-    return items[0].get("results", []) if items else []
+    data = resp.json()
+    # Top-level success check
+    if not data.get("success"):
+        raise RuntimeError(f"D1 error: {json.dumps(data.get('errors', data))}")
+    # Navigate to inner result set
+    inner = data.get("result", [])
+    if not inner:
+        return []
+    first = inner[0]
+    if not first.get("success"):
+        raise RuntimeError(f"D1 error: {json.dumps(first.get('errors', first))}")
+    return first.get("results", [])
 
 
 def d1_run_many(account_id: str, database_id: str, token: str,
