@@ -1,0 +1,40 @@
+name: Refresh role data
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 01:00 UTC daily
+  workflow_dispatch:        # allow manual trigger from GitHub UI
+
+jobs:
+  fetch-roles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # needed to push data/roles.json back to main
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Fetch roles
+        run: python pipeline/fetch_roles.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/roles.json
+          git diff --staged --quiet \
+            || git commit -m "data: refresh roles.json [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
