@@ -146,8 +146,7 @@ def push_roles(account_id: str, database_id: str, token: str,
         "display_name=excluded.display_name, "
         "description=excluded.description, "
         "is_privileged=excluded.is_privileged, "
-        "permissions=excluded.permissions, "
-        "updated_at=CURRENT_TIMESTAMP"
+        "permissions=excluded.permissions"
     )
     statements = [
         {
