@@ -1,0 +1,1748 @@
+[
+  {
+    "feature_area": "Application proxy",
+    "task": "Configure application proxy app",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Configure connector group properties",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Create application registration when ability is disabled for all users",
+    "min_role": "Application Developer",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Create connector group",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Delete connector group",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Disable application proxy",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Download connector service",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Application proxy",
+    "task": "Read all configuration",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create Azure AD B2C directories",
+    "min_role": "All non-guest users",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create enterprise applications",
+    "min_role": "Cloud Application Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete B2C policies",
+    "min_role": "B2C IEF Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete identity providers",
+    "min_role": "External Identity Provider Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete password reset user flows",
+    "min_role": "External ID User Flow Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete profile editing user flows",
+    "min_role": "External ID User Flow Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete sign-in user flows",
+    "min_role": "External ID User Flow Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete sign-up user flow",
+    "min_role": "External ID User Flow Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete user attributes",
+    "min_role": "External ID User Flow Attribute Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Create, read, update, and delete users",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Configure B2B external collaboration settings - Guest user access",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Configure B2B external collaboration settings - Guest invite settings",
+    "min_role": "Guest Inviter",
+    "alt_roles": [
+      "External ID User Flow Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Configure B2B external collaboration settings - External user leave settings",
+    "min_role": "External Identity Provider Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Configure B2B external collaboration settings - Collaboration restrictions",
+    "min_role": "Global Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "External Identities/Azure AD B2C",
+    "task": "Read B2C audit logs",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Company branding",
+    "task": "Configure company branding",
+    "min_role": "Organizational Branding Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Company branding",
+    "task": "Read all configuration",
+    "min_role": "Directory Readers",
+    "alt_roles": [
+      "Default user role"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect",
+    "task": "Passthrough authentication",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [
+      "Hybrid Identity Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect",
+    "task": "Seamless single sign-on",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Sync",
+    "task": "Manage on-premises directory synchronization",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Cloud Provisioning",
+    "task": "Passthrough authentication",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Cloud Provisioning",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [
+      "Hybrid Identity Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Cloud Provisioning",
+    "task": "Seamless single sign-on",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Add or delete services",
+    "min_role": "Owner",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Apply fixes to sync error",
+    "min_role": "Contributor",
+    "alt_roles": [
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Configure notifications",
+    "min_role": "Contributor",
+    "alt_roles": [
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Configure settings",
+    "min_role": "Owner",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Configure sync notifications",
+    "min_role": "Contributor",
+    "alt_roles": [
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Read ADFS security reports",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Read all configuration",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Read sync errors",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "Read sync services",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "View metrics and alerts",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "View metrics and alerts",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Connect Health",
+    "task": "View sync service metrics and alerts",
+    "min_role": "Reader",
+    "alt_roles": [
+      "Contributor",
+      "Owner"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Custom domain names",
+    "task": "Manage domains",
+    "min_role": "Domain Name Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Custom domain names",
+    "task": "Read all configuration",
+    "min_role": "Directory Readers",
+    "alt_roles": [
+      "Default user role"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Domain Services",
+    "task": "Create Microsoft Entra Domain Services instance",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Domain Services",
+    "task": "Perform all Microsoft Entra Domain Services tasks",
+    "min_role": "AAD DC Administrators group",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Domain Services",
+    "task": "Read all configuration",
+    "min_role": "Reader on Azure subscription containing AD DS service",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Delete device",
+    "min_role": "Cloud Device Administrator",
+    "alt_roles": [
+      "Intune Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Disable device",
+    "min_role": "Cloud Device Administrator",
+    "alt_roles": [
+      "Intune Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Enable device",
+    "min_role": "Cloud Device Administrator",
+    "alt_roles": [
+      "Intune Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Read basic configuration",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Read BitLocker keys",
+    "min_role": "Cloud Device Administrator",
+    "alt_roles": [
+      "Helpdesk Administrator",
+      "Intune Administrator",
+      "Security Administrator",
+      "Security Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Provision and manage IoT devices",
+    "min_role": "IoT Device Administrator",
+    "alt_roles": [
+      "Cloud Device Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Devices",
+    "task": "Manage IoT device templates",
+    "min_role": "IoT Device Administrator",
+    "alt_roles": [
+      "Cloud Device Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Consent to any delegated permissions",
+    "min_role": "Cloud Application Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Consent to application permissions not including Microsoft Graph",
+    "min_role": "Cloud Application Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Consent to application permissions to Microsoft Graph",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Consent to applications accessing own data",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Create enterprise application",
+    "min_role": "Cloud Application Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Manage Application Proxy",
+    "min_role": "Application Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Read access review of a group or of an app",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Security Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Read all configuration",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update enterprise application assignments",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update enterprise application owners",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update enterprise application properties",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update enterprise application provisioning",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update enterprise application self-service",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Update single sign-on properties",
+    "min_role": "Enterprise application owner",
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Create and modify custom authentication extensions",
+    "min_role": "Authentication Extensibility Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Entitlement management",
+    "task": "Tasks in Entitlement Management",
+    "min_role": "Identity Governance Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Assign license",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Create group",
+    "min_role": "Groups Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Create, update, or delete access review of a group or of an app",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Manage group expiration",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Manage group settings",
+    "min_role": "Groups Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Read all configuration (except hidden membership)",
+    "min_role": "Directory Readers",
+    "alt_roles": [
+      "Default user role"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Read hidden membership",
+    "min_role": "Group member",
+    "alt_roles": [
+      "Group owner",
+      "Password Administrator",
+      "Exchange Administrator",
+      "SharePoint Administrator",
+      "Teams Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Read membership of groups with hidden membership",
+    "min_role": "Helpdesk Administrator",
+    "alt_roles": [
+      "User Administrator",
+      "Teams Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Revoke license",
+    "min_role": "License Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Update dynamic membership groups",
+    "min_role": "Group owner",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Update group owners",
+    "min_role": "Group owner",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Update group properties",
+    "min_role": "Group owner",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Delete group",
+    "min_role": "Groups Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Licenses",
+    "task": "Assign license",
+    "min_role": "License Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Licenses",
+    "task": "Read all configuration",
+    "min_role": "Directory Readers",
+    "alt_roles": [
+      "Default user role"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Licenses",
+    "task": "Revoke license",
+    "min_role": "License Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Licenses",
+    "task": "Try or buy subscription",
+    "min_role": "Billing Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Lifecycle Workflows",
+    "task": "Create a workflow",
+    "min_role": "Lifecycle workflows Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Lifecycle Workflows",
+    "task": "Add a custom extension to a workflow",
+    "min_role": "Lifecycle workflows Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra Health",
+    "task": "View scenario monitoring signals and alert configurations",
+    "min_role": "Reports Reader",
+    "alt_roles": [
+      "Security Reader",
+      "Security Operator",
+      "Security Administrator",
+      "Helpdesk Administrator",
+      "Global Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra Health",
+    "task": "Update alerts and alert email configurations",
+    "min_role": "Helpdesk Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Configure alert notifications",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Configure and enable or disable MFA policy",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Configure and enable or disable sign-in risk policy",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Configure and enable or disable user risk policy",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Configure weekly digests",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Dismiss all risk detections",
+    "min_role": "Security Operator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Fix or dismiss vulnerability",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Read all configuration",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Read all risk detections",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Microsoft Entra ID Protection",
+    "task": "Read vulnerabilities",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Audit and sign-in logs",
+    "task": "Read audit and sign-in logs",
+    "min_role": "Reports Reader",
+    "alt_roles": [
+      "Application Administrator",
+      "Cloud Application Administrator",
+      "Cloud Device Administrator",
+      "Global Secure Access Administrator",
+      "Hybrid Identity Administrator",
+      "Security Administrator",
+      "Security Operator",
+      "Security Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Provisioning logs",
+    "task": "Read provisioning logs",
+    "min_role": "Reports Reader",
+    "alt_roles": [
+      "Enterprise application owner",
+      "Application Administrator",
+      "Cloud Application Administrator",
+      "Cloud Device Administrator",
+      "Hybrid Identity Administrator",
+      "Security Administrator",
+      "Security Operator",
+      "Security Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Recommendations",
+    "task": "Read recommendations",
+    "min_role": "Reports Reader",
+    "alt_roles": [
+      "Security Reader",
+      "Global Reader",
+      "Helpdesk Administrator",
+      "Service Support Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Recommendations",
+    "task": "Update recommendations",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [
+      "Application Administrator",
+      "Authentication Administrator",
+      "Cloud Application Administrator",
+      "Conditional Access Administrator",
+      "Exchange Administrator",
+      "Hybrid Identity Administrator",
+      "Identity Governance Administrator",
+      "Privileged Role Administrator",
+      "Security Administrator",
+      "Security Operator",
+      "SharePoint Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Recommendations",
+    "task": "Read Identity Secure Score improvement action",
+    "min_role": "Service Support Administrator",
+    "alt_roles": [
+      "Security Administrator",
+      "Exchange Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Recommendations",
+    "task": "Update Identity Secure Score improvement action",
+    "min_role": "SharePoint Administrator",
+    "alt_roles": [
+      "Helpdesk Administrator",
+      "User Administrator",
+      "Security Reader",
+      "Security Operator",
+      "Global Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Sign-in diagnostic tool",
+    "task": "Use sign-in diagnostic from Diagnose and solve problems",
+    "min_role": "Billing Administrator",
+    "alt_roles": [
+      "Application Administrator",
+      "Cloud Application Administrator",
+      "Cloud Device Administrator",
+      "Conditional Access Administrator",
+      "Customer LockBox Access Approver",
+      "Groups Administrator",
+      "License Administrator",
+      "Global Reader",
+      "Helpdesk Administrator",
+      "Privileged Role Administrator",
+      "Security Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Monitoring and health - Sign-in diagnostic tool",
+    "task": "Use sign-in diagnostic from the Sign-in logs",
+    "min_role": "Reports Reader",
+    "alt_roles": [
+      "Global Secure Access Administrator",
+      "Hybrid Identity Administrator",
+      "Security Administrator",
+      "Security Operator",
+      "Security Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Delete all existing app passwords generated by the selected users",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [
+      "Authentication Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Disable per-user MFA",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [
+      "Privileged Authentication Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Enable per-user MFA",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [
+      "Privileged Authentication Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Manage MFA service settings",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Require selected users to provide contact methods again",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Multifactor authentication",
+    "task": "Restore multifactor authentication on all remembered devices",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Block/unblock users",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure account lockout",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure caching rules",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure fraud alert",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure notifications",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure one-time bypass",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure phone call settings",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure providers",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Configure server settings",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Read activity report",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "MFA Server",
+    "task": "Read server status",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Organizational relationships",
+    "task": "Manage identity providers",
+    "min_role": "External Identity Provider Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Organizational relationships",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure authentication methods",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure customization",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure notification",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure on-premises integration",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure password reset properties",
+    "min_role": "User Administrator",
+    "alt_roles": [
+      "Authentication Policy Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Configure registration",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Password reset",
+    "task": "Read all configuration",
+    "min_role": "Security Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Privileged Identity Management",
+    "task": "Assign users to roles",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Privileged Identity Management",
+    "task": "Configure role settings",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Privileged Identity Management",
+    "task": "View audit activity",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Privileged Identity Management",
+    "task": "View role memberships",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Roles and administrators",
+    "task": "Manage role assignments",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Roles and administrators",
+    "task": "Read access review of a Microsoft Entra role",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Security Administrator",
+      "Privileged Role Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Roles and administrators",
+    "task": "Read all configuration",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Enable or disable authentication methods",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "View, provision on behalf of, and manage individual user authentication methods",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [
+      "Privileged Authentication Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure password protection",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure smart lockout",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Read all configuration",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Configure MFA trusted IP addresses",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Create custom controls",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Create named locations",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Create policies",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Create terms of use",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Create VPN connectivity certificate",
+    "min_role": "Cloud Application Administrator",
+    "alt_roles": [
+      "Application Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Delete classic policy",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Restore a soft-deleted policy",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Delete terms of use",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Delete VPN connectivity certificate",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Disable classic policy",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Manage custom controls",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Manage named locations",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Manage terms of use",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Read all configuration",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Read named locations",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Read terms of use",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Global Reader"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Read which terms of use were accepted by the signed-in user",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Identity Security Score",
+    "task": "Read all configuration",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Identity Security Score",
+    "task": "Read security score",
+    "min_role": "Security Reader",
+    "alt_roles": [
+      "Security Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Identity Security Score",
+    "task": "Update event status",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Risky sign-ins",
+    "task": "Read all configuration",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Risky sign-ins",
+    "task": "Read risky sign-ins",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Users flagged for risk",
+    "task": "Dismiss all events",
+    "min_role": "Security Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Users flagged for risk",
+    "task": "Read all configuration",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Security - Users flagged for risk",
+    "task": "Read users flagged for risk",
+    "min_role": "Security Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Temporary Access Pass",
+    "task": "Create, delete, or view a Temporary Access Pass for admins or members (except themselves)",
+    "min_role": "Privileged Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Temporary Access Pass",
+    "task": "Create, delete, or view a Temporary Access Pass for members (except themselves)",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Temporary Access Pass",
+    "task": "View a Temporary Access Pass details for a user (without reading the code itself)",
+    "min_role": "Global Reader",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Temporary Access Pass",
+    "task": "Configure or update the Temporary Access Pass authentication method policy",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Tenants",
+    "task": "Create Microsoft Entra ID or Azure AD B2C Tenant",
+    "min_role": "Tenant Creator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Tenants",
+    "task": "Update Microsoft Entra tenant properties",
+    "min_role": "Billing Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Tenants",
+    "task": "Manage privacy statement and contact",
+    "min_role": "Billing Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Add user to directory role",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Add user to group",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Assign license",
+    "min_role": "License Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Create guest user",
+    "min_role": "Guest Inviter",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset guest user invite",
+    "min_role": "Helpdesk Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Create user",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Delete users",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Invalidate refresh tokens of limited admins",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Invalidate refresh tokens of non-admins",
+    "min_role": "Helpdesk Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Invalidate refresh tokens of privileged admins",
+    "min_role": "Privileged Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Read basic configuration",
+    "min_role": "Default user role",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset password for limited admins",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset password of non-admins",
+    "min_role": "Password Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset password of privileged admins",
+    "min_role": "Privileged Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Revoke license",
+    "min_role": "License Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update all properties except User Principal Name",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update On-premises sync enabled property",
+    "min_role": "Hybrid Identity Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update profile photos and people settings",
+    "min_role": "People Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update User Principal Name for limited admins",
+    "min_role": "User Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update User Principal Name property on privileged admins",
+    "min_role": "Privileged Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update user settings - Default user role permissions",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update user settings - Guest user access",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update user settings - Administration center",
+    "min_role": "Global Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update user settings - LinkedIn account connections",
+    "min_role": "Global Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update user settings - Show keep user signed in",
+    "min_role": "Global Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Update Authentication methods",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [
+      "Privileged Authentication Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Support",
+    "task": "Submit support ticket",
+    "min_role": "Service Support Administrator",
+    "alt_roles": [
+      "Application Administrator",
+      "Azure Information Protection Administrator",
+      "Billing Administrator",
+      "Cloud Application Administrator",
+      "Compliance Administrator",
+      "Dynamics 365 Administrator",
+      "Desktop Analytics Administrator",
+      "Exchange Administrator",
+      "Helpdesk Administrator",
+      "Intune Administrator",
+      "Password Administrator",
+      "Fabric Administrator",
+      "Privileged Authentication Administrator",
+      "SharePoint Administrator",
+      "Skype for Business Administrator",
+      "Teams Administrator",
+      "Teams Communications Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  }
+]

@@ -1,4 +1,4 @@
-name: Refresh role data
+name: Refresh role and task data
 
 on:
   schedule:
@@ -28,13 +28,16 @@ jobs:
       - name: Fetch roles
         run: python pipeline/fetch_roles.py
 
+      - name: Scrape task-to-role mappings
+        run: python pipeline/scrape_tasks.py
+
       - name: Commit and push if data changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/roles.json
+          git add data/roles.json data/tasks.json
           git diff --staged --quiet \
-            || git commit -m "data: refresh roles.json [skip ci]"
+            || git commit -m "data: refresh roles.json and tasks.json [skip ci]"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
