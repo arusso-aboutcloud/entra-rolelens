@@ -1,0 +1,12 @@
+name = "rolelens-worker"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding  = "DB"
+database_name = "rolelens-db"
+database_id   = "58a9d91b-c563-4a3c-a49c-3fe6d94378cb"
+
+[[kv_namespaces]]
+binding = "KV"
+id      = "cc13f474b4f34739805d891b47572bcb"

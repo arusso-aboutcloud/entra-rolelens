@@ -1,0 +1,15 @@
+{
+  "name": "rolelens-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240718.0",
+    "typescript": "^5.4.5",
+    "wrangler": "^3.65.0"
+  }
+}
