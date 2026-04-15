@@ -51,8 +51,6 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 
 ## Architecture
 
-> Click to open full size
-
 [![Architecture](assets/architecture.svg)](assets/architecture.svg)
 
 ---
