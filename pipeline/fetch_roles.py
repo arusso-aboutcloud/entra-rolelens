@@ -1,29 +1,33 @@
 """
 fetch_roles.py
 
-Fetches all Entra ID built-in role definitions from Microsoft's public
-entra-docs GitHub repository — no authentication required.
-
-Data source: github.com/MicrosoftDocs/entra-docs  (public)
-  permissions-reference.md   -> role list, template IDs, isPrivileged flag
-  includes/{slug}.md         -> per-role allowedResourceActions
+Fetches all Entra ID built-in role definitions from:
+1. Microsoft's public entra-docs GitHub repository (no auth required)
+2. Microsoft Graph API (requires OIDC authentication via GitHub Actions)
 """
 
 import json
 import re
 import sys
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import requests
+from azure.identity import DefaultAzureCredential
 
+# Constants for GitHub Scraping
 BASE_URL = (
     "https://raw.githubusercontent.com/MicrosoftDocs/entra-docs/main"
     "/docs/identity/role-based-access-control"
 )
 INDEX_URL = f"{BASE_URL}/permissions-reference.md"
 INCLUDE_URL = BASE_URL + "/includes/{slug}.md"
-OUTPUT_PATH = Path(__file__).parent.parent / "data" / "roles.json"
+
+# Output Paths
+DATA_DIR = Path(__file__).parent.parent / "data"
+ROLES_JSON_PATH = DATA_DIR / "roles.json"
+GRAPH_RAW_PATH = DATA_DIR / "roles_graph_raw.json"
 
 PRIVILEGED_MARKER = "privileged-label.png"
 MAX_WORKERS = 8
@@ -43,6 +47,39 @@ def get(url: str) -> str:
     if not resp.ok:
         raise FetchError(f"HTTP {resp.status_code} fetching {url}")
     return resp.text
+
+
+def fetch_graph_roles():
+    """Fetches live role definitions from Microsoft Graph using OIDC/Federated Identity."""
+    print("Connecting to Microsoft Graph via OIDC...")
+    credential = DefaultAzureCredential()
+    
+    try:
+        # Get token for Graph API
+        token = credential.get_token("https://graph.microsoft.com/.default")
+        headers = {
+            'Authorization': f'Bearer {token.token}',
+            'Content-Type': 'application/json'
+        }
+
+        # Fetch from v1.0 endpoint
+        url = "https://graph.microsoft.com/v1.0/roleManagement/directory/roleDefinitions"
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        
+        graph_roles = response.json().get('value', [])
+        print(f"✅ Successfully fetched {len(graph_roles)} roles from live Graph API.")
+        
+        # Save raw graph data for debugging/comparison
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        with GRAPH_RAW_PATH.open("w", encoding="utf-8") as f:
+            json.dump(graph_roles, f, indent=2, ensure_ascii=False)
+            
+        return graph_roles
+
+    except Exception as e:
+        print(f"⚠️ Warning: Could not fetch from Graph API: {e}")
+        return []
 
 
 def parse_roles_table(md: str) -> list[dict]:
@@ -112,6 +149,10 @@ def enrich_role(role: dict) -> dict:
 
 
 def main() -> None:
+    # 1. Fetch from Microsoft Graph API (The Live Source)
+    graph_roles = fetch_graph_roles()
+
+    # 2. Fetch from GitHub Docs (The Documentation Source)
     print("Fetching Entra ID role index from MicrosoftDocs/entra-docs...")
     index_md = get(INDEX_URL)
     if not index_md:
@@ -123,7 +164,7 @@ def main() -> None:
         print("ERROR: parsed 0 roles -- markdown format may have changed", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Found {len(roles)} built-in roles -- fetching per-role permissions...")
+    print(f"Found {len(roles)} built-in roles in docs -- fetching per-role permissions...")
 
     enriched: list[dict] = []
     errors: list[str] = []
@@ -147,14 +188,16 @@ def main() -> None:
 
     enriched.sort(key=lambda r: r["displayName"])
 
+    # Final Stats
     privileged_count = sum(1 for r in enriched if r["isPrivileged"])
-    print(f"Fetched {len(enriched)} roles ({privileged_count} privileged)")
+    print(f"Successfully processed {len(enriched)} roles ({privileged_count} privileged)")
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with OUTPUT_PATH.open("w", encoding="utf-8") as fh:
+    # Save final roles.json
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with ROLES_JSON_PATH.open("w", encoding="utf-8") as fh:
         json.dump(enriched, fh, indent=2, ensure_ascii=False)
 
-    print(f"Written -> {OUTPUT_PATH}")
+    print(f"Written -> {ROLES_JSON_PATH}")
 
 
 if __name__ == "__main__":
