@@ -9,7 +9,6 @@
   <meta property="og:description" content="Type any Entra admin task, get the minimum built-in role. Role diff, 130 roles, 211 tasks. Free community tool by aboutcloud.io" />
   <meta property="og:url" content="https://entrarolelens.aboutcloud.io" />
   <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary" />
   <link rel="icon" type="image/png" href="assets/logo_200x200_white.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,1462 +26,240 @@
       --accent-dim:#007A57;
       --text:      #E2E8F0;
       --muted:     #64748B;
-      --danger:    #F87171;
       --warn:      #FBBF24;
-      --only-a:    #F87171;
-      --only-b:    #34D399;
-      --shared:    #94A3B8;
       --font-head: 'Syne', sans-serif;
       --font-mono: 'IBM Plex Mono', monospace;
       --font-body: 'DM Sans', sans-serif;
-      --radius:    8px;
-      --radius-lg: 12px;
+      --radius-lg: 16px;
+      --max-width: 1100px;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center; /* Centers everything */
     }
 
-    /* Dot-grid background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background-image: radial-gradient(circle, #1C2438 1px, transparent 1px);
-      background-size: 28px 28px;
-      opacity: 0.45;
-      pointer-events: none;
+      background-size: 32px 32px;
+      opacity: 0.3;
       z-index: 0;
     }
 
-    /* ── Layout ─────────────────────────────────────────────────────── */
-    .container {
+    /* ── Layout Containers ─────────────────────────────────────────── */
+    .app-wrapper {
       width: 100%;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 20px;
+      max-width: var(--max-width);
+      padding: 0 24px;
       position: relative;
       z-index: 1;
     }
 
     /* ── Header ─────────────────────────────────────────────────────── */
-    header {
-      position: relative;
-      z-index: 1;
-      padding: 28px 0 0;
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.5px;
-      text-decoration: none;
-      color: var(--text);
-    }
+    header { width: 100%; padding: 40px 0 20px; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: var(--font-mono); font-size: 24px; text-decoration: none; color: var(--text); }
     .logo span { color: var(--accent); }
     .logo .entra-part { color: #0078D4; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .last-updated {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-    .last-updated.fresh { color: var(--accent); border-color: var(--accent-dim); }
-
-    .gh-link {
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      transition: color 0.15s;
-    }
-    .gh-link:hover { color: var(--text); }
-    .gh-link svg { width: 20px; height: 20px; }
-
-    .ac-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      transition: color 0.15s;
-    }
-    .ac-brand:hover { color: var(--text); }
-    .ac-brand img { height: 32px; width: 32px; opacity: 0.85; }
-
-    .tagline {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      margin-top: 6px;
-    }
-
-    /* ── Tab bar ────────────────────────────────────────────────────── */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      margin-top: 32px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0;
-    }
-
-    .tab-btn {
-      font-family: var(--font-mono);
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 12px 24px;
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
-      cursor: pointer;
-      margin-bottom: -1px;
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    /* ── Mode panels ────────────────────────────────────────────────── */
-    .mode { display: none; padding: 32px 0 48px; }
-    .mode.active { display: block; }
-
     /* ── Hero ───────────────────────────────────────────────────────── */
-    .hero-logo {
-      display: block;
-      height: 48px;
-      width: auto;
-      margin-bottom: 16px;
+    .hero { text-align: center; padding: 80px 0 40px; }
+    .hero h1 { 
+        font-family: var(--font-head); 
+        font-size: clamp(2.5rem, 8vw, 4.2rem); 
+        line-height: 1.1; 
+        margin-bottom: 24px; 
     }
+    .hero p { color: var(--muted); font-size: 18px; margin-bottom: 40px; }
 
-    .hero-text {
-      font-family: var(--font-head);
-      font-size: clamp(36px, 5vw, 60px);
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 24px;
-      line-height: 1.3;
+    /* ── Search ─────────────────────────────────────────────────────── */
+    .search-container {
+        max-width: 800px;
+        margin: 0 auto 40px;
+        position: relative;
     }
-
-    /* ── Search input ───────────────────────────────────────────────── */
-    .search-wrap {
-      position: relative;
-      margin-bottom: 28px;
-    }
-
     .search-input {
-      width: 100%;
-      height: 56px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 18px;
-      padding: 0 52px 0 20px;
-      border-radius: var(--radius-lg);
-      outline: none;
-      transition: border-color 0.2s;
+        width: 100%;
+        height: 72px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        border-radius: var(--radius-lg);
+        color: var(--text);
+        font-size: 20px;
+        padding: 0 60px 0 24px;
+        transition: 0.2s;
     }
-    .search-input::placeholder { color: var(--muted); }
-    .search-input:focus { border-color: var(--accent); }
+    .search-input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 20px rgba(0, 229, 163, 0.1); }
 
-    .search-icon {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      pointer-events: none;
+    /* ── Results Grid ──────────────────────────────────────────────── */
+    #search-results {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
     }
 
-    /* ── Results / states ───────────────────────────────────────────── */
-    #search-results { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
-
-    .state-msg {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--muted);
-      padding: 32px 0;
-      text-align: center;
-    }
-    .state-msg a { color: var(--accent); text-decoration: none; }
-    .state-msg a:hover { text-decoration: underline; }
-
-    /* Loading skeleton */
-    .skeleton-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 18px 20px;
-      animation: pulse 1.4s ease-in-out infinite;
-    }
-    .skel-line {
-      height: 10px;
-      background: var(--border);
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-    .skel-line.w60 { width: 60%; }
-    .skel-line.w80 { width: 80%; }
-    .skel-line.w40 { width: 40%; }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.45; }
+    @media (max-width: 600px) {
+        #search-results { grid-template-columns: 1fr; }
+        .hero { padding: 40px 0; }
     }
 
-    /* ── Result card ────────────────────────────────────────────────── */
     .result-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 24px 28px;
-      transition: border-color 0.15s;
-    }
-    .result-card:hover { border-color: #2D3F60; }
-
-    .card-top {
+      padding: 32px;
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
     }
+    .result-card:hover { transform: translateY(-4px); border-color: var(--accent-dim); }
 
-    .badge-area {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    .badge-privileged {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--warn);
-      background: rgba(251,191,36,0.08);
-      border: 1px solid rgba(251,191,36,0.25);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    .card-task {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-
-    .card-bottom {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
+    .card-task { font-size: 18px; font-weight: 600; margin-bottom: 20px; min-height: 54px; }
     .role-pill {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
+      display: inline-block;
       background: var(--accent);
-      color: #07080D;
-      padding: 4px 12px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-
-    .alt-roles {
+      color: #000;
+      padding: 6px 16px;
+      border-radius: 100px;
       font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .source-link {
-      margin-left: auto;
-      font-size: 11px;
-      color: var(--muted);
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .source-link:hover { color: var(--accent); }
-
-    /* ── Role Diff mode ─────────────────────────────────────────────── */
-    .diff-inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 560px) { .diff-inputs { grid-template-columns: 1fr; } }
-
-    .autocomplete-wrap {
-      position: relative;
-    }
-
-    .diff-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .diff-input {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 14px;
-      padding: 12px 16px;
-      border-radius: var(--radius);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .diff-input::placeholder { color: var(--muted); }
-    .diff-input:focus { border-color: var(--accent); }
-
-    .autocomplete-list {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0; right: 0;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 50;
-      display: none;
-    }
-    .autocomplete-list.open { display: block; }
-
-    .ac-item {
-      padding: 9px 14px;
+      font-weight: 600;
       font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      transition: background 0.1s;
-    }
-    .ac-item:hover, .ac-item.selected { background: #111620; }
-    .ac-item-name { flex: 1; }
-    .ac-priv {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--warn);
-      opacity: 0.8;
-      flex-shrink: 0;
     }
 
-    .compare-btn {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: var(--accent);
-      color: #07080D;
-      border: none;
-      padding: 12px 28px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: opacity 0.15s;
-      margin-bottom: 32px;
+    /* ── Tabs ──────────────────────────────────────────────────────── */
+    .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; }
+    .tab-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 10px 24px;
+        border-radius: 100px;
+        cursor: pointer;
+        font-family: var(--font-mono);
     }
-    .compare-btn:hover { opacity: 0.88; }
-    .compare-btn:disabled { opacity: 0.4; cursor: default; }
+    .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-    /* ── Diff results ───────────────────────────────────────────────── */
-    #diff-results { display: none; }
-    #diff-results.visible { display: block; }
-
-    .diff-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 640px) { .diff-header { grid-template-columns: 1fr; } }
-
-    .diff-col-header {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      text-align: center;
-    }
-    .diff-col-header .col-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .diff-col-header .col-label.only-a { color: var(--only-a); }
-    .diff-col-header .col-label.shared  { color: var(--shared); }
-    .diff-col-header .col-label.only-b  { color: var(--only-b); }
-    .diff-col-header .col-name {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-    .diff-col-header .col-count {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .diff-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 640px) { .diff-grid { grid-template-columns: 1fr; } }
-
-    .diff-col {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .diff-col-inner {
-      max-height: 520px;
-      overflow-y: auto;
-      padding: 10px 0;
-    }
-
-    .diff-perm {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      padding: 5px 14px;
-      line-height: 1.5;
-      word-break: break-all;
-      border-bottom: 1px solid rgba(28,36,56,0.5);
-    }
-    .diff-perm:last-child { border-bottom: none; }
-    .diff-perm.only-a { color: var(--only-a); }
-    .diff-perm.shared  { color: var(--shared); }
-    .diff-perm.only-b  { color: var(--only-b); }
-
-    /* ── Sync bar (prominent update timer) ─────────────────────────── */
-    .sync-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 28px;
-    }
-    .sync-bar.stale { color: var(--warn); }
-
-    .sync-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      flex-shrink: 0;
-      animation: syncpulse 2s ease-in-out infinite;
-    }
-    .sync-dot.stale {
-      background: var(--warn);
-      box-shadow: 0 0 8px var(--warn);
-    }
-    @keyframes syncpulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.75); }
-    }
-
-    /* ── Explainer grid ─────────────────────────────────────────────── */
-    .explainer-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
-      transition: opacity 0.2s;
-    }
-    @media (max-width: 640px) { .explainer-grid { grid-template-columns: 1fr; } }
-    .explainer-grid.hidden { display: none; }
-
-    .explainer-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-    }
-
-    .explainer-icon {
-      width: 40px; height: 40px;
-      position: relative;
-      margin-bottom: 14px;
-    }
-
-    /* Magnifier icon */
-    .icon-search::before {
-      content: '';
-      position: absolute;
-      width: 22px; height: 22px;
-      border: 3px solid var(--accent);
-      border-radius: 50%;
-      top: 0; left: 0;
-    }
-    .icon-search::after {
-      content: '';
-      position: absolute;
-      width: 11px; height: 3px;
-      background: var(--accent);
-      border-radius: 2px;
-      top: 23px; left: 18px;
-      transform: rotate(45deg);
-      transform-origin: left center;
-    }
-
-    /* Diff icon — two vertical bars */
-    .icon-diff::before {
-      content: '';
-      position: absolute;
-      width: 8px; height: 28px;
-      border-left: 3px solid var(--accent);
-      border-right: 3px solid var(--accent);
-      top: 6px; left: 14px;
-    }
-    .icon-diff::after {
-      content: '';
-      position: absolute;
-      width: 2px; height: 20px;
-      background: var(--border);
-      top: 10px; left: 19px;
-    }
-
-    /* Refresh icon — arc + arrowhead */
-    .icon-refresh::before {
-      content: '';
-      position: absolute;
-      width: 26px; height: 26px;
-      border: 3px solid var(--accent);
-      border-bottom-color: transparent;
-      border-radius: 50%;
-      top: 0; left: 7px;
-    }
-    .icon-refresh::after {
-      content: '';
-      position: absolute;
-      width: 0; height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 7px solid var(--accent);
-      bottom: 6px; left: 24px;
-      transform: rotate(-30deg);
-    }
-
-    .explainer-title {
-      font-family: var(--font-head);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .explainer-text {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    /* ── Example pills ──────────────────────────────────────────────── */
-    .example-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-      margin-bottom: 8px;
-    }
-    .example-pills.hidden { display: none; }
-
-    .pill-btn {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--muted);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 5px 14px;
-      cursor: pointer;
-      transition: color 0.15s, border-color 0.15s;
-      white-space: nowrap;
-    }
-    .pill-btn:hover { color: var(--accent); border-color: var(--accent-dim); }
-
-    /* ── Status bar ─────────────────────────────────────────────────── */
-    .status-bar {
-      position: relative;
-      z-index: 1;
-      margin-top: auto;
-      border-top: 1px solid var(--border);
-      padding: 12px 0;
-      background: var(--surface);
-    }
-
-    .status-inner {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-      flex-shrink: 0;
-    }
-
-    .status-item {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .status-item b { color: var(--text); }
-    .status-item.sep { color: var(--border); user-select: none; }
-
-    /* ── Footer ─────────────────────────────────────────────────────── */
-    footer {
-      position: relative;
-      z-index: 1;
-      padding: 16px 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .footer-text {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .footer-link {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      text-decoration: none;
-    }
-    .footer-link:hover { color: var(--accent); }
-
-    /* ── GitHub stats bar ──────────────────────────────────────────── */
-    .gh-stats-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .gh-stats-link {
-      display: flex;
-      align-items: center;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .gh-stats-link:hover { color: var(--text); }
-    .gh-stat { white-space: nowrap; }
-    .gh-stat-sep { color: var(--border); user-select: none; }
-
-    /* ── Diff description + example pills ──────────────────────────── */
-    .diff-desc {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
-    .diff-examples {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Diff summary ───────────────────────────────────────────────── */
-    .diff-summary {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    /* ── More tools section ─────────────────────────────────────────── */
-    .tools-section {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 24px 0;
-      background: var(--bg);
-    }
-    .tools-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 640px) { .tools-grid { grid-template-columns: 1fr; } }
-    .tool-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      text-decoration: none;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .tool-card:hover { border-color: var(--accent-dim); background: var(--surface2); }
-    .tool-name {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .tool-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    /* ── How-to sections ───────────────────────────────────────────── */
-    .how-to {
-      margin-bottom: 28px;
-      padding: 20px 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-    }
-    .how-to.hidden { display: none; }
-
-    .how-to h3 {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .how-to ol, .how-to ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
-    }
-    .how-to ol { list-style: decimal; }
-    .how-to ul { list-style: disc; }
-
-    .how-to li {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      padding-left: 4px;
-    }
-    .how-to li strong { color: var(--text); font-weight: 500; }
-
-    .how-to p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 0;
-    }
-    .how-to p:not(:last-child) { margin-bottom: 10px; }
-
-    /* ── Scrollbar ──────────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--surface); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    /* Utility */
+    .hidden { display: none !important; }
+    .state-msg { text-align: center; grid-column: 1 / -1; padding: 60px; color: var(--muted); }
   </style>
-  <script defer src="https://analytics.aboutcloud.io/script.js" data-website-id="46739eec-415b-4232-aadc-a5d68041b0fa"></script>
 </head>
 <body>
 
-<!-- ── Header ──────────────────────────────────────────────────────── -->
-<header>
-  <div class="container">
+<div class="app-wrapper">
+  <header>
     <div class="header-inner">
-      <div>
-        <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
-        <div class="tagline">Minimum privilege · Always current</div>
-      </div>
-      <div class="header-right">
-        <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
-          <img src="assets/logo_200x200_white.png" alt="aboutcloud.io" />
-          aboutcloud.io
-        </a>
-        <span class="last-updated" id="last-updated-badge">Loading…</span>
-        <a href="https://github.com/arusso-aboutcloud/entra-rolelens" target="_blank" rel="noopener" class="gh-link" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
-          </svg>
-        </a>
-      </div>
+      <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
+      <div class="last-updated" id="last-updated-badge">Loading…</div>
     </div>
+  </header>
 
-    <!-- Tab bar -->
-    <div class="tabs">
-      <button class="tab-btn active" id="tab-search" onclick="switchMode('search')">Task → Role</button>
-      <button class="tab-btn"         id="tab-diff"   onclick="switchMode('diff')">Role Diff</button>
-    </div>
-  </div>
-</header>
-
-<!-- ── Main ────────────────────────────────────────────────────────── -->
-<main style="flex:1; position:relative; z-index:1;">
-  <div class="container">
-
-    <!-- MODE 1: Task → Role -->
-    <section class="mode active" id="mode-search">
-      <img src="assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
-      <h1 class="hero-text">Find the minimum role for any Entra task</h1>
-
-      <!-- Sync bar — CHANGE 4 -->
-      <div class="sync-bar" id="sync-bar">
-        <span class="sync-dot" id="sync-dot"></span>
-        <span id="sync-text">Loading…</span>
-      </div>
-
-      <!-- GitHub stats — CHANGE 6 -->
-      <div class="gh-stats-bar" id="gh-stats"></div>
-
-      <!-- Explainer cards — CHANGE 3 -->
-      <div class="explainer-grid" id="explainer-grid">
-        <div class="explainer-card">
-          <div class="explainer-icon icon-search"></div>
-          <div class="explainer-title">Task → Role</div>
-          <div class="explainer-text">Describe any Entra admin task in plain language. Get back the minimum built-in role — nothing more.</div>
+  <main>
+    <section class="hero">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchMode('search')">Task Engine</button>
+            <button class="tab-btn" onclick="switchMode('diff')">Role Comparison</button>
         </div>
-        <div class="explainer-card">
-          <div class="explainer-icon icon-diff"></div>
-          <div class="explainer-title">Role diff</div>
-          <div class="explainer-text">Select any two built-in roles. See every permission one has that the other lacks, side by side.</div>
+
+        <div id="mode-search" class="mode active">
+            <h1>The Right Role.<br>Right Now.</h1>
+            <p>Describe any Entra task to find the minimum privilege role required.</p>
+            
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="e.g. Reset user MFA or manage app registrations...">
+            </div>
+
+            <div class="example-pills" id="example-pills" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                <button style="background:none; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 8px; cursor: pointer;" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
+                <button style="background:none; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 8px; cursor: pointer;" onclick="runPillSearch('read audit logs')">read audit logs</button>
+                <button style="background:none; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 8px; cursor: pointer;" onclick="runPillSearch('manage groups')">manage groups</button>
+            </div>
         </div>
-        <div class="explainer-card">
-          <div class="explainer-icon icon-refresh"></div>
-          <div class="explainer-title">Always current</div>
-          <div class="explainer-text">Data sourced from Microsoft's official documentation. Refreshed nightly.</div>
-        </div>
-      </div>
 
-      <!-- How-to section — ISSUE 2 -->
-      <div class="how-to" id="how-to-use">
-        <h3>How it works</h3>
-        <ol>
-          <li>Type any Microsoft Entra admin task in plain language</li>
-          <li>Results show the minimum built-in role required</li>
-          <li>Click any result to see the full role permissions</li>
-          <li>Use Role Diff to compare any two roles side by side</li>
-        </ol>
-        <p>Results are sourced directly from Microsoft's official "least privileged by task" documentation, refreshed nightly. No AI — every result is deterministic.</p>
-      </div>
-
-      <div class="search-wrap">
-        <input
-          type="text"
-          id="search-input"
-          class="search-input"
-          placeholder="e.g. reset a user's MFA, read audit logs, manage conditional access…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-      </div>
-
-      <!-- Example pills — 15 most common Entra admin tasks -->
-      <div class="example-pills" id="example-pills">
-        <button class="pill-btn" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
-        <button class="pill-btn" onclick="runPillSearch('reset user password')">reset user password</button>
-        <button class="pill-btn" onclick="runPillSearch('create user')">create user</button>
-        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
-        <button class="pill-btn" onclick="runPillSearch('read audit logs')">read audit logs</button>
-        <button class="pill-btn" onclick="runPillSearch('manage conditional access')">manage conditional access</button>
-        <button class="pill-btn" onclick="runPillSearch('configure PIM')">configure PIM</button>
-        <button class="pill-btn" onclick="runPillSearch('manage app registrations')">manage app registrations</button>
-        <button class="pill-btn" onclick="runPillSearch('assign licenses')">assign licenses</button>
-        <button class="pill-btn" onclick="runPillSearch('manage groups')">manage groups</button>
-        <button class="pill-btn" onclick="runPillSearch('manage enterprise apps')">manage enterprise apps</button>
-        <button class="pill-btn" onclick="runPillSearch('configure SSPR')">configure SSPR</button>
-        <button class="pill-btn" onclick="runPillSearch('read sign-in logs')">read sign-in logs</button>
-        <button class="pill-btn" onclick="runPillSearch('manage named locations')">manage named locations</button>
-        <button class="pill-btn" onclick="runPillSearch('manage authentication methods')">manage authentication methods</button>
-      </div>
-
-      <div id="search-results"></div>
+        <div id="mode-diff" class="mode hidden">
+            <h1>Role Permission Diff</h1>
+            <p>Compare two Entra ID roles side-by-side to see unique and shared permissions.</p>
+            </div>
     </section>
 
-    <!-- MODE 2: Role Diff -->
-    <section class="mode" id="mode-diff">
-      <h1 class="hero-text">Compare permissions between any two roles</h1>
-
-      <p class="diff-desc">Select any two Entra ID built-in roles to compare their permissions side by side. See exactly what one role can do that the other cannot.</p>
-
-      <!-- How-to section — ISSUE 3 -->
-      <div class="how-to" id="diff-how-to">
-        <h3>How to use</h3>
-        <p><strong>How to use:</strong> Type a role name in each field — autocomplete will suggest matching roles. Or click one of the example comparisons above to get started instantly.</p>
-        <ul>
-          <li><strong>Left column (red)</strong> — permissions only Role A has</li>
-          <li><strong>Center column (gray)</strong> — permissions both roles share</li>
-          <li><strong>Right column (green)</strong> — permissions only Role B has</li>
-        </ul>
-        <p>Tip: compare a broad role (Global Administrator) against a scoped role (User Administrator) to find the minimum role for your use case.</p>
-      </div>
-
-      <!-- Pre-built comparison examples -->
-      <div class="diff-examples">
-        <button class="pill-btn" onclick="runDiffPill('Global Administrator','User Administrator')">Global Admin vs User Admin</button>
-        <button class="pill-btn" onclick="runDiffPill('Authentication Administrator','Helpdesk Administrator')">Authentication Admin vs Helpdesk Admin</button>
-        <button class="pill-btn" onclick="runDiffPill('Security Administrator','Security Reader')">Security Admin vs Security Reader</button>
-        <button class="pill-btn" onclick="runDiffPill('Application Administrator','Cloud Application Administrator')">Application Admin vs Cloud App Admin</button>
-        <button class="pill-btn" onclick="runDiffPill('Privileged Role Administrator','Global Administrator')">Privileged Role Admin vs Global Admin</button>
-      </div>
-
-      <div class="diff-inputs">
-        <div class="autocomplete-wrap">
-          <label class="diff-label" for="role-a-input">Role A</label>
-          <input type="text" id="role-a-input" class="diff-input" placeholder="Global Administrator…" autocomplete="off" />
-          <div class="autocomplete-list" id="ac-list-a"></div>
+    <div id="search-results">
         </div>
-        <div class="autocomplete-wrap">
-          <label class="diff-label" for="role-b-input">Role B</label>
-          <input type="text" id="role-b-input" class="diff-input" placeholder="User Administrator…" autocomplete="off" />
-          <div class="autocomplete-list" id="ac-list-b"></div>
-        </div>
-      </div>
-
-      <button class="compare-btn" id="compare-btn" onclick="runDiff()" disabled>Compare</button>
-
-      <div id="diff-results">
-        <div class="diff-summary" id="diff-summary"></div>
-        <div class="diff-header" id="diff-header"></div>
-        <div class="diff-grid" id="diff-grid"></div>
-      </div>
-    </section>
-
-  </div>
-</main>
-
-<!-- ── Status bar ───────────────────────────────────────────────────── -->
-<div class="status-bar">
-  <div class="container">
-    <div class="status-inner">
-      <div class="status-dot"></div>
-      <span class="status-item"><b id="stat-roles">—</b> roles</span>
-      <span class="status-item sep">·</span>
-      <span class="status-item"><b id="stat-tasks">—</b> tasks</span>
-      <span class="status-item sep">·</span>
-      <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
-      <span class="status-item sep">·</span>
-      <span class="status-item">Data: Microsoft Learn + MicrosoftDocs/entra-docs</span>
-    </div>
-  </div>
+  </main>
 </div>
-
-<!-- ── More tools ───────────────────────────────────────────────────── -->
-<div class="tools-section">
-  <div class="container">
-    <div class="tools-label">More tools from aboutcloud.io</div>
-    <div class="tools-grid">
-      <a href="https://entratracker.aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
-        <div class="tool-name">Entra Tracker</div>
-        <div class="tool-desc">Live Microsoft Entra change tracker</div>
-      </a>
-      <a href="https://entraerrors.aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
-        <div class="tool-name">Entra Errors</div>
-        <div class="tool-desc">349 AADSTS error code reference</div>
-      </a>
-      <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
-        <div class="tool-name">aboutcloud.io</div>
-        <div class="tool-desc">Entra ID · Security · Cloud</div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- ── Footer ───────────────────────────────────────────────────────── -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <span class="footer-text">Data sourced from Microsoft's official documentation · Refreshed daily · Not affiliated with or endorsed by Microsoft</span>
-      <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="footer-link">aboutcloud.io</a>
-    </div>
-  </div>
-</footer>
 
 <script>
-  'use strict';
-
   const API = 'https://rolelens-worker.russo-antonio76.workers.dev';
-  const GH_ISSUES = 'https://github.com/arusso-aboutcloud/entra-rolelens/issues';
-
-  // ── State ────────────────────────────────────────────────────────────
-  let allRoles = [];         // [{id, display_name, is_privileged}]
-  let selectedRoleA = null;  // display_name string
-  let selectedRoleB = null;
-
-  // ── Mode toggle ──────────────────────────────────────────────────────
+  
   function switchMode(mode) {
-    document.querySelectorAll('.mode').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.mode').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('mode-' + mode).classList.add('active');
-    document.getElementById('tab-' + mode).classList.add('active');
+    document.getElementById('mode-' + mode).classList.remove('hidden');
+    event.target.classList.add('active');
   }
 
-  // ── Status bar + last updated ────────────────────────────────────────
   async function loadStatus() {
     try {
       const res = await fetch(API + '/api/status');
       const d = await res.json();
-
-      document.getElementById('stat-roles').textContent = d.role_count ?? '—';
-      document.getElementById('stat-tasks').textContent = d.task_count ?? '—';
-      document.getElementById('stat-pipeline').textContent =
-        'Pipeline ' + (d.pipeline === 'healthy' ? 'healthy' : d.pipeline ?? 'unknown');
-
-      // Header badge
-      const badge = document.getElementById('last-updated-badge');
-      // Sync bar (prominent)
-      const syncText = document.getElementById('sync-text');
-      const syncDot  = document.getElementById('sync-dot');
-      const syncBar  = document.getElementById('sync-bar');
-
-      if (d.last_updated) {
-        const updated  = new Date(d.last_updated);
-        const now      = new Date();
-        const diffDays = Math.floor((now - updated) / 86400000);
-        const isStale  = diffDays > 1;
-
-        // Header badge
-        if (diffDays === 0) {
-          badge.textContent = 'Updated today';
-          badge.classList.add('fresh');
-        } else {
-          badge.textContent = `Updated ${diffDays}d ago`;
-        }
-
-        // Sync bar
-        const utcTime = updated.toUTCString().match(/(\d{2}:\d{2})/)?.[1] ?? '';
-        const timeStr = diffDays === 0
-          ? `today at ${utcTime} UTC`
-          : `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
-        if (syncText) syncText.textContent = `Live — updated ${timeStr}`;
-        if (syncDot)  syncDot.classList.toggle('stale', isStale);
-        if (syncBar)  syncBar.classList.toggle('stale', isStale);
-      } else {
-        badge.textContent = 'Unknown';
-        if (syncText) syncText.textContent = 'Status unknown';
-      }
-    } catch {
-      document.getElementById('stat-pipeline').textContent = 'Pipeline status unavailable';
-      document.getElementById('last-updated-badge').textContent = 'Offline';
-      const syncText = document.getElementById('sync-text');
-      if (syncText) syncText.textContent = 'Offline';
-    }
+      document.getElementById('last-updated-badge').textContent = `Updated: ${new Date(d.last_updated).toLocaleDateString()}`;
+    } catch (e) { console.error(e); }
   }
 
-  // ── Load roles for autocomplete ──────────────────────────────────────
-  async function loadRoles() {
-    try {
-      const res = await fetch(API + '/api/roles');
-      allRoles = await res.json();
-    } catch {
-      allRoles = [];
-    }
-  }
-
-  // ── Search mode ──────────────────────────────────────────────────────
   let searchTimer = null;
-
-  document.getElementById('search-input').addEventListener('input', function () {
+  document.getElementById('search-input').addEventListener('input', function(e) {
     clearTimeout(searchTimer);
-    const q = this.value.trim();
-    const typing = q.length >= 2;
-
-    document.getElementById('explainer-grid')?.classList.toggle('hidden', typing);
-    document.getElementById('how-to-use')?.classList.toggle('hidden', typing);
-    document.getElementById('example-pills')?.classList.toggle('hidden', typing);
-
-    if (!typing) {
-      setSearchResults('');
-      return;
+    const q = e.target.value.trim();
+    if (q.length < 2) {
+        document.getElementById('search-results').innerHTML = '';
+        return;
     }
-    showSkeleton();
-    searchTimer = setTimeout(() => doSearch(q), 350);
+    searchTimer = setTimeout(() => doSearch(q), 300);
   });
 
-  // ── Example pill search ──────────────────────────────────────────────
-  function runPillSearch(q) {
-    const input = document.getElementById('search-input');
-    input.value = q;
-    input.dispatchEvent(new Event('input'));
-    input.focus();
-  }
-
   async function doSearch(q) {
+    const grid = document.getElementById('search-results');
+    grid.innerHTML = '<div class="state-msg">Searching Microsoft Graph & Docs...</div>';
+    
     try {
       const res = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}`);
       const results = await res.json();
-      renderResults(results);
-    } catch {
-      setSearchResults('<p class="state-msg">Error connecting to API</p>');
-    }
-  }
-
-  function showSkeleton() {
-    setSearchResults(`
-      <div class="skeleton-card">
-        <div class="skel-line w40"></div>
-        <div class="skel-line w80"></div>
-        <div class="skel-line w60"></div>
-      </div>
-      <div class="skeleton-card">
-        <div class="skel-line w40"></div>
-        <div class="skel-line w80"></div>
-        <div class="skel-line w60"></div>
-      </div>
-    `);
-  }
-
-  function renderResults(results) {
-    if (!results || results.length === 0) {
-      setSearchResults(`
-        <p class="state-msg">
-          No match found — <a href="${GH_ISSUES}" target="_blank" rel="noopener">contribute this task on GitHub →</a>
-        </p>`);
-      return;
-    }
-
-    const html = results.map(r => {
-      const altText = (r.alt_roles && r.alt_roles.length > 0)
-        ? `<span class="alt-roles">Also: ${r.alt_roles.join(', ')}</span>`
-        : '';
-      const privBadge = r.is_privileged
-        ? `<span class="badge-privileged">⚠ Privileged</span>`
-        : '';
-      return `
-        <div class="result-card">
-          <div class="card-top">
-            <span class="badge-area">${esc(r.feature_area)}</span>
-            ${privBadge}
-          </div>
-          <div class="card-task">${esc(r.task)}</div>
-          <div class="card-bottom">
-            <span class="role-pill">${esc(r.min_role)}</span>
-            ${altText}
-            <a href="${esc(r.source_url)}" target="_blank" rel="noopener" class="source-link">Microsoft Learn ↗</a>
-          </div>
-        </div>`;
-    }).join('');
-
-    setSearchResults(html);
-  }
-
-  function setSearchResults(html) {
-    document.getElementById('search-results').innerHTML = html;
-  }
-
-  // ── Autocomplete ─────────────────────────────────────────────────────
-  function buildAutocomplete(inputId, listId, onSelect) {
-    const input = document.getElementById(inputId);
-    const list  = document.getElementById(listId);
-    let acIdx = -1;
-
-    input.addEventListener('input', function () {
-      const q = this.value.trim().toLowerCase();
-      if (!q || allRoles.length === 0) { closeList(); return; }
-
-      const matches = allRoles
-        .filter(r => r.display_name.toLowerCase().includes(q))
-        .slice(0, 12);
-
-      if (matches.length === 0) { closeList(); return; }
-
-      list.innerHTML = matches.map((r, i) =>
-        `<div class="ac-item" data-name="${esc(r.display_name)}" data-idx="${i}">
-          <span class="ac-item-name">${esc(r.display_name)}</span>
-          ${r.is_privileged ? '<span class="ac-priv">Privileged</span>' : ''}
-        </div>`
-      ).join('');
-
-      list.querySelectorAll('.ac-item').forEach(item => {
-        item.addEventListener('mousedown', e => {
-          e.preventDefault();
-          pickItem(item.dataset.name);
-        });
-      });
-
-      list.classList.add('open');
-      acIdx = -1;
-    });
-
-    input.addEventListener('keydown', function (e) {
-      const items = list.querySelectorAll('.ac-item');
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        acIdx = Math.min(acIdx + 1, items.length - 1);
-        highlightAc(items, acIdx);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        acIdx = Math.max(acIdx - 1, 0);
-        highlightAc(items, acIdx);
-      } else if (e.key === 'Enter' && acIdx >= 0) {
-        e.preventDefault();
-        pickItem(items[acIdx].dataset.name);
-      } else if (e.key === 'Escape') {
-        closeList();
+      
+      if (!results.length) {
+        grid.innerHTML = '<div class="state-msg">No results found for that task.</div>';
+        return;
       }
-    });
 
-    input.addEventListener('blur', () => setTimeout(closeList, 150));
-
-    function closeList() { list.classList.remove('open'); list.innerHTML = ''; acIdx = -1; }
-    function highlightAc(items, idx) {
-      items.forEach((el, i) => el.classList.toggle('selected', i === idx));
-    }
-    function pickItem(name) {
-      input.value = name;
-      onSelect(name);
-      closeList();
-      updateCompareBtn();
-    }
-  }
-
-  buildAutocomplete('role-a-input', 'ac-list-a', name => { selectedRoleA = name; });
-  buildAutocomplete('role-b-input', 'ac-list-b', name => { selectedRoleB = name; });
-
-  // Also allow clearing selection on manual edit
-  document.getElementById('role-a-input').addEventListener('input', () => {
-    selectedRoleA = null; updateCompareBtn();
-  });
-  document.getElementById('role-b-input').addEventListener('input', () => {
-    selectedRoleB = null; updateCompareBtn();
-  });
-
-  function updateCompareBtn() {
-    document.getElementById('compare-btn').disabled = !(selectedRoleA && selectedRoleB);
-  }
-
-  // ── Role Diff ────────────────────────────────────────────────────────
-  async function runDiff() {
-    if (!selectedRoleA || !selectedRoleB) return;
-    const btn = document.getElementById('compare-btn');
-    btn.textContent = 'Comparing…';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch(
-        `${API}/api/diff?a=${encodeURIComponent(selectedRoleA)}&b=${encodeURIComponent(selectedRoleB)}`
-      );
-      const d = await res.json();
-      if (d.error) throw new Error(d.error);
-      renderDiff(d);
+      grid.innerHTML = results.map(r => `
+        <div class="result-card">
+          <div class="card-task">${r.task}</div>
+          <div>
+            <span class="role-pill">${r.min_role}</span>
+            <div style="margin-top: 12px; font-size: 12px; color: var(--muted)">Source: Microsoft Learn</div>
+          </div>
+        </div>
+      `).join('');
     } catch (err) {
-      document.getElementById('diff-results').innerHTML =
-        `<p class="state-msg">Error: ${esc(err.message)}</p>`;
-      document.getElementById('diff-results').classList.add('visible');
-    } finally {
-      btn.textContent = 'Compare';
-      btn.disabled = false;
+      grid.innerHTML = '<div class="state-msg">Error connecting to the RoleLens API.</div>';
     }
   }
 
-  function renderDiff(d) {
-    const ra = d.role_a;
-    const rb = d.role_b;
-
-    const summaryEl = document.getElementById('diff-summary');
-    if (summaryEl) {
-      summaryEl.textContent =
-        `${ra.display_name} (${ra.permission_count} permissions) vs ${rb.display_name} (${rb.permission_count} permissions)`;
-    }
-
-    document.getElementById('diff-header').innerHTML = `
-      <div class="diff-col-header">
-        <div class="col-label only-a">Only in ${esc(ra.display_name)} (${d.only_in_a.length})</div>
-        <div class="col-count">${d.only_in_a.length} unique permissions</div>
-      </div>
-      <div class="diff-col-header">
-        <div class="col-label shared">Shared (${d.shared.length})</div>
-        <div class="col-count">${d.shared.length} shared permissions</div>
-      </div>
-      <div class="diff-col-header">
-        <div class="col-label only-b">Only in ${esc(rb.display_name)} (${d.only_in_b.length})</div>
-        <div class="col-count">${d.only_in_b.length} unique permissions</div>
-      </div>`;
-
-    document.getElementById('diff-grid').innerHTML = `
-      <div class="diff-col">
-        <div class="diff-col-inner">${d.only_in_a.map(p =>
-          `<div class="diff-perm only-a">${esc(p)}</div>`).join('') || '<div class="diff-perm shared" style="opacity:.4;text-align:center">none</div>'}
-        </div>
-      </div>
-      <div class="diff-col">
-        <div class="diff-col-inner">${d.shared.map(p =>
-          `<div class="diff-perm shared">${esc(p)}</div>`).join('') || '<div class="diff-perm shared" style="opacity:.4;text-align:center">none</div>'}
-        </div>
-      </div>
-      <div class="diff-col">
-        <div class="diff-col-inner">${d.only_in_b.map(p =>
-          `<div class="diff-perm only-b">${esc(p)}</div>`).join('') || '<div class="diff-perm shared" style="opacity:.4;text-align:center">none</div>'}
-        </div>
-      </div>`;
-
-    document.getElementById('diff-results').classList.add('visible');
-    document.getElementById('diff-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function runPillSearch(val) {
+    const input = document.getElementById('search-input');
+    input.value = val;
+    doSearch(val);
   }
 
-  // ── Diff example pills ───────────────────────────────────────────────
-  function runDiffPill(a, b) {
-    document.getElementById('role-a-input').value = a;
-    document.getElementById('role-b-input').value = b;
-    selectedRoleA = a;
-    selectedRoleB = b;
-    updateCompareBtn();
-    runDiff();
-  }
-
-  // ── GitHub stats ─────────────────────────────────────────────────────
-  let ghStatsCache = null;
-
-  async function loadGitHubStats() {
-    const el = document.getElementById('gh-stats');
-    if (!el) return;
-    try {
-      if (ghStatsCache) { renderGhStats(ghStatsCache); return; }
-      const [repoRes, commitsRes] = await Promise.all([
-        fetch('https://api.github.com/repos/arusso-aboutcloud/entra-rolelens',
-          { headers: { 'Accept': 'application/vnd.github.v3+json' } }),
-        fetch('https://api.github.com/repos/arusso-aboutcloud/entra-rolelens/commits?per_page=1',
-          { headers: { 'Accept': 'application/vnd.github.v3+json' } })
-      ]);
-      const repo    = await repoRes.json();
-      const commits = await commitsRes.json();
-      ghStatsCache = {
-        stars:      repo.stargazers_count ?? 0,
-        forks:      repo.forks_count ?? 0,
-        issues:     repo.open_issues_count ?? 0,
-        lastCommit: commits[0]?.commit?.committer?.date ?? commits[0]?.commit?.author?.date ?? null
-      };
-      renderGhStats(ghStatsCache);
-    } catch {
-      if (el) el.style.display = 'none';
-    }
-  }
-
-  function renderGhStats(stats) {
-    const el = document.getElementById('gh-stats');
-    if (!el) return;
-    const now = new Date();
-    let commitStr = '—';
-    if (stats.lastCommit) {
-      const days = Math.floor((now - new Date(stats.lastCommit)) / 86400000);
-      commitStr = days === 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`;
-    }
-    el.innerHTML = `
-      <a href="https://github.com/arusso-aboutcloud/entra-rolelens" target="_blank" rel="noopener" class="gh-stats-link" aria-label="GitHub repo">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-      </a>
-      <span class="gh-stat">⭐ ${stats.stars}</span>
-      <span class="gh-stat-sep">·</span>
-      <span class="gh-stat">🔀 ${stats.forks}</span>
-      <span class="gh-stat-sep">·</span>
-      <span class="gh-stat">Issues: ${stats.issues} open</span>
-      <span class="gh-stat-sep">·</span>
-      <span class="gh-stat">Last commit: ${commitStr}</span>`;
-  }
-
-  // ── Utility ──────────────────────────────────────────────────────────
-  function esc(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  // ── Boot ─────────────────────────────────────────────────────────────
-  (async () => {
-    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats()]);
-  })();
+  loadStatus();
 </script>
 </body>
 </html>
