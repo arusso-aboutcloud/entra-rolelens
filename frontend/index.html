@@ -204,8 +204,17 @@
     /* ── Search input ───────────────────────────────────────────────── */
     .search-wrap {
       position: relative;
-      margin-bottom: 36px;
+      margin-bottom: 12px;
     }
+
+    .search-hint {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      min-height: 18px;
+    }
+    .search-hint span { color: var(--accent); }
 
     .search-input {
       width: 100%;
@@ -965,6 +974,7 @@
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
       </div>
+      <div class="search-hint" id="search-hint"></div>
 
       <!-- Example pills — 15 most common Entra admin tasks -->
       <div class="example-pills" id="example-pills">
@@ -1177,24 +1187,219 @@
     }
   }
 
+  // ── Synonym expansion ────────────────────────────────────────────────
+  const SYNONYMS = {
+    // Identity & access
+    'pim':                     'privileged identity management',
+    'privileged identity':     'privileged identity management',
+    'jit':                     'just in time access',
+    'just-in-time':            'just in time access',
+    'rbac':                    'role based access control',
+    'role based access':       'role based access control',
+    'pac':                     'privileged access',
+    'pag':                     'privileged access group',
+
+    // Authentication
+    'mfa':                     'multi factor authentication',
+    'multi-factor':            'multi factor authentication',
+    'multifactor':             'multi factor authentication',
+    '2fa':                     'two factor authentication',
+    'two-factor':              'two factor authentication',
+    'fido2':                   'passkey passwordless authentication',
+    'fido':                    'passkey passwordless authentication',
+    'passkey':                 'passwordless authentication',
+    'passwordless':            'passwordless authentication',
+    'sspr':                    'self service password reset',
+    'self-service password':   'self service password reset',
+    'password reset':          'self service password reset',
+    'tap':                     'temporary access pass',
+    'temporary access pass':   'temporary access pass',
+    'windows hello':           'passwordless authentication',
+
+    // Conditional Access & network
+    'ca':                      'conditional access',
+    'conditional access':      'conditional access',
+    'cap':                     'conditional access policy',
+    'named location':          'named locations conditional access',
+    'trusted location':        'named locations conditional access',
+    'ip range':                'named locations conditional access',
+    'gsa':                     'global secure access',
+    'global secure access':    'global secure access',
+    'entra internet access':   'global secure access',
+    'entra private access':    'global secure access',
+    'ztna':                    'zero trust network access',
+    'zero trust network':      'zero trust network access',
+
+    // External identities & guests
+    'b2b':                     'external collaboration guest users',
+    'b2c':                     'external identities',
+    'guest':                   'guest users external collaboration',
+    'external user':           'guest users external collaboration',
+    'external identity':       'external identities',
+    'cross-tenant':            'cross tenant access',
+    'cross tenant':            'cross tenant access',
+
+    // Applications & service principals
+    'app registration':        'application registration',
+    'app reg':                 'application registration',
+    'service principal':       'enterprise application service principal',
+    'sp':                      'service principal enterprise application',
+    'enterprise app':          'enterprise application',
+    'saml':                    'enterprise application single sign on',
+    'sso':                     'single sign on enterprise application',
+    'single sign-on':          'single sign on enterprise application',
+    'oauth':                   'application permission oauth',
+    'api permission':          'application permission consent',
+    'admin consent':           'application permission consent grant',
+
+    // Entitlement management & governance
+    'elm':                     'entitlement management',
+    'entitlement':             'entitlement management access package',
+    'access package':          'entitlement management access package',
+    'access review':           'access reviews',
+    'lifecycle':               'lifecycle workflows identity governance',
+    'identity governance':     'entitlement management access reviews',
+
+    // Devices
+    'mdm':                     'mobile device management',
+    'device management':       'mobile device management intune',
+    'intune':                  'mobile device management',
+    'aad join':                'azure ad join device',
+    'entra join':              'azure ad join device',
+    'hybrid join':             'hybrid azure ad joined device',
+    'bitlocker':               'bitlocker device encryption',
+    'compliance policy':       'device compliance intune',
+
+    // Security & monitoring
+    'defender':                'microsoft defender security',
+    'identity protection':     'microsoft entra id protection risk',
+    'id protection':           'microsoft entra id protection risk',
+    'risky user':              'identity protection risk user',
+    'risky sign-in':           'identity protection risk sign in',
+    'sign in log':             'sign in logs audit',
+    'signin log':              'sign in logs audit',
+    'audit log':               'audit logs monitoring',
+    'diagnostic':              'diagnostic settings monitoring',
+    'siem':                    'security information event management',
+
+    // Directory & users
+    'aad':                     'azure active directory',
+    'azure ad':                'microsoft entra id',
+    'entra id':                'microsoft entra id',
+    'directory role':          'directory role assignment',
+    'admin unit':              'administrative unit',
+    'administrative unit':     'administrative unit',
+    'bulk user':               'bulk create import users',
+    'dynamic group':           'dynamic membership group',
+    'dynamic membership':      'dynamic membership group',
+    'license':                 'license assignment',
+    'license assignment':      'license assignment',
+
+    // Networking & hybrid
+    'ad connect':              'azure ad connect hybrid',
+    'azure ad connect':        'azure ad connect hybrid sync',
+    'adc':                     'azure ad connect',
+    'hybrid':                  'hybrid azure ad connect on premises',
+    'on-premises':             'on premises directory sync',
+    'on prem':                 'on premises directory sync',
+    'password hash sync':      'password hash synchronization azure ad connect',
+    'phs':                     'password hash synchronization',
+    'pts':                     'pass through authentication',
+    'pass-through':            'pass through authentication',
+    'pta':                     'pass through authentication',
+    'federation':              'federated identity federation',
+    'adfs':                    'active directory federation services',
+
+    // Misc Entra features
+    'verified id':             'verifiable credentials',
+    'verifiable credential':   'verifiable credentials',
+    'workload identity':       'workload identity federated credential',
+    'managed identity':        'managed identity workload',
+    'custom domain':           'custom domain name dns',
+    'tenant':                  'tenant settings configuration',
+    'terms of use':            'terms of use compliance',
+    'tou':                     'terms of use',
+  };
+
+  // Build reverse map: every word in any expansion value → canonical expansion
+  const REVERSE_SYNONYMS = (() => {
+    const map = {};
+    for (const [key, expansion] of Object.entries(SYNONYMS)) {
+      // Index the key itself (normalised)
+      map[key.toLowerCase()] = expansion;
+      // Also index each word of the expansion back to itself
+      for (const word of expansion.split(/\s+/)) {
+        if (word.length >= 3 && !map[word]) {
+          map[word.toLowerCase()] = expansion;
+        }
+      }
+    }
+    return map;
+  })();
+
+  function expandQuery(input) {
+    const lower = input.toLowerCase().trim();
+
+    // 1. Exact key match (e.g. "PIM", "MFA")
+    if (SYNONYMS[lower]) return SYNONYMS[lower];
+
+    // 2. Key contained within input (e.g. "configure PIM" → replace "PIM")
+    for (const [key, expansion] of Object.entries(SYNONYMS)) {
+      const pattern = new RegExp(`\\b${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      if (pattern.test(lower)) {
+        return lower.replace(pattern, expansion);
+      }
+    }
+
+    // 3. Any word in the input matches a reverse-synonym
+    const words = lower.split(/\s+/);
+    for (const word of words) {
+      if (REVERSE_SYNONYMS[word]) return REVERSE_SYNONYMS[word];
+    }
+
+    // 4. No match — return original
+    return input;
+  }
+
   // ── Search mode ──────────────────────────────────────────────────────
   let searchTimer = null;
 
   document.getElementById('search-input').addEventListener('input', function () {
     clearTimeout(searchTimer);
     const q = this.value.trim();
-    const typing = q.length >= 2;
+    const expandedQuery = expandQuery(q);
+    const hasSynonym = expandedQuery !== q;
 
+    // Show/hide explainer and pills based on input presence
+    const typing = q.length >= 2;
     document.getElementById('explainer-grid')?.classList.toggle('hidden', typing);
     document.getElementById('how-to-use')?.classList.toggle('hidden', typing);
     document.getElementById('example-pills')?.classList.toggle('hidden', typing);
 
+    // Update expansion hint
+    const hint = document.getElementById('search-hint');
+    if (hint) {
+      if (typing && hasSynonym) {
+        hint.innerHTML = `Searching for: <span>${expandedQuery}</span>`;
+      } else {
+        hint.innerHTML = '';
+      }
+    }
+
+    // Clear results if not enough input
     if (!typing) {
       setSearchResults('');
       return;
     }
+
+    // Short queries (2-3 chars) only fire if a synonym match was found
+    if (q.length <= 3 && !hasSynonym) {
+      setSearchResults('');
+      return;
+    }
+
     showSkeleton();
-    searchTimer = setTimeout(() => doSearch(q), 350);
+    searchTimer = setTimeout(() => doSearch(expandedQuery), 350);
   });
 
   // ── Example pill search ──────────────────────────────────────────────
