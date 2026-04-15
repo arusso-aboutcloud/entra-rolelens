@@ -191,7 +191,7 @@ entra-rolelens/
 
 ## Data quality
 
-- **130+ built-in roles** — covers all named Entra ID built-in roles including preview and service-specific roles
+- **143+ built-in roles** — covers all named Entra ID built-in roles including preview and service-specific roles
 - **211 task mappings** — sourced from Microsoft's official documentation
 - **30 tasks with no built-in role** — Microsoft uses descriptive terms ("Group owner", "Resource owner") for these; they are flagged in results rather than silently dropped
 - **Shadow role detection** — roles present in the Graph API but absent from docs are flagged `isShadowRole: true`
