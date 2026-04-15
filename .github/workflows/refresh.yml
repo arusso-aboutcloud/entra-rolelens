@@ -11,12 +11,20 @@ jobs:
     permissions:
       contents: write
       issues: write
+      id-token: write # MANDATORY: Allows GitHub to request the OIDC token from Entra
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true # Essential since you are only accessing Graph API
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -29,6 +37,9 @@ jobs:
         run: pip install -r pipeline/requirements.txt
 
       - name: Fetch roles
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         run: python pipeline/fetch_roles.py
 
       - name: Scrape task-to-role mappings
