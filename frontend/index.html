@@ -150,34 +150,37 @@
       margin-top: 8px;
     }
 
-    /* ── Tab bar ────────────────────────────────────────────────────── */
-    .tabs {
-      display: flex;
-      gap: 4px;
+    /* ── Tab toggle (pill switcher) ─────────────────────────────────── */
+    .tab-toggle-wrap {
+      text-align: center;
       margin-top: 40px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0;
     }
-
-    .tab-btn {
+    .tab-toggle {
+      display: inline-flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px;
+    }
+    .tab-pill {
       font-family: var(--font-mono);
-      font-size: 17px;
+      font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 14px 32px;
-      background: none;
+      padding: 10px 28px;
+      border-radius: 100px;
       border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
       cursor: pointer;
-      margin-bottom: -1px;
-      transition: color 0.15s, border-color 0.15s;
+      background: transparent;
+      color: #5A6A90;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
     }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+    .tab-pill:hover { color: var(--text); }
+    .tab-pill.active {
+      background: var(--accent);
+      color: #07080D;
+      font-weight: 600;
     }
 
     /* ── Mode panels ────────────────────────────────────────────────── */
@@ -197,8 +200,19 @@
       font-size: clamp(44px, 5.5vw, 72px);
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 28px;
+      margin-bottom: 12px;
       line-height: 1.25;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-head);
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      margin-top: -8px;
+      margin-bottom: 24px;
     }
 
     /* ── Search input ───────────────────────────────────────────────── */
@@ -904,10 +918,12 @@
       </div>
     </div>
 
-    <!-- Tab bar -->
-    <div class="tabs">
-      <button class="tab-btn active" id="tab-search" onclick="switchMode('search')">Task → Role</button>
-      <button class="tab-btn"         id="tab-diff"   onclick="switchMode('diff')">Role Diff</button>
+    <!-- Tab toggle -->
+    <div class="tab-toggle-wrap">
+      <div class="tab-toggle">
+        <button class="tab-pill active" id="tab-search" onclick="switchMode('search')">Task → Role</button>
+        <button class="tab-pill"        id="tab-diff"   onclick="switchMode('diff')">Role Diff</button>
+      </div>
     </div>
   </div>
 </header>
@@ -920,6 +936,7 @@
     <section class="mode active" id="mode-search">
       <img src="assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
       <h1 class="hero-text">Find the minimum role for any Entra task</h1>
+      <p class="hero-tagline">The right role. Right now.</p>
 
       <!-- Sync bar — CHANGE 4 -->
       <div class="sync-bar" id="sync-bar">
@@ -1023,6 +1040,11 @@
         <button class="pill-btn" onclick="runDiffPill('Security Administrator','Security Reader')">Security Admin vs Security Reader</button>
         <button class="pill-btn" onclick="runDiffPill('Application Administrator','Cloud Application Administrator')">Application Admin vs Cloud App Admin</button>
         <button class="pill-btn" onclick="runDiffPill('Privileged Role Administrator','Global Administrator')">Privileged Role Admin vs Global Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Compliance Administrator','Compliance Data Administrator')">Compliance Admin vs Compliance Data Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Exchange Administrator','Teams Administrator')">Exchange Admin vs Teams Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Intune Administrator','Cloud Device Administrator')">Intune Admin vs Cloud Device Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Identity Governance Administrator','User Administrator')">Identity Governance Admin vs User Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Password Administrator','Helpdesk Administrator')">Password Admin vs Helpdesk Admin</button>
       </div>
 
       <div class="diff-inputs">
@@ -1113,7 +1135,7 @@
   // ── Mode toggle ──────────────────────────────────────────────────────
   function switchMode(mode) {
     document.querySelectorAll('.mode').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-pill').forEach(el => el.classList.remove('active'));
     document.getElementById('mode-' + mode).classList.add('active');
     document.getElementById('tab-' + mode).classList.add('active');
   }
@@ -1144,25 +1166,24 @@
       const syncBar  = document.getElementById('sync-bar');
 
       if (d.last_updated) {
-        const updated  = new Date(d.last_updated);
+        // last_updated from KV is a date-only string "YYYY-MM-DD"
+        // Parse as UTC noon to avoid timezone-driven day shifts
+        const updated  = new Date(d.last_updated + 'T12:00:00Z');
         const now      = new Date();
         const diffDays = Math.floor((now - updated) / 86400000);
         const isStale  = diffDays > 1;
 
-        // Header badge
-        if (diffDays === 0) {
-          badge.textContent = 'Updated today';
-          badge.classList.add('fresh');
-        } else {
-          badge.textContent = `Updated ${diffDays}d ago`;
-        }
+        // Format: "15 Apr 2026"
+        const fmtDate = updated.toLocaleDateString('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC'
+        });
 
-        // Sync bar
-        const utcTime = updated.toUTCString().match(/(\d{2}:\d{2})/)?.[1] ?? '';
-        const timeStr = diffDays === 0
-          ? `today at ${utcTime} UTC`
-          : `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
-        if (syncText) syncText.textContent = `Live — updated ${timeStr}`;
+        // Header badge — exact date
+        badge.textContent = `Updated ${fmtDate}`;
+        if (diffDays <= 1) badge.classList.add('fresh');
+
+        // Sync bar — exact date + known pipeline run time (01:00 UTC)
+        if (syncText) syncText.textContent = `Live — updated ${fmtDate} at 01:00 UTC`;
         if (syncDot)  syncDot.classList.toggle('stale', isStale);
         if (syncBar)  syncBar.classList.toggle('stale', isStale);
       } else {
