@@ -89,33 +89,31 @@ Search is pure SQL — keyword extraction in JS, weighted match against a `task_
 ```
 entra-rolelens/
 ├── .github/
-│   └── workflows/
-│       └── refresh.yml          # Nightly data pipeline
-├── worker/                      # Cloudflare Worker (API + search engine)
-│   ├── src/
-│   │   ├── index.ts
-│   │   ├── task-to-role.ts
-│   │   ├── role-diff.ts
-│   │   └── cron.ts
+│   ├── workflows/
+│   │   └── refresh.yml        # Nightly pipeline — runs automatically
+│   └── ISSUE_TEMPLATE/        # missing_task.md · bug_report.md
+├── pipeline/                  # Python scripts — run by GitHub Actions
+│   ├── fetch_roles.py         # Fetches role definitions
+│   ├── scrape_tasks.py        # Scrapes task→role mappings
+│   ├── diff_roles.py          # Detects role changes
+│   ├── enrich.py              # Builds master.json
+│   ├── validate.py            # Quality gate
+│   └── push_to_cloudflare.py  # Writes to KV + D1
+├── worker/                    # Cloudflare Worker — TypeScript API
+│   ├── src/index.ts           # 5 routes: search, diff, role, roles, status
 │   └── wrangler.toml
-├── pipeline/                    # GitHub Actions Python scripts
-│   ├── fetch_roles.py
-│   ├── scrape_tasks.py
-│   ├── diff_roles.py
-│   ├── enrich.py
-│   └── validate.py
-├── frontend/                    # Static UI
-│   ├── index.html
-│   ├── app.js
-│   └── styles.css
-├── data/                        # Committed daily by the pipeline
-│   ├── master.json
-│   ├── roles.json
-│   ├── tasks.json
-│   └── changelog.json
-├── assets/
-│   └── banner.svg
-└── README.md
+├── frontend/                  # Static UI — deployed to Cloudflare Pages
+│   └── index.html             # Single file · dark theme · no framework
+├── data/                      # Auto-committed nightly by the pipeline
+│   ├── roles.json             # 130 built-in roles + permissions
+│   ├── tasks.json             # 211 task → role mappings
+│   ├── master.json            # Merged dataset pushed to KV
+│   ├── changelog.json         # Role changes detected this run
+│   └── previous_roles.json    # Yesterday's snapshot for diffing
+└── assets/
+├── architecture.svg       # System architecture diagram
+└── banner.svg             # Pixel art banner
+
 ```
 
 ---
