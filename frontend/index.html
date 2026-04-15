@@ -155,11 +155,11 @@
 
     .tab-btn {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: none;
       border: none;
       border-bottom: 2px solid transparent;
@@ -188,7 +188,7 @@
 
     .hero-text {
       font-family: var(--font-head);
-      font-size: clamp(22px, 4vw, 30px);
+      font-size: clamp(32px, 5vw, 56px);
       font-weight: 700;
       color: var(--text);
       margin-bottom: 24px;
@@ -203,12 +203,13 @@
 
     .search-input {
       width: 100%;
+      height: 56px;
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 16px;
-      padding: 14px 48px 14px 18px;
+      font-size: 18px;
+      padding: 0 52px 0 20px;
       border-radius: var(--radius-lg);
       outline: none;
       transition: border-color 0.2s;
@@ -266,7 +267,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      padding: 24px 28px;
       transition: border-color 0.15s;
     }
     .result-card:hover { border-color: #2D3F60; }
@@ -306,11 +307,11 @@
     }
 
     .card-task {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 12px;
-      line-height: 1.45;
+      margin-bottom: 14px;
+      line-height: 1.5;
     }
 
     .card-bottom {
@@ -512,6 +513,155 @@
     .diff-perm.shared  { color: var(--shared); }
     .diff-perm.only-b  { color: var(--only-b); }
 
+    /* ── Sync bar (prominent update timer) ─────────────────────────── */
+    .sync-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .sync-bar.stale { color: var(--warn); }
+
+    .sync-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+      animation: syncpulse 2s ease-in-out infinite;
+    }
+    .sync-dot.stale {
+      background: var(--warn);
+      box-shadow: 0 0 8px var(--warn);
+    }
+    @keyframes syncpulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+
+    /* ── Explainer grid ─────────────────────────────────────────────── */
+    .explainer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+      transition: opacity 0.2s;
+    }
+    @media (max-width: 640px) { .explainer-grid { grid-template-columns: 1fr; } }
+    .explainer-grid.hidden { display: none; }
+
+    .explainer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .explainer-icon {
+      width: 40px; height: 40px;
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    /* Magnifier icon */
+    .icon-search::before {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      top: 0; left: 0;
+    }
+    .icon-search::after {
+      content: '';
+      position: absolute;
+      width: 11px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      top: 23px; left: 18px;
+      transform: rotate(45deg);
+      transform-origin: left center;
+    }
+
+    /* Diff icon — two vertical bars */
+    .icon-diff::before {
+      content: '';
+      position: absolute;
+      width: 8px; height: 28px;
+      border-left: 3px solid var(--accent);
+      border-right: 3px solid var(--accent);
+      top: 6px; left: 14px;
+    }
+    .icon-diff::after {
+      content: '';
+      position: absolute;
+      width: 2px; height: 20px;
+      background: var(--border);
+      top: 10px; left: 19px;
+    }
+
+    /* Refresh icon — arc + arrowhead */
+    .icon-refresh::before {
+      content: '';
+      position: absolute;
+      width: 26px; height: 26px;
+      border: 3px solid var(--accent);
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      top: 0; left: 7px;
+    }
+    .icon-refresh::after {
+      content: '';
+      position: absolute;
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid var(--accent);
+      bottom: 6px; left: 24px;
+      transform: rotate(-30deg);
+    }
+
+    .explainer-title {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .explainer-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Example pills ──────────────────────────────────────────────── */
+    .example-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+    .example-pills.hidden { display: none; }
+
+    .pill-btn {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .pill-btn:hover { color: var(--accent); border-color: var(--accent-dim); }
+
     /* ── Status bar ─────────────────────────────────────────────────── */
     .status-bar {
       position: relative;
@@ -540,10 +690,11 @@
 
     .status-item {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
     }
     .status-item b { color: var(--text); }
+    .status-item.sep { color: var(--border); user-select: none; }
 
     /* ── Footer ─────────────────────────────────────────────────────── */
     footer {
@@ -622,6 +773,31 @@
       <img src="../assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
       <h1 class="hero-text">Find the minimum role for any Entra task</h1>
 
+      <!-- Sync bar — CHANGE 4 -->
+      <div class="sync-bar" id="sync-bar">
+        <span class="sync-dot" id="sync-dot"></span>
+        <span id="sync-text">Loading…</span>
+      </div>
+
+      <!-- Explainer cards — CHANGE 3 -->
+      <div class="explainer-grid" id="explainer-grid">
+        <div class="explainer-card">
+          <div class="explainer-icon icon-search"></div>
+          <div class="explainer-title">Task → Role</div>
+          <div class="explainer-text">Describe any Entra admin task in plain language. Get back the minimum built-in role — nothing more.</div>
+        </div>
+        <div class="explainer-card">
+          <div class="explainer-icon icon-diff"></div>
+          <div class="explainer-title">Role diff</div>
+          <div class="explainer-text">Select any two built-in roles. See every permission one has that the other lacks, side by side.</div>
+        </div>
+        <div class="explainer-card">
+          <div class="explainer-icon icon-refresh"></div>
+          <div class="explainer-title">Always current</div>
+          <div class="explainer-text">Data sourced from Microsoft's official documentation. Refreshed nightly. No AI, no hallucinations.</div>
+        </div>
+      </div>
+
       <div class="search-wrap">
         <input
           type="text"
@@ -636,9 +812,16 @@
         </svg>
       </div>
 
-      <div id="search-results">
-        <p class="state-msg">Type a task to find the minimum role</p>
+      <!-- Example pills — CHANGE 5 -->
+      <div class="example-pills" id="example-pills">
+        <button class="pill-btn" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
+        <button class="pill-btn" onclick="runPillSearch('read audit logs')">read audit logs</button>
+        <button class="pill-btn" onclick="runPillSearch('manage conditional access')">manage conditional access</button>
+        <button class="pill-btn" onclick="runPillSearch('configure PIM')">configure PIM</button>
+        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
       </div>
+
+      <div id="search-results"></div>
     </section>
 
     <!-- MODE 2: Role Diff -->
@@ -675,8 +858,12 @@
     <div class="status-inner">
       <div class="status-dot"></div>
       <span class="status-item"><b id="stat-roles">—</b> roles</span>
+      <span class="status-item sep">·</span>
       <span class="status-item"><b id="stat-tasks">—</b> tasks</span>
+      <span class="status-item sep">·</span>
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
+      <span class="status-item sep">·</span>
+      <span class="status-item">Data: Microsoft Learn + MicrosoftDocs/entra-docs</span>
     </div>
   </div>
 </div>
@@ -721,23 +908,44 @@
       document.getElementById('stat-pipeline').textContent =
         'Pipeline ' + (d.pipeline === 'healthy' ? 'healthy' : d.pipeline ?? 'unknown');
 
+      // Header badge
       const badge = document.getElementById('last-updated-badge');
+      // Sync bar (prominent)
+      const syncText = document.getElementById('sync-text');
+      const syncDot  = document.getElementById('sync-dot');
+      const syncBar  = document.getElementById('sync-bar');
+
       if (d.last_updated) {
-        const updated = new Date(d.last_updated);
-        const now = new Date();
+        const updated  = new Date(d.last_updated);
+        const now      = new Date();
         const diffDays = Math.floor((now - updated) / 86400000);
+        const isStale  = diffDays > 1;
+
+        // Header badge
         if (diffDays === 0) {
           badge.textContent = 'Updated today';
           badge.classList.add('fresh');
         } else {
           badge.textContent = `Updated ${diffDays}d ago`;
         }
+
+        // Sync bar
+        const utcTime = updated.toUTCString().match(/(\d{2}:\d{2})/)?.[1] ?? '';
+        const timeStr = diffDays === 0
+          ? `today at ${utcTime} UTC`
+          : `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+        if (syncText) syncText.textContent = `Live — updated ${timeStr}`;
+        if (syncDot)  syncDot.classList.toggle('stale', isStale);
+        if (syncBar)  syncBar.classList.toggle('stale', isStale);
       } else {
         badge.textContent = 'Unknown';
+        if (syncText) syncText.textContent = 'Status unknown';
       }
     } catch {
       document.getElementById('stat-pipeline').textContent = 'Pipeline status unavailable';
       document.getElementById('last-updated-badge').textContent = 'Offline';
+      const syncText = document.getElementById('sync-text');
+      if (syncText) syncText.textContent = 'Offline';
     }
   }
 
@@ -757,13 +965,26 @@
   document.getElementById('search-input').addEventListener('input', function () {
     clearTimeout(searchTimer);
     const q = this.value.trim();
-    if (q.length < 2) {
-      setSearchResults('<p class="state-msg">Type a task to find the minimum role</p>');
+    const typing = q.length >= 2;
+
+    document.getElementById('explainer-grid')?.classList.toggle('hidden', typing);
+    document.getElementById('example-pills')?.classList.toggle('hidden', typing);
+
+    if (!typing) {
+      setSearchResults('');
       return;
     }
     showSkeleton();
     searchTimer = setTimeout(() => doSearch(q), 350);
   });
+
+  // ── Example pill search ──────────────────────────────────────────────
+  function runPillSearch(q) {
+    const input = document.getElementById('search-input');
+    input.value = q;
+    input.dispatchEvent(new Event('input'));
+    input.focus();
+  }
 
   async function doSearch(q) {
     try {
