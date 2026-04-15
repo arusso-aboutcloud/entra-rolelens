@@ -10,188 +10,311 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ── Core Layout ─────────────────────────────────────────────── */
+    /* ── Reset & tokens ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #07080D;
-      --surface: #0D1018;
-      --border: #1C2438;
-      --accent: #00E5A3;
-      --text: #E2E8F0;
-      --muted: #64748B;
+      --bg:        #07080D;
+      --surface:   #0D1018;
+      --surface2:  #111620;
+      --border:    #1C2438;
+      --accent:    #00E5A3;
+      --accent-dim:#007A57;
+      --text:      #E2E8F0;
+      --muted:     #64748B;
+      --warn:      #FBBF24;
+      --only-a:    #F87171;
+      --only-b:    #34D399;
+      --shared:    #94A3B8;
       --font-head: 'Syne', sans-serif;
       --font-mono: 'IBM Plex Mono', monospace;
-      --max-width: 1100px;
+      --font-body: 'DM Sans', sans-serif;
+      --radius-lg: 16px;
+      --max-width: 1100px; /* UNSTRETCHED CONSTRAINT */
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      margin: 0;
+      font-family: var(--font-body);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
     }
 
-    .container {
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, #1C2438 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    .app-wrapper {
       width: 100%;
       max-width: var(--max-width);
       padding: 0 24px;
-      box-sizing: border-box;
+      position: relative;
       z-index: 1;
     }
 
-    /* ── Header ─────────────────────────────────────────────────────── */
-    header { width: 100%; padding: 40px 0; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: var(--font-mono); font-size: 22px; text-decoration: none; color: var(--text); font-weight: bold; }
+    header { width: 100%; padding: 40px 0 20px; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .logo { font-family: var(--font-mono); font-size: 24px; text-decoration: none; color: var(--text); }
     .logo span { color: var(--accent); }
-    .status-badge { background: var(--surface); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 12px; color: var(--muted); }
+    .logo .entra-part { color: #0078D4; }
 
-    /* ── Hero & Tabs ───────────────────────────────────────────────── */
-    .hero { text-align: center; padding: 60px 0 40px; }
-    .hero h1 { font-family: var(--font-head); font-size: clamp(2rem, 7vw, 3.5rem); line-height: 1.1; margin-bottom: 16px; }
-    .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-    .tab-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 100px; cursor: pointer; font-family: var(--font-mono); transition: 0.2s; }
-    .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
-    /* ── Search UI ─────────────────────────────────────────────────── */
-    .search-wrap { position: relative; max-width: 700px; margin: 0 auto; }
-    .search-input { width: 100%; height: 64px; background: var(--surface); border: 2px solid var(--border); border-radius: 16px; color: #fff; padding: 0 24px; font-size: 18px; transition: 0.2s; }
-    .search-input:focus { border-color: var(--accent); outline: none; }
-
-    /* ── Results Grid ──────────────────────────────────────────────── */
-    #results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-      width: 100%;
-    }
-
-    .card {
+    .last-updated {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    /* ── Tabs ──────────────────────────────────────────────────────── */
+    .tabs { display: flex; gap: 8px; margin-top: 32px; border-bottom: 1px solid var(--border); }
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── Hero ───────────────────────────────────────────────────────── */
+    .mode { display: none; padding: 60px 0; }
+    .mode.active { display: block; }
+    .hero-text { font-family: var(--font-head); font-size: clamp(2.2rem, 6vw, 3.8rem); line-height: 1.1; margin-bottom: 24px; }
+    
+    /* ── Sync Bar ───────────────────────────────────────────────────── */
+    .sync-bar { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 30px; }
+    .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse 2s infinite; }
+
+    /* ── Search & Inputs ────────────────────────────────────────────── */
+    .search-wrap { position: relative; margin-bottom: 40px; }
+    .search-input, .diff-input {
+      width: 100%;
+      height: 64px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      color: var(--text);
+      font-size: 18px;
+      padding: 0 24px;
+      outline: none;
+      transition: 0.2s;
+    }
+    .search-input:focus, .diff-input:focus { border-color: var(--accent); }
+
+    /* ── Grid Results ───────────────────────────────────────────────── */
+    #search-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
       padding: 24px;
       transition: 0.2s;
     }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .card-task { font-weight: bold; margin-bottom: 15px; color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-    .card-role { font-size: 18px; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
-    .card-desc { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .result-card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+    .card-task { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--text); min-height: 44px; }
+    .role-pill { display: inline-block; background: var(--accent); color: #000; padding: 4px 12px; border-radius: 20px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
 
-    .hidden { display: none; }
-    .msg { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted); }
+    /* ── Diff Engine UI ─────────────────────────────────────────────── */
+    .diff-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .diff-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 30px; }
+    .diff-col { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 500px; overflow-y: auto; }
+    .diff-col h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 12px; color: var(--muted); }
+    .diff-perm { font-family: var(--font-mono); font-size: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); word-break: break-all; }
+    .only-a { color: var(--only-a); }
+    .only-b { color: var(--only-b); }
+    .shared { color: var(--shared); }
+
+    .autocomplete-list { position: absolute; background: var(--surface2); border: 1px solid var(--border); width: 100%; z-index: 100; border-radius: 8px; max-height: 200px; overflow-y: auto; display: none; }
+    .ac-item { padding: 10px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .ac-item:hover { background: var(--accent-dim); color: #fff; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+    @media (max-width: 768px) { 
+      .diff-inputs, .diff-grid { grid-template-columns: 1fr; } 
+      .diff-col { height: auto; max-height: 300px; }
+    }
+    
+    .pill-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; margin: 4px; transition: 0.2s; }
+    .pill-btn:hover { border-color: var(--accent); color: var(--accent); }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <a href="#" class="logo">Entra<span>RoleLens</span></a>
-      <div id="status" class="status-badge">Syncing...</div>
-    </header>
+<div class="app-wrapper">
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
+      <span class="last-updated" id="last-updated-badge">Loading…</span>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" id="btn-search" onclick="switchMode('search')">Task Engine</button>
+      <button class="tab-btn" id="btn-diff" onclick="switchMode('diff')">Role Comparison</button>
+    </div>
+  </header>
 
-    <main class="hero">
-      <div class="tabs">
-        <button class="tab-btn active" id="tab-search">Task Engine</button>
-        <button class="tab-btn" id="tab-diff">Role Comparison</button>
+  <main>
+    <section id="mode-search" class="mode active">
+      <h1 class="hero-text">The Right Role.<br>Right Now.</h1>
+      <div class="sync-bar">
+        <div class="sync-dot"></div>
+        <span id="sync-text">Nightly Sync Active</span>
+      </div>
+      
+      <div class="search-wrap">
+        <input type="text" id="search-input" class="search-input" placeholder="e.g. Reset user MFA..." autocomplete="off">
       </div>
 
-      <div id="search-section">
-        <h1>Minimum Privilege.<br>Zero Effort.</h1>
-        <div class="search-wrap">
-          <input type="text" id="input-search" class="search-input" placeholder="e.g. Reset user MFA...">
+      <div class="example-pills">
+        <button class="pill-btn" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
+        <button class="pill-btn" onclick="runPillSearch('read audit logs')">read audit logs</button>
+        <button class="pill-btn" onclick="runPillSearch('manage groups')">manage groups</button>
+        <button class="pill-btn" onclick="runPillSearch('conditional access')">conditional access</button>
+      </div>
+
+      <div id="search-results"></div>
+    </section>
+
+    <section id="mode-diff" class="mode">
+      <h1 class="hero-text">Role Comparison</h1>
+      <p style="color:var(--muted); margin-bottom: 30px;">Compare two roles side-by-side to identify permission overlaps and gaps.</p>
+      
+      <div class="diff-inputs">
+        <div style="position:relative;">
+          <input type="text" id="role-a" class="diff-input" placeholder="Role A (e.g. Global Admin)" autocomplete="off">
+          <div id="ac-a" class="autocomplete-list"></div>
+        </div>
+        <div style="position:relative;">
+          <input type="text" id="role-b" class="diff-input" placeholder="Role B (e.g. User Admin)" autocomplete="off">
+          <div id="ac-b" class="autocomplete-list"></div>
         </div>
       </div>
 
-      <div id="diff-section" class="hidden">
-        <h1>Compare Roles</h1>
-        <p style="color:var(--muted)">Side-by-side permission analysis coming soon.</p>
+      <div class="diff-grid" id="diff-output" style="display:none;">
+        <div class="diff-col"><h4 class="only-a">Only in Role A</h4><div id="col-a"></div></div>
+        <div class="diff-col"><h4 class="shared">Shared Permissions</h4><div id="col-shared"></div></div>
+        <div class="diff-col"><h4 class="only-b">Only in Role B</h4><div id="col-b"></div></div>
       </div>
+    </section>
+  </main>
+</div>
 
-      <div id="results-grid">
-        <div class="msg">Start typing to see recommended roles...</div>
-      </div>
-    </main>
-  </div>
+<script>
+  const API = 'https://rolelens-worker.russo-antonio76.workers.dev';
+  let allRoles = [];
 
-  <script>
-    // ── CONFIGURATION ───────────────────────────────────────────
-    // Using your verified Worker URL
-    const API_BASE = 'https://rolelens-worker.russo-antonio76.workers.dev';
+  // ── INIT ──
+  async function init() {
+    try {
+      const [sRes, rRes] = await Promise.all([
+        fetch(`${API}/api/status`),
+        fetch(`${API}/api/roles`)
+      ]);
+      const status = await sRes.json();
+      allRoles = await rRes.json();
+      document.getElementById('last-updated-badge').textContent = `Updated: ${new Date(status.last_updated).toLocaleDateString()}`;
+    } catch (e) { console.error("Init failed", e); }
+  }
 
-    const inputSearch = document.getElementById('input-search');
-    const resultsGrid = document.getElementById('results-grid');
-    const statusBadge = document.getElementById('status');
+  // ── NAVIGATION ──
+  function switchMode(mode) {
+    document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`mode-${mode}`).classList.add('active');
+    document.getElementById(`btn-${mode}`).classList.add('active');
+  }
 
-    // ── INITIALIZATION ──────────────────────────────────────────
-    async function init() {
-      try {
-        const resp = await fetch(`${API_BASE}/api/status`);
-        const data = await resp.json();
-        statusBadge.innerText = `Updated: ${new Date(data.last_updated).toLocaleDateString()}`;
-      } catch (e) {
-        statusBadge.innerText = "Offline";
-      }
-    }
+  // ── SEARCH LOGIC ──
+  let timer;
+  document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(timer);
+    const q = e.target.value.trim();
+    if(q.length < 2) return document.getElementById('search-results').innerHTML = '';
+    timer = setTimeout(() => execSearch(q), 300);
+  });
 
-    // ── SEARCH LOGIC ────────────────────────────────────────────
-    let debounceTimer;
-    inputSearch.addEventListener('input', (e) => {
-      clearTimeout(debounceTimer);
-      const query = e.target.value.trim();
+  async function execSearch(q) {
+    const grid = document.getElementById('search-results');
+    grid.innerHTML = '<div style="color:var(--muted)">Searching...</div>';
+    try {
+      const res = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      grid.innerHTML = data.map(r => `
+        <div class="result-card">
+          <div class="card-task">${r.task || r.displayName}</div>
+          <span class="role-pill">${r.min_role || 'View Role'}</span>
+          <p style="font-size:12px; color:var(--muted); margin-top:10px;">${r.description || ''}</p>
+        </div>
+      `).join('');
+    } catch (e) { grid.innerHTML = 'Error loading results.'; }
+  }
 
-      if (query.length < 2) {
-        resultsGrid.innerHTML = '<div class="msg">Start typing to see recommended roles...</div>';
-        return;
-      }
+  function runPillSearch(val) {
+    document.getElementById('search-input').value = val;
+    execSearch(val);
+  }
 
-      debounceTimer = setTimeout(() => performSearch(query), 300);
+  // ── DIFF ENGINE ──
+  function setupAutocomplete(inputId, listId) {
+    const input = document.getElementById(inputId);
+    const list = document.getElementById(listId);
+
+    input.addEventListener('input', () => {
+      const val = input.value.toLowerCase();
+      const matches = allRoles.filter(r => r.displayName.toLowerCase().includes(val)).slice(0, 10);
+      list.innerHTML = matches.map(m => `<div class="ac-item" onclick="selectRole('${inputId}','${listId}','${m.displayName}')">${m.displayName}</div>`).join('');
+      list.style.display = matches.length ? 'block' : 'none';
     });
+  }
 
-    async function performSearch(q) {
-      resultsGrid.innerHTML = '<div class="msg">Searching Microsoft Graph & Docs...</div>';
-      try {
-        const resp = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(q)}`);
-        const data = await resp.json();
+  function selectRole(inputId, listId, name) {
+    document.getElementById(inputId).value = name;
+    document.getElementById(listId).style.display = 'none';
+    runDiff();
+  }
 
-        if (!data || data.length === 0) {
-          resultsGrid.innerHTML = '<div class="msg">No matching tasks found. Try broader terms like "User" or "Groups".</div>';
-          return;
-        }
+  function runDiff() {
+    const roleAName = document.getElementById('role-a').value;
+    const roleBName = document.getElementById('role-b').value;
+    const roleA = allRoles.find(r => r.displayName === roleAName);
+    const roleB = allRoles.find(r => r.displayName === roleBName);
 
-        resultsGrid.innerHTML = data.map(item => `
-          <div class="card">
-            <div class="card-task">${item.task || 'Admin Task'}</div>
-            <div class="card-role">${item.min_role || item.displayName}</div>
-            <div class="card-desc">${item.description || 'Minimum built-in role required for this action.'}</div>
-          </div>
-        `).join('');
+    if(!roleA || !roleB) return;
 
-      } catch (e) {
-        resultsGrid.innerHTML = '<div class="msg">Error: Could not connect to the advisor engine.</div>';
-      }
-    }
+    const permsA = new Set(roleA.rolePermissions[0].allowedResourceActions);
+    const permsB = new Set(roleB.rolePermissions[0].allowedResourceActions);
 
-    // ── TAB TOGGLE ─────────────────────────────────────────────
-    document.getElementById('tab-search').onclick = () => {
-        document.getElementById('search-section').classList.remove('hidden');
-        document.getElementById('diff-section').classList.add('hidden');
-        document.getElementById('tab-search').classList.add('active');
-        document.getElementById('tab-diff').classList.remove('active');
-    };
+    document.getElementById('diff-output').style.display = 'grid';
     
-    document.getElementById('tab-diff').onclick = () => {
-        document.getElementById('search-section').classList.add('hidden');
-        document.getElementById('diff-section').classList.remove('hidden');
-        document.getElementById('tab-diff').classList.add('active');
-        document.getElementById('tab-search').classList.remove('active');
-        resultsGrid.innerHTML = '';
-    };
+    document.getElementById('col-a').innerHTML = [...permsA].filter(x => !permsB.has(x)).map(p => `<div class="diff-perm only-a">${p}</div>`).join('') || 'None';
+    document.getElementById('col-shared').innerHTML = [...permsA].filter(x => permsB.has(x)).map(p => `<div class="diff-perm shared">${p}</div>`).join('') || 'None';
+    document.getElementById('col-b').innerHTML = [...permsB].filter(x => !permsA.has(x)).map(p => `<div class="diff-perm only-b">${p}</div>`).join('') || 'None';
+  }
 
-    init();
-  </script>
+  setupAutocomplete('role-a', 'ac-a');
+  setupAutocomplete('role-b', 'ac-b');
+  init();
+</script>
 </body>
 </html>
