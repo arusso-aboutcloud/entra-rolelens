@@ -164,6 +164,7 @@ def push_kv(account_id: str, namespace_id: str, token: str,
                "last_updated": TODAY,
                "role_count": master["role_count"],
                "task_count": master["task_count"],
+               "shadow_role_count": master.get("shadow_role_count", 0),
                "pipeline": "healthy",
            }))
 

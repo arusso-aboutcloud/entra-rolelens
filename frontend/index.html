@@ -1048,6 +1048,8 @@
       <span class="status-item"><b id="stat-roles">—</b> roles</span>
       <span class="status-item sep">·</span>
       <span class="status-item"><b id="stat-tasks">—</b> tasks</span>
+      <span class="status-item sep" id="stat-shadow-sep" style="display:none">·</span>
+      <span class="status-item" id="stat-shadow" style="display:none"><b id="stat-shadow-count">—</b> shadow roles</span>
       <span class="status-item sep">·</span>
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
       <span class="status-item sep">·</span>
@@ -1116,6 +1118,13 @@
       document.getElementById('stat-tasks').textContent = d.task_count ?? '—';
       document.getElementById('stat-pipeline').textContent =
         'Pipeline ' + (d.pipeline === 'healthy' ? 'healthy' : d.pipeline ?? 'unknown');
+
+      const shadowCount = d.shadow_role_count ?? 0;
+      if (shadowCount > 0) {
+        document.getElementById('stat-shadow-count').textContent = shadowCount;
+        document.getElementById('stat-shadow').style.display = '';
+        document.getElementById('stat-shadow-sep').style.display = '';
+      }
 
       // Header badge
       const badge = document.getElementById('last-updated-badge');
