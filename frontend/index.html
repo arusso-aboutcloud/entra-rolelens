@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RoleLens — Entra ID Minimum Privilege Finder</title>
+  <title>Entra RoleLens — Minimum privilege for every Entra task</title>
+  <link rel="icon" type="image/png" href="../assets/logo_200x200_white.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
@@ -91,6 +92,7 @@
       color: var(--text);
     }
     .logo span { color: var(--accent); }
+    .logo .entra-part { color: #0078D4; }
 
     .header-right {
       display: flex;
@@ -119,6 +121,20 @@
     }
     .gh-link:hover { color: var(--text); }
     .gh-link svg { width: 20px; height: 20px; }
+
+    .ac-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .ac-brand:hover { color: var(--text); }
+    .ac-brand img { height: 32px; width: 32px; opacity: 0.85; }
 
     .tagline {
       font-family: var(--font-mono);
@@ -163,6 +179,13 @@
     .mode.active { display: block; }
 
     /* ── Hero ───────────────────────────────────────────────────────── */
+    .hero-logo {
+      display: block;
+      height: 48px;
+      width: auto;
+      margin-bottom: 16px;
+    }
+
     .hero-text {
       font-family: var(--font-head);
       font-size: clamp(22px, 4vw, 30px);
@@ -556,6 +579,7 @@
     ::-webkit-scrollbar-track { background: var(--surface); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   </style>
+  <script defer src="https://analytics.aboutcloud.io/script.js" data-website-id="46739eec-415b-4232-aadc-a5d68041b0fa"></script>
 </head>
 <body>
 
@@ -564,10 +588,14 @@
   <div class="container">
     <div class="header-inner">
       <div>
-        <a href="/" class="logo">role<span>lens</span></a>
+        <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
         <div class="tagline">Minimum privilege · Always current · No AI</div>
       </div>
       <div class="header-right">
+        <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
+          <img src="../assets/logo_200x200_white.png" alt="aboutcloud.io" />
+          aboutcloud.io
+        </a>
         <span class="last-updated" id="last-updated-badge">Loading…</span>
         <a href="https://github.com/arusso-aboutcloud/entra-rolelens" target="_blank" rel="noopener" class="gh-link" aria-label="GitHub">
           <svg viewBox="0 0 24 24" fill="currentColor">
@@ -591,6 +619,7 @@
 
     <!-- MODE 1: Task → Role -->
     <section class="mode active" id="mode-search">
+      <img src="../assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
       <h1 class="hero-text">Find the minimum role for any Entra task</h1>
 
       <div class="search-wrap">
@@ -656,7 +685,7 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <span class="footer-text">Data sourced from Microsoft's official documentation · Refreshed daily · Not affiliated with Microsoft</span>
+      <span class="footer-text">Data sourced from Microsoft's official documentation · Refreshed daily · Not affiliated with or endorsed by Microsoft</span>
       <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="footer-link">aboutcloud.io</a>
     </div>
   </div>
