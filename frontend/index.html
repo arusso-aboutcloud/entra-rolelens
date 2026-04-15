@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entra RoleLens — Minimum privilege for every Entra task</title>
-  <link rel="icon" type="image/png" href="../assets/logo_200x200_white.png" />
+  <meta name="description" content="Find the minimum built-in Microsoft Entra ID role for any admin task. Free, no login, updated daily from Microsoft's official documentation." />
+  <meta property="og:title" content="Entra RoleLens — Minimum privilege for every Entra task" />
+  <meta property="og:description" content="Type any Entra admin task, get the minimum built-in role. Role diff, 130 roles, 211 tasks. Free community tool by aboutcloud.io" />
+  <meta property="og:url" content="https://entrarolelens.aboutcloud.io" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" href="assets/logo_200x200_white.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
@@ -814,6 +820,50 @@
       line-height: 1.4;
     }
 
+    /* ── How-to sections ───────────────────────────────────────────── */
+    .how-to {
+      margin-bottom: 28px;
+      padding: 20px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .how-to.hidden { display: none; }
+
+    .how-to h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .how-to ol, .how-to ul {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    .how-to ol { list-style: decimal; }
+    .how-to ul { list-style: disc; }
+
+    .how-to li {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      padding-left: 4px;
+    }
+    .how-to li strong { color: var(--text); font-weight: 500; }
+
+    .how-to p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+    .how-to p:not(:last-child) { margin-bottom: 10px; }
+
     /* ── Scrollbar ──────────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--surface); }
@@ -833,7 +883,7 @@
       </div>
       <div class="header-right">
         <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
-          <img src="../assets/logo_200x200_white.png" alt="aboutcloud.io" />
+          <img src="assets/logo_200x200_white.png" alt="aboutcloud.io" />
           aboutcloud.io
         </a>
         <span class="last-updated" id="last-updated-badge">Loading…</span>
@@ -859,7 +909,7 @@
 
     <!-- MODE 1: Task → Role -->
     <section class="mode active" id="mode-search">
-      <img src="../assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
+      <img src="assets/entra-id-logo.png" alt="Microsoft Entra ID" class="hero-logo" />
       <h1 class="hero-text">Find the minimum role for any Entra task</h1>
 
       <!-- Sync bar — CHANGE 4 -->
@@ -888,6 +938,18 @@
           <div class="explainer-title">Always current</div>
           <div class="explainer-text">Data sourced from Microsoft's official documentation. Refreshed nightly.</div>
         </div>
+      </div>
+
+      <!-- How-to section — ISSUE 2 -->
+      <div class="how-to" id="how-to-use">
+        <h3>How it works</h3>
+        <ol>
+          <li>Type any Microsoft Entra admin task in plain language</li>
+          <li>Results show the minimum built-in role required</li>
+          <li>Click any result to see the full role permissions</li>
+          <li>Use Role Diff to compare any two roles side by side</li>
+        </ol>
+        <p>Results are sourced directly from Microsoft's official "least privileged by task" documentation, refreshed nightly. No AI — every result is deterministic.</p>
       </div>
 
       <div class="search-wrap">
@@ -931,6 +993,18 @@
       <h1 class="hero-text">Compare permissions between any two roles</h1>
 
       <p class="diff-desc">Select any two Entra ID built-in roles to compare their permissions side by side. See exactly what one role can do that the other cannot.</p>
+
+      <!-- How-to section — ISSUE 3 -->
+      <div class="how-to" id="diff-how-to">
+        <h3>How to use</h3>
+        <p><strong>How to use:</strong> Type a role name in each field — autocomplete will suggest matching roles. Or click one of the example comparisons above to get started instantly.</p>
+        <ul>
+          <li><strong>Left column (red)</strong> — permissions only Role A has</li>
+          <li><strong>Center column (gray)</strong> — permissions both roles share</li>
+          <li><strong>Right column (green)</strong> — permissions only Role B has</li>
+        </ul>
+        <p>Tip: compare a broad role (Global Administrator) against a scoped role (User Administrator) to find the minimum role for your use case.</p>
+      </div>
 
       <!-- Pre-built comparison examples -->
       <div class="diff-examples">
@@ -1103,6 +1177,7 @@
     const typing = q.length >= 2;
 
     document.getElementById('explainer-grid')?.classList.toggle('hidden', typing);
+    document.getElementById('how-to-use')?.classList.toggle('hidden', typing);
     document.getElementById('example-pills')?.classList.toggle('hidden', typing);
 
     if (!typing) {
