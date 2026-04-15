@@ -45,8 +45,8 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 17px;
+      line-height: 1.65;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -67,9 +67,9 @@
     /* ── Layout ─────────────────────────────────────────────────────── */
     .container {
       width: 100%;
-      max-width: 860px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 32px;
       position: relative;
       z-index: 1;
     }
@@ -78,7 +78,7 @@
     header {
       position: relative;
       z-index: 1;
-      padding: 28px 0 0;
+      padding: 36px 0 0;
     }
 
     .header-inner {
@@ -91,7 +91,7 @@
 
     .logo {
       font-family: var(--font-mono);
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 500;
       letter-spacing: -0.5px;
       text-decoration: none;
@@ -108,11 +108,11 @@
 
     .last-updated {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       background: var(--surface);
       border: 1px solid var(--border);
-      padding: 4px 10px;
+      padding: 6px 14px;
       border-radius: 20px;
       white-space: nowrap;
     }
@@ -131,41 +131,41 @@
     .ac-brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
       color: var(--muted);
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 0.04em;
       transition: color 0.15s;
     }
     .ac-brand:hover { color: var(--text); }
-    .ac-brand img { height: 32px; width: 32px; opacity: 0.85; }
+    .ac-brand img { height: 38px; width: 38px; opacity: 0.85; }
 
     .tagline {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       letter-spacing: 0.04em;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     /* ── Tab bar ────────────────────────────────────────────────────── */
     .tabs {
       display: flex;
       gap: 4px;
-      margin-top: 32px;
+      margin-top: 40px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 0;
     }
 
     .tab-btn {
       font-family: var(--font-mono);
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 12px 24px;
+      padding: 14px 32px;
       background: none;
       border: none;
       border-bottom: 2px solid transparent;
@@ -181,41 +181,41 @@
     }
 
     /* ── Mode panels ────────────────────────────────────────────────── */
-    .mode { display: none; padding: 32px 0 48px; }
+    .mode { display: none; padding: 44px 0 64px; }
     .mode.active { display: block; }
 
     /* ── Hero ───────────────────────────────────────────────────────── */
     .hero-logo {
       display: block;
-      height: 48px;
+      height: 64px;
       width: auto;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .hero-text {
       font-family: var(--font-head);
-      font-size: clamp(36px, 5vw, 60px);
+      font-size: clamp(44px, 5.5vw, 72px);
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 24px;
-      line-height: 1.3;
+      margin-bottom: 28px;
+      line-height: 1.25;
     }
 
     /* ── Search input ───────────────────────────────────────────────── */
     .search-wrap {
       position: relative;
-      margin-bottom: 28px;
+      margin-bottom: 36px;
     }
 
     .search-input {
       width: 100%;
-      height: 56px;
+      height: 64px;
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 18px;
-      padding: 0 52px 0 20px;
+      font-size: 20px;
+      padding: 0 60px 0 24px;
       border-radius: var(--radius-lg);
       outline: none;
       transition: border-color 0.2s;
@@ -273,7 +273,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 24px 28px;
+      padding: 28px 32px;
       transition: border-color 0.15s;
     }
     .result-card:hover { border-color: #2D3F60; }
@@ -288,35 +288,35 @@
 
     .badge-area {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
       background: var(--surface2);
       border: 1px solid var(--border);
-      padding: 2px 8px;
+      padding: 3px 10px;
       border-radius: 4px;
     }
 
     .badge-privileged {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--warn);
       background: rgba(251,191,36,0.08);
       border: 1px solid rgba(251,191,36,0.25);
-      padding: 2px 8px;
+      padding: 3px 10px;
       border-radius: 4px;
     }
 
     .card-task {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       line-height: 1.5;
     }
 
@@ -329,24 +329,24 @@
 
     .role-pill {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 500;
       background: var(--accent);
       color: #07080D;
-      padding: 4px 12px;
+      padding: 6px 16px;
       border-radius: 20px;
       white-space: nowrap;
     }
 
     .alt-roles {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
     }
 
     .source-link {
       margin-left: auto;
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       text-decoration: none;
       white-space: nowrap;
@@ -382,8 +382,8 @@
       border: 1px solid var(--border);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 14px;
-      padding: 12px 16px;
+      font-size: 16px;
+      padding: 14px 18px;
       border-radius: var(--radius);
       outline: none;
       transition: border-color 0.2s;
@@ -406,8 +406,8 @@
     .autocomplete-list.open { display: block; }
 
     .ac-item {
-      padding: 9px 14px;
-      font-size: 13px;
+      padding: 11px 16px;
+      font-size: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -429,14 +429,14 @@
 
     .compare-btn {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: var(--accent);
       color: #07080D;
       border: none;
-      padding: 12px 28px;
+      padding: 14px 36px;
       border-radius: var(--radius);
       cursor: pointer;
       transition: opacity 0.15s;
@@ -466,7 +466,7 @@
     }
     .diff-col-header .col-label {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 4px;
@@ -476,13 +476,13 @@
     .diff-col-header .col-label.only-b  { color: var(--only-b); }
     .diff-col-header .col-name {
       font-family: var(--font-head);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 2px;
     }
     .diff-col-header .col-count {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
       color: var(--muted);
     }
 
@@ -508,8 +508,8 @@
 
     .diff-perm {
       font-family: var(--font-mono);
-      font-size: 10.5px;
-      padding: 5px 14px;
+      font-size: 12.5px;
+      padding: 7px 16px;
       line-height: 1.5;
       word-break: break-all;
       border-bottom: 1px solid rgba(28,36,56,0.5);
@@ -525,9 +525,9 @@
       align-items: center;
       gap: 10px;
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 15px;
       color: var(--accent);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
     .sync-bar.stale { color: var(--warn); }
 
@@ -552,8 +552,8 @@
     .explainer-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
+      gap: 20px;
+      margin-bottom: 40px;
       transition: opacity 0.2s;
     }
     @media (max-width: 640px) { .explainer-grid { grid-template-columns: 1fr; } }
@@ -564,7 +564,7 @@
       border: 1px solid var(--border);
       border-top: 3px solid var(--accent);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 28px;
     }
 
     .explainer-icon {
@@ -633,15 +633,15 @@
 
     .explainer-title {
       font-family: var(--font-head);
-      font-size: 15px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .explainer-text {
-      font-size: 13px;
+      font-size: 15px;
       color: var(--muted);
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     /* ── Example pills ──────────────────────────────────────────────── */
@@ -656,12 +656,12 @@
 
     .pill-btn {
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 14px;
       color: var(--muted);
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 5px 14px;
+      padding: 7px 18px;
       cursor: pointer;
       transition: color 0.15s, border-color 0.15s;
       white-space: nowrap;
@@ -696,7 +696,7 @@
 
     .status-item {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
     }
     .status-item b { color: var(--text); }
@@ -719,13 +719,13 @@
     }
 
     .footer-text {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
     }
 
     .footer-link {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       text-decoration: none;
     }
@@ -739,7 +739,7 @@
       flex-wrap: wrap;
       margin-bottom: 24px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
       color: var(--muted);
     }
     .gh-stats-link {
@@ -755,9 +755,9 @@
 
     /* ── Diff description + example pills ──────────────────────────── */
     .diff-desc {
-      font-size: 15px;
+      font-size: 17px;
       color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       line-height: 1.6;
     }
     .diff-examples {
@@ -770,7 +770,7 @@
     /* ── Diff summary ───────────────────────────────────────────────── */
     .diff-summary {
       font-family: var(--font-head);
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 16px;
@@ -781,49 +781,49 @@
       position: relative;
       z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 24px 0;
+      padding: 32px 0;
       background: var(--bg);
     }
     .tools-label {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 16px;
     }
     @media (max-width: 640px) { .tools-grid { grid-template-columns: 1fr; } }
     .tool-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px 16px;
+      padding: 18px 20px;
       text-decoration: none;
       transition: border-color 0.15s, background 0.15s;
     }
     .tool-card:hover { border-color: var(--accent-dim); background: var(--surface2); }
     .tool-name {
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     .tool-desc {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     /* ── How-to sections ───────────────────────────────────────────── */
     .how-to {
-      margin-bottom: 28px;
-      padding: 20px 24px;
+      margin-bottom: 32px;
+      padding: 24px 28px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
@@ -832,37 +832,37 @@
 
     .how-to h3 {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .how-to ol, .how-to ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
+      padding-left: 22px;
+      margin-bottom: 14px;
     }
     .how-to ol { list-style: decimal; }
     .how-to ul { list-style: disc; }
 
     .how-to li {
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 15px;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.75;
       padding-left: 4px;
     }
     .how-to li strong { color: var(--text); font-weight: 500; }
 
     .how-to p {
-      font-size: 13px;
+      font-size: 15px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.65;
       margin-bottom: 0;
     }
-    .how-to p:not(:last-child) { margin-bottom: 10px; }
+    .how-to p:not(:last-child) { margin-bottom: 12px; }
 
     /* ── Scrollbar ──────────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
