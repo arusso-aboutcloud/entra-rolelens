@@ -1,0 +1,45 @@
+<svg width="800" height="420" viewBox="0 0 800 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" rx="10" fill="#0F172A"/>
+  
+  <rect x="30" y="40" width="180" height="60" rx="5" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="120" y="75" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Microsoft Graph API</text>
+  
+  <rect x="30" y="120" width="180" height="60" rx="5" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="120" y="155" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Microsoft Docs (GitHub)</text>
+
+  <rect x="300" y="40" width="220" height="260" rx="10" fill="#00E5A3" fill-opacity="0.05" stroke="#00E5A3" stroke-dasharray="4 4"/>
+  <text x="410" y="70" fill="#00E5A3" font-family="sans-serif" font-weight="bold" text-anchor="middle">GitHub Actions Pipeline</text>
+  
+  <rect x="315" y="90" width="190" height="50" rx="5" fill="#0078D4" fill-opacity="0.2" stroke="#0078D4"/>
+  <text x="410" y="115" fill="#38BDF8" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">FEDERATED CREDENTIAL</text>
+  <text x="410" y="130" fill="white" font-family="sans-serif" font-size="9" text-anchor="middle">OIDC / Passwordless Handshake</text>
+
+  <rect x="315" y="160" width="190" height="120" rx="5" fill="#1E293B" stroke="#00E5A3"/>
+  <text x="410" y="190" fill="white" font-family="sans-serif" font-size="11" text-anchor="middle">python pipeline/</text>
+  <text x="410" y="215" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">fetch_roles.py</text>
+  <text x="410" y="235" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">diff_roles.py</text>
+  <text x="410" y="255" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">push_to_cloudflare.py</text>
+
+  <rect x="600" y="40" width="170" height="70" rx="5" fill="#F47321" fill-opacity="0.1" stroke="#F47321"/>
+  <text x="685" y="75" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Cloudflare D1 (SQL)</text>
+  
+  <rect x="600" y="130" width="170" height="70" rx="5" fill="#F47321" fill-opacity="0.1" stroke="#F47321"/>
+  <text x="685" y="165" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Cloudflare KV (Cache)</text>
+
+  <rect x="600" y="250" width="170" height="130" rx="5" fill="#38BDF8" fill-opacity="0.1" stroke="#38BDF8"/>
+  <text x="685" y="300" fill="white" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Frontend UI</text>
+  <text x="685" y="330" fill="#94A3B8" font-family="sans-serif" font-size="11" text-anchor="middle">Cloudflare Pages</text>
+
+  <path d="M315 115 H210" stroke="#0078D4" stroke-width="2" marker-end="url(#arrowB)"/>
+  <text x="255" y="105" fill="#38BDF8" font-family="sans-serif" font-size="9" text-anchor="middle">OIDC Auth</text>
+
+  <path d="M210 70 H315" stroke="#94A3B8" marker-end="url(#arrow)"/>
+  <path d="M210 150 H315" stroke="#94A3B8" marker-end="url(#arrow)"/>
+  <path d="M505 200 H600" stroke="#00E5A3" marker-end="url(#arrowG)"/>
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#94A3B8"/></marker>
+    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#0078D4"/></marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#00E5A3"/></marker>
+  </defs>
+</svg>
