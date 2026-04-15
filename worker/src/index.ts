@@ -179,6 +179,23 @@ async function handleDiff(
   });
 }
 
+async function handleRoles(env: Env): Promise<Response> {
+  const result = await env.DB.prepare(
+    `SELECT id, display_name, is_privileged
+     FROM roles
+     WHERE is_built_in = 1
+     ORDER BY display_name ASC`
+  ).all();
+
+  const rows = (result.results ?? []).map((r) => ({
+    id: r.id,
+    display_name: r.display_name,
+    is_privileged: r.is_privileged === 1,
+  }));
+
+  return json(rows);
+}
+
 async function handleStatus(env: Env): Promise<Response> {
   const value = await env.KV.get("pipeline_status");
   if (value === null) {
@@ -221,8 +238,9 @@ export default {
     const path = url.pathname;
 
     if (path === "/api/status") return handleStatus(env);
+    if (path === "/api/roles")  return handleRoles(env);
     if (path === "/api/search") return handleSearch(url, env);
-    if (path === "/api/diff") return handleDiff(url, env);
+    if (path === "/api/diff")   return handleDiff(url, env);
 
     const roleMatch = path.match(/^\/api\/role\/([^/]+)$/);
     if (roleMatch) return handleRole(decodeURIComponent(roleMatch[1]), env);
