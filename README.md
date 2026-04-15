@@ -1,6 +1,6 @@
 <div align="center">
 
-![RoleLens Banner](assets/banner.svg)
+![RoleLens Banner](assets/banner.png)
 
 [![Live](https://img.shields.io/website?url=https%3A%2F%2Fentrarolelens.aboutcloud.io&label=live&style=flat-square&color=00E5A3)](https://entrarolelens.aboutcloud.io)
 [![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=pipeline&style=flat-square&branch=master)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
