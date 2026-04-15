@@ -2,14 +2,27 @@
 
 ![RoleLens Banner](assets/banner.svg)
 
-[![Data Source](https://img.shields.io/badge/data-Microsoft%20Graph%20API-0078D4?style=flat-square&logo=microsoft)](https://graph.microsoft.com/v1.0/roleManagement/directory/roleDefinitions)
-[![Refresh](https://img.shields.io/badge/refresh-daily%20at%2001%3A00%20UTC-0EA5E9?style=flat-square)](https://github.com/features/actions)
-[![License](https://img.shields.io/badge/license-MIT-38BDF8?style=flat-square)](#license)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-48CAE4?style=flat-square)](CONTRIBUTING.md)
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fentrarolelens.aboutcloud.io&label=live&style=flat-square&color=00E5A3)](https://entrarolelens.aboutcloud.io)
+[![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=pipeline&style=flat-square&branch=master)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
+[![Last commit](https://img.shields.io/github/last-commit/arusso-aboutcloud/entra-rolelens/master?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/commits/master)
+[![License](https://img.shields.io/badge/license-MIT-38BDF8?style=flat-square)](LICENSE)
 
-**[rolelens.aboutcloud.io](https://rolelens.aboutcloud.io)** · [Report a mapping error](issues) · [Request a task](issues)
+[![Roles](https://img.shields.io/badge/roles-130-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
+[![Tasks](https://img.shields.io/badge/tasks-211-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
+[![Refresh](https://img.shields.io/badge/refresh-nightly%2001%3A00%20UTC-0EA5E9?style=flat-square)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-00E5A3?style=flat-square)](CONTRIBUTING.md)
+
+[![LinkedIn](https://img.shields.io/badge/Connect%20on%20LinkedIn-Antonio%20Russo-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/antonio-russo-9295731b/)
 
 </div>
+
+---
+
+## Architecture
+
+> Click the diagram to open full size
+
+[![Architecture](assets/architecture.svg)](assets/architecture.svg)
 
 ---
 
