@@ -70,8 +70,6 @@ Instead of using vulnerable static secrets, we use **Workload Identity Federatio
 | **Total** | | **€0 / month** |
 
 ---
-
-🛠️ The Self-Sustaining Data Pipeline
 mermaid
 graph LR
 A[GitHub Actions] -- "OIDC Handshake" --> B{Entra ID}
