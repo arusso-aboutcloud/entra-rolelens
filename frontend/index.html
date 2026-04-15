@@ -188,7 +188,7 @@
 
     .hero-text {
       font-family: var(--font-head);
-      font-size: clamp(32px, 5vw, 56px);
+      font-size: clamp(36px, 5vw, 60px);
       font-weight: 700;
       color: var(--text);
       margin-bottom: 24px;
@@ -227,7 +227,7 @@
     }
 
     /* ── Results / states ───────────────────────────────────────────── */
-    #search-results { display: flex; flex-direction: column; gap: 10px; }
+    #search-results { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
 
     .state-msg {
       font-family: var(--font-mono);
@@ -470,7 +470,7 @@
     .diff-col-header .col-label.only-b  { color: var(--only-b); }
     .diff-col-header .col-name {
       font-family: var(--font-head);
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 2px;
     }
@@ -650,7 +650,7 @@
 
     .pill-btn {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
       background: var(--surface);
       border: 1px solid var(--border);
@@ -725,6 +725,95 @@
     }
     .footer-link:hover { color: var(--accent); }
 
+    /* ── GitHub stats bar ──────────────────────────────────────────── */
+    .gh-stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .gh-stats-link {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .gh-stats-link:hover { color: var(--text); }
+    .gh-stat { white-space: nowrap; }
+    .gh-stat-sep { color: var(--border); user-select: none; }
+
+    /* ── Diff description + example pills ──────────────────────────── */
+    .diff-desc {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .diff-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Diff summary ───────────────────────────────────────────────── */
+    .diff-summary {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    /* ── More tools section ─────────────────────────────────────────── */
+    .tools-section {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      background: var(--bg);
+    }
+    .tools-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 640px) { .tools-grid { grid-template-columns: 1fr; } }
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .tool-card:hover { border-color: var(--accent-dim); background: var(--surface2); }
+    .tool-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .tool-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
     /* ── Scrollbar ──────────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--surface); }
@@ -740,7 +829,7 @@
     <div class="header-inner">
       <div>
         <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
-        <div class="tagline">Minimum privilege · Always current · No AI</div>
+        <div class="tagline">Minimum privilege · Always current</div>
       </div>
       <div class="header-right">
         <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
@@ -779,6 +868,9 @@
         <span id="sync-text">Loading…</span>
       </div>
 
+      <!-- GitHub stats — CHANGE 6 -->
+      <div class="gh-stats-bar" id="gh-stats"></div>
+
       <!-- Explainer cards — CHANGE 3 -->
       <div class="explainer-grid" id="explainer-grid">
         <div class="explainer-card">
@@ -812,13 +904,23 @@
         </svg>
       </div>
 
-      <!-- Example pills — CHANGE 5 -->
+      <!-- Example pills — 15 most common Entra admin tasks -->
       <div class="example-pills" id="example-pills">
         <button class="pill-btn" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
+        <button class="pill-btn" onclick="runPillSearch('reset user password')">reset user password</button>
+        <button class="pill-btn" onclick="runPillSearch('create user')">create user</button>
+        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
         <button class="pill-btn" onclick="runPillSearch('read audit logs')">read audit logs</button>
         <button class="pill-btn" onclick="runPillSearch('manage conditional access')">manage conditional access</button>
         <button class="pill-btn" onclick="runPillSearch('configure PIM')">configure PIM</button>
-        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
+        <button class="pill-btn" onclick="runPillSearch('manage app registrations')">manage app registrations</button>
+        <button class="pill-btn" onclick="runPillSearch('assign licenses')">assign licenses</button>
+        <button class="pill-btn" onclick="runPillSearch('manage groups')">manage groups</button>
+        <button class="pill-btn" onclick="runPillSearch('manage enterprise apps')">manage enterprise apps</button>
+        <button class="pill-btn" onclick="runPillSearch('configure SSPR')">configure SSPR</button>
+        <button class="pill-btn" onclick="runPillSearch('read sign-in logs')">read sign-in logs</button>
+        <button class="pill-btn" onclick="runPillSearch('manage named locations')">manage named locations</button>
+        <button class="pill-btn" onclick="runPillSearch('manage authentication methods')">manage authentication methods</button>
       </div>
 
       <div id="search-results"></div>
@@ -827,6 +929,17 @@
     <!-- MODE 2: Role Diff -->
     <section class="mode" id="mode-diff">
       <h1 class="hero-text">Compare permissions between any two roles</h1>
+
+      <p class="diff-desc">Select any two Entra ID built-in roles to compare their permissions side by side. See exactly what one role can do that the other cannot.</p>
+
+      <!-- Pre-built comparison examples -->
+      <div class="diff-examples">
+        <button class="pill-btn" onclick="runDiffPill('Global Administrator','User Administrator')">Global Admin vs User Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Authentication Administrator','Helpdesk Administrator')">Authentication Admin vs Helpdesk Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Security Administrator','Security Reader')">Security Admin vs Security Reader</button>
+        <button class="pill-btn" onclick="runDiffPill('Application Administrator','Cloud Application Administrator')">Application Admin vs Cloud App Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('Privileged Role Administrator','Global Administrator')">Privileged Role Admin vs Global Admin</button>
+      </div>
 
       <div class="diff-inputs">
         <div class="autocomplete-wrap">
@@ -844,6 +957,7 @@
       <button class="compare-btn" id="compare-btn" onclick="runDiff()" disabled>Compare</button>
 
       <div id="diff-results">
+        <div class="diff-summary" id="diff-summary"></div>
         <div class="diff-header" id="diff-header"></div>
         <div class="diff-grid" id="diff-grid"></div>
       </div>
@@ -864,6 +978,27 @@
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
       <span class="status-item sep">·</span>
       <span class="status-item">Data: Microsoft Learn + MicrosoftDocs/entra-docs</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── More tools ───────────────────────────────────────────────────── -->
+<div class="tools-section">
+  <div class="container">
+    <div class="tools-label">More tools from aboutcloud.io</div>
+    <div class="tools-grid">
+      <a href="https://entratracker.aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
+        <div class="tool-name">Entra Tracker</div>
+        <div class="tool-desc">Live Microsoft Entra change tracker</div>
+      </a>
+      <a href="https://entraerrors.aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
+        <div class="tool-name">Entra Errors</div>
+        <div class="tool-desc">349 AADSTS error code reference</div>
+      </a>
+      <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="tool-card">
+        <div class="tool-name">aboutcloud.io</div>
+        <div class="tool-desc">Entra ID · Security · Cloud</div>
+      </a>
     </div>
   </div>
 </div>
@@ -1158,20 +1293,23 @@
     const ra = d.role_a;
     const rb = d.role_b;
 
+    const summaryEl = document.getElementById('diff-summary');
+    if (summaryEl) {
+      summaryEl.textContent =
+        `${ra.display_name} (${ra.permission_count} permissions) vs ${rb.display_name} (${rb.permission_count} permissions)`;
+    }
+
     document.getElementById('diff-header').innerHTML = `
       <div class="diff-col-header">
-        <div class="col-label only-a">Only in A</div>
-        <div class="col-name">${esc(ra.display_name)}</div>
+        <div class="col-label only-a">Only in ${esc(ra.display_name)} (${d.only_in_a.length})</div>
         <div class="col-count">${d.only_in_a.length} unique permissions</div>
       </div>
       <div class="diff-col-header">
-        <div class="col-label shared">Shared</div>
-        <div class="col-name">Both roles</div>
+        <div class="col-label shared">Shared (${d.shared.length})</div>
         <div class="col-count">${d.shared.length} shared permissions</div>
       </div>
       <div class="diff-col-header">
-        <div class="col-label only-b">Only in B</div>
-        <div class="col-name">${esc(rb.display_name)}</div>
+        <div class="col-label only-b">Only in ${esc(rb.display_name)} (${d.only_in_b.length})</div>
         <div class="col-count">${d.only_in_b.length} unique permissions</div>
       </div>`;
 
@@ -1196,6 +1334,66 @@
     document.getElementById('diff-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // ── Diff example pills ───────────────────────────────────────────────
+  function runDiffPill(a, b) {
+    document.getElementById('role-a-input').value = a;
+    document.getElementById('role-b-input').value = b;
+    selectedRoleA = a;
+    selectedRoleB = b;
+    updateCompareBtn();
+    runDiff();
+  }
+
+  // ── GitHub stats ─────────────────────────────────────────────────────
+  let ghStatsCache = null;
+
+  async function loadGitHubStats() {
+    const el = document.getElementById('gh-stats');
+    if (!el) return;
+    try {
+      if (ghStatsCache) { renderGhStats(ghStatsCache); return; }
+      const [repoRes, commitsRes] = await Promise.all([
+        fetch('https://api.github.com/repos/arusso-aboutcloud/entra-rolelens',
+          { headers: { 'Accept': 'application/vnd.github.v3+json' } }),
+        fetch('https://api.github.com/repos/arusso-aboutcloud/entra-rolelens/commits?per_page=1',
+          { headers: { 'Accept': 'application/vnd.github.v3+json' } })
+      ]);
+      const repo    = await repoRes.json();
+      const commits = await commitsRes.json();
+      ghStatsCache = {
+        stars:      repo.stargazers_count ?? 0,
+        forks:      repo.forks_count ?? 0,
+        issues:     repo.open_issues_count ?? 0,
+        lastCommit: commits[0]?.commit?.committer?.date ?? commits[0]?.commit?.author?.date ?? null
+      };
+      renderGhStats(ghStatsCache);
+    } catch {
+      if (el) el.style.display = 'none';
+    }
+  }
+
+  function renderGhStats(stats) {
+    const el = document.getElementById('gh-stats');
+    if (!el) return;
+    const now = new Date();
+    let commitStr = '—';
+    if (stats.lastCommit) {
+      const days = Math.floor((now - new Date(stats.lastCommit)) / 86400000);
+      commitStr = days === 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`;
+    }
+    el.innerHTML = `
+      <a href="https://github.com/arusso-aboutcloud/entra-rolelens" target="_blank" rel="noopener" class="gh-stats-link" aria-label="GitHub repo">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      </a>
+      <span class="gh-stat">⭐ ${stats.stars}</span>
+      <span class="gh-stat-sep">·</span>
+      <span class="gh-stat">🔀 ${stats.forks}</span>
+      <span class="gh-stat-sep">·</span>
+      <span class="gh-stat">Issues: ${stats.issues} open</span>
+      <span class="gh-stat-sep">·</span>
+      <span class="gh-stat">Last commit: ${commitStr}</span>`;
+  }
+
   // ── Utility ──────────────────────────────────────────────────────────
   function esc(str) {
     if (!str) return '';
@@ -1208,7 +1406,7 @@
 
   // ── Boot ─────────────────────────────────────────────────────────────
   (async () => {
-    await Promise.all([loadStatus(), loadRoles()]);
+    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats()]);
   })();
 </script>
 </body>
