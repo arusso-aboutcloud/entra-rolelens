@@ -73,7 +73,6 @@ Instead of using vulnerable static secrets, we use **Workload Identity Federatio
 🛠️ The Self-Sustaining Data Pipeline
 Entra RoleLens requires zero manual maintenance. Every night at 01:00 UTC, a GitHub Actions workflow executes a secure, automated synchronization to keep role mappings 100% current.
 
-💎 Pipeline IntelligenceStageWhat it doesImpact1. Secure IdentityUses Workload Identity Federation (OIDC) for passwordless auth.No Secrets: Eliminates the risk of credential leaks from static keys.2. Dual-Source SyncMerges live Microsoft Graph API data with authoritative Entra Docs.Shadow Detection: Identifies roles present in the API but missing from documentation.3. Logic EnrichmentCross-references 211 task mappings against the latest permissions.Deep Accuracy: Automatically updates recommendations when Microsoft changes a role's scope.4. Edge DeploymentPushes validated data to Cloudflare D1 and KV Cache.Global Performance: Serves the fresh dataset globally with sub-5ms latency.
 ---
 
 ## Data sources
