@@ -73,23 +73,25 @@ Instead of using vulnerable static secrets, we use **Workload Identity Federatio
 
 ## How it stays accurate — the self-sustaining pipeline
 
-Every night at **01:00 UTC**, a GitHub Actions workflow runs automatically:
+graph LR
+    subgraph "1. AUTHENTICATE"
+    A[GitHub Actions] -- JWT --> B(Entra ID OIDC)
+    end
+    
+    subgraph "2. SYNCHRONIZE"
+    B -- Token --> C{fetch_roles.py}
+    C -- API --> D[Microsoft Graph]
+    C -- Scrape --> E[Entra Docs]
+    end
+    
+    subgraph "3. ENRICH & DEPLOY"
+    D & E --> F[enrich.py]
+    F -- Schema OK --> G[(Cloudflare D1/KV)]
+    end
 
-01:00 UTC — GitHub Actions wakes up
-│
-├── OIDC Auth           Establishes a passwordless trust with Entra ID
-│
-├── fetch_roles.py      Pulls definitions from live Microsoft Graph API and docs
-│
-├── scrape_tasks.py     Parses 211 task → minimum role mappings from Microsoft Learn
-│
-├── diff_roles.py       Detects ADDED, REMOVED, or MODIFIED roles/permissions
-│
-├── enrich.py           Merges live API data with human-readable documentation
-│
-└── push_to_cloudflare.py
-Updates the global cache (KV) and SQLite database (D1)
-
+    style B fill:#0078D4,color:#fff
+    style G fill:#F47321,color:#fff
+    style A fill:#24292e,color:#fff
 
 ---
 
