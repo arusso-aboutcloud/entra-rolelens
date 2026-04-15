@@ -8,12 +8,8 @@
 [![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=nightly%20pipeline&style=flat-square&branch=master&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
 [![Last commit](https://img.shields.io/github/last-commit/arusso-aboutcloud/entra-rolelens/master?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/commits/master)
 [![License](https://img.shields.io/badge/license-MIT-38BDF8?style=flat-square)](LICENSE)
-[![Roles](https://img.shields.io/badge/roles-130-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
+[![Roles](https://img.shields.io/badge/roles-130%2B-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
 [![Tasks](https://img.shields.io/badge/tasks-211-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
-[![Stars](https://img.shields.io/github/stars/arusso-aboutcloud/entra-rolelens?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/stargazers)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-00E5A3?style=flat-square)](CONTRIBUTING.md)
-
-[![LinkedIn](https://img.shields.io/badge/Connect%20on%20LinkedIn-Antonio%20Russo-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/antonio-russo-9295731b/)
 
 **[entrarolelens.aboutcloud.io](https://entrarolelens.aboutcloud.io)** · [Report a mapping error](https://github.com/arusso-aboutcloud/entra-rolelens/issues) · [Request a task](https://github.com/arusso-aboutcloud/entra-rolelens/issues)
 
@@ -23,9 +19,9 @@
 
 ## What is Entra RoleLens?
 
-You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Conditional Access policies"* — and Entra RoleLens returns the minimum built-in Entra ID role required to do it, and nothing more. You can also compare any two roles side by side and see exactly what one has that the other lacks, permission by permission.
+You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Conditional Access policies"* — and Entra RoleLens returns the minimum built-in Entra ID role required to do it, and nothing more.
 
-**It replaces the 50-tab Microsoft docs crawl that every Entra admin does when someone asks: "what role do I assign without giving them too much?"**
+**It replaces the 50-tab Microsoft docs crawl with a professional-grade validator that cross-references live API data with official documentation.**
 
 ---
 
@@ -33,17 +29,31 @@ You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Co
 
 | Mode | What it does |
 |------|-------------|
-| **Task → Role** | Describe what you need to do in plain language. Get back the minimum built-in role, a direct link to Microsoft's source, and a privilege warning if the role is elevated. |
-| **Role Diff** | Select any two built-in roles. See every permission one has that the other lacks in a clean three-column view — unique to A, shared, unique to B. |
-| **Always current** | The full role catalog and task mappings refresh nightly from Microsoft's own sources. Every change Microsoft makes is detected, logged, and live by morning. |
+| **Task → Role** | Describe what you need to do in plain language. Get back the minimum built-in role and a privilege warning if the role is elevated. |
+| **Role Diff** | Select any two built-in roles. See every permission one has that the other lacks in a clean three-column view. |
+| **Shadow Detection** | The integration detects "Shadow Roles" — roles that exist in Entra ID but are not yet present in the public documentation. |
+| **Always current** | Refreshes nightly via a secure, passwordless pipeline. Every change Microsoft makes is detected, logged, and live by morning. |
 
 ---
 
-## Architecture
+## Architecture & Security
 
-> Click to open full size
+Entra RoleLens is powered by a **Zero-Trust automated pipeline**. We utilize two distinct layers to visualize the system and its security protocols.
+
+### 1. System Overview
+The high-level architecture utilizes a serverless stack on Cloudflare to provide sub-5ms response times.
 
 [![Architecture](assets/architecture.svg)](assets/architecture.svg)
+
+### 2. Secure Passwordless Pipeline (OIDC)
+Instead of using vulnerable static secrets, we use **Workload Identity Federation (Federated Credentials)** to securely connect GitHub Actions to Microsoft Entra ID.
+
+[![Pipeline Auth](assets/pipeline-auth.svg)](assets/pipeline-auth.svg)
+
+**How the Handshake Works:**
+1. **OIDC Handshake**: GitHub Actions requests a short-lived JWT from GitHub's OIDC provider.
+2. **Trust Validation**: Microsoft Entra ID validates the JWT against a **Federated Credential** (tied specifically to the `master` branch of this repository).
+3. **Passwordless Access**: Entra ID issues a temporary access token. The pipeline uses this to query the **Microsoft Graph API** without any stored passwords or keys.
 
 ---
 
@@ -51,90 +61,35 @@ You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Co
 
 | Layer | Technology | Cost |
 |-------|-----------|------|
-| Frontend | Cloudflare Pages · Global CDN · 330+ PoPs | €0 |
-| API | Cloudflare Workers · TypeScript · 5 routes | €0 |
-| Database | Cloudflare D1 · SQLite · 130 roles · 211 tasks | €0 |
-| Cache | Cloudflare KV · master.json · pipeline_status | €0 |
-| Pipeline | GitHub Actions · Python 3.11 · nightly cron | €0 |
-| Analytics | Umami · self-hosted · privacy-first | €0 |
-| Domain | aboutcloud.io · already owned | €0 |
+| Frontend | Cloudflare Pages · Global CDN | €0 |
+| API | Cloudflare Workers · TypeScript | €0 |
+| Database | Cloudflare D1 · SQLite | €0 |
+| Cache | Cloudflare KV · master.json | €0 |
+| **Auth** | **Entra ID · Federated Credentials (OIDC)** | **€0** |
+| Pipeline | GitHub Actions · Python 3.11 | €0 |
 | **Total** | | **€0 / month** |
-
-**Search engine:** Pure SQL keyword matching against a weighted `task_search` table. Keywords extracted in the Worker, matched against D1. No LLM in the query path. Median response time: **< 5ms**.
-
-**Why not the Microsoft Graph API?**
-The `/roleDefinitions` endpoint returns `401 Unauthorized` without a bearer token, despite some documentation implying otherwise. The `MicrosoftDocs/entra-docs` GitHub repository is the better source — same data, publicly accessible, version-controlled, and updated by Microsoft's own engineering team.
 
 ---
 
 ## How it stays accurate — the self-sustaining pipeline
 
-This tool requires zero manual maintenance for daily operation. Every night at **01:00 UTC**, a GitHub Actions workflow runs automatically:
+Every night at **01:00 UTC**, a GitHub Actions workflow runs automatically:
 
-```
-01:00 UTC — GitHub Actions wakes up (free tier · ~3 min runtime)
+01:00 UTC — GitHub Actions wakes up
 │
-├── fetch_roles.py      Pulls 130 role definitions from MicrosoftDocs/entra-docs
-│                       (authoritative public mirror of Microsoft's internal role
-│                        schema — more reliable than the Graph API)
+├── OIDC Auth           Establishes a passwordless trust with Entra ID
 │
-├── scrape_tasks.py     Scrapes the Microsoft Learn least-privileged-by-task page
-│                       Parses 211 task → minimum role mappings across 36 feature areas
+├── fetch_roles.py      Pulls definitions from live Microsoft Graph API and docs
 │
-├── diff_roles.py       Compares today's roles against yesterday's snapshot
-│                       Detects ADDED, REMOVED, and MODIFIED roles
-│                       Logs every change with timestamp to D1 role_changes table
+├── scrape_tasks.py     Parses 211 task → minimum role mappings from Microsoft Learn
 │
-├── enrich.py           Cross-references roles and tasks into master.json
-│                       Resolves role names to Microsoft role IDs
+├── diff_roles.py       Detects ADDED, REMOVED, or MODIFIED roles/permissions
 │
-├── validate.py         Schema and quality checks
-│                       On failure: auto-opens a GitHub Issue and aborts the push
-│                       The live data is never overwritten with invalid data
+├── enrich.py           Merges live API data with human-readable documentation
 │
 └── push_to_cloudflare.py
-                        Pushes master.json to Cloudflare KV (global cache)
-                        Upserts all roles and tasks to Cloudflare D1 (SQLite)
-                        Logs changelog entries to D1 role_changes table
-                        Commits updated data files back to this repo
-```
+Updates the global cache (KV) and SQLite database (D1)
 
-**If the pipeline fails** — a GitHub Issue is opened automatically. The previous night's data stays live. Nothing breaks for users.
-
-**The commit history** of this repo is a permanent, searchable record of every role change Microsoft has made since launch.
-
----
-
-## Project structure
-
-```
-entra-rolelens/
-├── .github/
-│   ├── workflows/
-│   │   └── refresh.yml            # Nightly pipeline — runs automatically
-│   └── ISSUE_TEMPLATE/            # missing_task.md · bug_report.md
-├── pipeline/                      # Python scripts — run by GitHub Actions
-│   ├── fetch_roles.py             # Fetches role definitions
-│   ├── scrape_tasks.py            # Scrapes task → role mappings
-│   ├── diff_roles.py              # Detects role changes
-│   ├── enrich.py                  # Builds master.json
-│   ├── validate.py                # Quality gate
-│   └── push_to_cloudflare.py      # Writes to KV + D1
-├── worker/                        # Cloudflare Worker — TypeScript API
-│   ├── src/index.ts               # 5 routes: search, diff, role, roles, status
-│   └── wrangler.toml
-├── frontend/                      # Static UI — deployed to Cloudflare Pages
-│   └── index.html                 # Single file · dark theme · no framework
-├── data/                          # Auto-committed nightly by the pipeline
-│   ├── roles.json                 # 130 built-in roles + permissions
-│   ├── tasks.json                 # 211 task → role mappings
-│   ├── master.json                # Merged dataset pushed to KV
-│   ├── changelog.json             # Role changes detected this run
-│   └── previous_roles.json        # Yesterday's snapshot for diffing
-└── assets/
-    ├── architecture.svg           # System architecture diagram
-    └── banner.svg                 # Project banner
-```
 
 ---
 
@@ -142,30 +97,9 @@ entra-rolelens/
 
 | Source | URL | Used for |
 |--------|-----|----------|
-| MicrosoftDocs/entra-docs | `github.com/MicrosoftDocs/entra-docs` | Role definitions · permissions · authoritative source |
+| **Microsoft Graph** | `graph.microsoft.com/v1.0` | **Live Source of Truth (OIDC Authenticated)** |
+| Entra-docs | `github.com/MicrosoftDocs/entra-docs` | Human-readable role descriptions and metadata |
 | Microsoft Learn | `learn.microsoft.com/.../delegate-by-task` | Task → minimum role mappings |
-| ~~Microsoft Graph API~~ | ~~`graph.microsoft.com/v1.0/roleManagement`~~ | ~~Returns 401 without auth — not used~~ |
-
----
-
-## Data quality
-
-- **130 built-in roles** — covers all named Entra ID built-in roles including preview and service-specific roles
-- **211 task mappings** — sourced from Microsoft's official documentation
-- **30 tasks with no built-in role** — Microsoft uses descriptive terms ("Group owner", "Resource owner") for these; they are flagged in results rather than silently dropped
-- **Nightly diff** — every permission change Microsoft makes is logged to the `role_changes` D1 table with full before/after values
-
----
-
-## Contributing
-
-The task dataset lives in [`data/tasks.json`](data/tasks.json). If a mapping is wrong, a task is missing, or a role recommendation is outdated:
-
-1. Check the [Microsoft Learn least-privileged-by-task](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task) page for the authoritative mapping
-2. Open an [issue](https://github.com/arusso-aboutcloud/entra-rolelens/issues) with the task description and the Microsoft Learn source URL
-3. Or submit a PR directly to `data/tasks.json` — see [CONTRIBUTING.md](CONTRIBUTING.md)
-
-Every merged contribution is picked up by the nightly pipeline and live within minutes.
 
 ---
 
