@@ -40,6 +40,15 @@ You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Co
 
 ---
 
+## Shadow role detection
+
+Entra RoleLens cross-references the live Microsoft Graph API against Microsoft's public documentation on every nightly run. Roles that exist in the API but are not yet documented are flagged as **shadow roles** — this means the tool can surface new Microsoft roles before they appear in any documentation.
+
+The shadow role count is logged in every pipeline run and visible in the pipeline status endpoint:
+`GET /api/status` → `shadow_role_count`
+
+---
+
 ## Architecture
 
 > Click to open full size
@@ -56,7 +65,7 @@ You describe a task — *"reset a user's MFA"*, *"read audit logs"*, *"manage Co
 | API | Cloudflare Workers · TypeScript · 5 routes | €0 |
 | Database | Cloudflare D1 · SQLite · 130+ roles · 211 tasks | €0 |
 | Cache | Cloudflare KV · master.json · pipeline_status | €0 |
-| **Auth** | **Entra ID · Workload Identity Federation (OIDC)** | **€0** |
+| Auth | Entra ID · Workload Identity Federation · OIDC | €0 |
 | Pipeline | GitHub Actions · Python 3.11 · nightly cron | €0 |
 | Analytics | Umami · self-hosted · privacy-first | €0 |
 | Domain | aboutcloud.io · already owned | €0 |
@@ -98,11 +107,11 @@ This tool requires zero manual maintenance for daily operation. Every night at *
 ├── azure/login@v2     OIDC handshake → temporary Entra access token
 │                      (Workload Identity Federation · EntraRoleFetcher-API)
 │
-├── fetch_roles.py     DUAL SOURCE:
-│   ├── Graph API      graph.microsoft.com/v1.0/roleManagement/…
+├── fetch_roles.py     Calls Microsoft Graph API via OIDC token (live source of truth)
+│   ├── Graph API      graph.microsoft.com/v1.0/roleManagement/directory/roleDefinitions
 │   │                  Authenticated via OIDC token
 │   │                  → data/roles_graph_raw.json  (source of truth for IDs + permissions)
-│   └── Docs scrape    MicrosoftDocs/entra-docs GitHub repo
+│   └── Docs scrape    Also scrapes MicrosoftDocs/entra-docs for descriptions
 │                      → data/roles.json            (human-readable metadata)
 │
 ├── scrape_tasks.py    Scrapes the Microsoft Learn least-privileged-by-task page
@@ -172,9 +181,9 @@ entra-rolelens/
 
 | Source | URL | Used for |
 |--------|-----|----------|
-| Microsoft Graph API | `graph.microsoft.com/v1.0/roleManagement` | **Live role IDs + permissions · OIDC authenticated** |
-| MicrosoftDocs/entra-docs | `github.com/MicrosoftDocs/entra-docs` | Human-readable role metadata · cross-reference |
-| Microsoft Learn | `learn.microsoft.com/.../delegate-by-task` | Task → minimum role mappings (211 tasks) |
+| Microsoft Graph API | `graph.microsoft.com/v1.0/roleManagement/directory/roleDefinitions` | Live role definitions · OIDC authenticated · source of truth |
+| MicrosoftDocs/entra-docs | `github.com/MicrosoftDocs/entra-docs` | Role descriptions · metadata |
+| Microsoft Learn | `learn.microsoft.com/.../delegate-by-task` | Task → minimum role mappings · 211 tasks |
 
 **Why dual sources?** The Graph API is the authoritative source for role IDs and permissions but does not expose task → role mappings. The documentation scrape fills that gap. Together they enable the shadow role detector: roles that Microsoft has deployed to the API but not yet announced in documentation.
 

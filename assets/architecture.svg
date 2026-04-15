@@ -60,7 +60,7 @@
 <!-- MICROSOFT DOCS -->
 <rect x="48" y="168" width="314" height="72" rx="8" fill="#042C53" stroke="#185FA5" stroke-width="0.5"/>
 <text x="205" y="196" text-anchor="middle" class="mono bold" fill="#85B7EB" style="font-size:15px">MicrosoftDocs / entra-docs</text>
-<text x="205" y="216" text-anchor="middle" class="sans" fill="#85B7EB" style="font-size:11.5px;opacity:.8">GitHub repo · role definitions · permissions</text>
+<text x="205" y="216" text-anchor="middle" class="sans" fill="#85B7EB" style="font-size:11.5px;opacity:.8">Descriptions · metadata · task mappings</text>
 <text x="52" y="254" class="mono" fill="#378ADD" style="font-size:10.5px">▸ Docs cross-reference · version-controlled</text>
 
 <!-- MICROSOFT LEARN -->
