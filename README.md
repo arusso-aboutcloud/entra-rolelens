@@ -77,6 +77,8 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 
 The nightly pipeline authenticates to Microsoft Entra ID without any stored credentials using **Workload Identity Federation**:
 
+[![Pipeline Authentication](assets/pipeline-auth.svg)](assets/pipeline-auth.svg)
+
 ```
 GitHub Actions requests a short-lived OIDC JWT from GitHub's identity provider
         │
