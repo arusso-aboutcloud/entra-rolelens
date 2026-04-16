@@ -228,7 +228,7 @@
       margin-bottom: 24px;
       min-height: 18px;
     }
-    .search-hint span { color: var(--accent); }
+    .search-hint span, .search-hint .hint-accent { color: var(--accent); }
 
     .search-input {
       width: 100%;
@@ -1401,9 +1401,15 @@
     const hint = document.getElementById('search-hint');
     if (hint) {
       if (typing && hasSynonym) {
-        hint.innerHTML = `Searching for: <span>${expandedQuery}</span>`;
+        hint.textContent = '';
+        const prefix = document.createTextNode('Searching for: ');
+        const span = document.createElement('span');
+        span.textContent = expandedQuery;
+        span.className = 'hint-accent';
+        hint.appendChild(prefix);
+        hint.appendChild(span);
       } else {
-        hint.innerHTML = '';
+        hint.textContent = '';
       }
     }
 
