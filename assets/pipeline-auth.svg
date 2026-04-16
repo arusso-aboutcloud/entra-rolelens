@@ -1,45 +1,229 @@
-<svg width="800" height="420" viewBox="0 0 800 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="420" rx="10" fill="#0F172A"/>
-  
-  <rect x="30" y="40" width="180" height="60" rx="5" fill="#1E293B" stroke="#38BDF8"/>
-  <text x="120" y="75" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Microsoft Graph API</text>
-  
-  <rect x="30" y="120" width="180" height="60" rx="5" fill="#1E293B" stroke="#38BDF8"/>
-  <text x="120" y="155" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Microsoft Docs (GitHub)</text>
+<svg width="100%" viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <style>
+    @keyframes flow1{to{stroke-dashoffset:-28}}
+    @keyframes flow2{to{stroke-dashoffset:-22}}
+    @keyframes flow3{to{stroke-dashoffset:-18}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .fl1{stroke-dasharray:7 7;animation:flow1 1.2s linear infinite}
+    .fl2{stroke-dasharray:6 6;animation:flow2 1.8s linear infinite}
+    .fl3{stroke-dasharray:5 5;animation:flow3 2.4s linear infinite}
+    .dot{animation:pulse 2s ease-in-out infinite}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .sans{font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+    .bold{font-weight:700}
+  </style>
+  <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#378ADD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="12" cy="12" r="0.9" fill="#444441" opacity="0.4"/>
+  </pattern>
+</defs>
 
-  <rect x="300" y="40" width="220" height="260" rx="10" fill="#00E5A3" fill-opacity="0.05" stroke="#00E5A3" stroke-dasharray="4 4"/>
-  <text x="410" y="70" fill="#00E5A3" font-family="sans-serif" font-weight="bold" text-anchor="middle">GitHub Actions Pipeline</text>
-  
-  <rect x="315" y="90" width="190" height="50" rx="5" fill="#0078D4" fill-opacity="0.2" stroke="#0078D4"/>
-  <text x="410" y="115" fill="#38BDF8" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">FEDERATED CREDENTIAL</text>
-  <text x="410" y="130" fill="white" font-family="sans-serif" font-size="9" text-anchor="middle">OIDC / Passwordless Handshake</text>
+<rect width="1200" height="820" fill="#0D1018"/>
+<rect width="1200" height="820" fill="url(#dots)"/>
 
-  <rect x="315" y="160" width="190" height="120" rx="5" fill="#1E293B" stroke="#00E5A3"/>
-  <text x="410" y="190" fill="white" font-family="sans-serif" font-size="11" text-anchor="middle">python pipeline/</text>
-  <text x="410" y="215" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">fetch_roles.py</text>
-  <text x="410" y="235" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">diff_roles.py</text>
-  <text x="410" y="255" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">push_to_cloudflare.py</text>
+<!-- ZONE LABELS -->
+<text x="205" y="22" text-anchor="middle" class="mono bold" fill="#378ADD" style="font-size:13px;letter-spacing:.12em">MICROSOFT PUBLIC</text>
+<text x="560" y="22" text-anchor="middle" class="mono bold" fill="#888780" style="font-size:13px;letter-spacing:.12em">GITHUB ACTIONS PIPELINE</text>
+<text x="960" y="22" text-anchor="middle" class="mono bold" fill="#1D9E75" style="font-size:13px;letter-spacing:.12em">OUTPUTS</text>
 
-  <rect x="600" y="40" width="170" height="70" rx="5" fill="#F47321" fill-opacity="0.1" stroke="#F47321"/>
-  <text x="685" y="75" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Cloudflare D1 (SQL)</text>
-  
-  <rect x="600" y="130" width="170" height="70" rx="5" fill="#F47321" fill-opacity="0.1" stroke="#F47321"/>
-  <text x="685" y="165" fill="white" font-family="sans-serif" font-size="12" text-anchor="middle">Cloudflare KV (Cache)</text>
+<!-- ZONE BORDERS -->
+<rect x="30"  y="30" width="350" height="510" rx="10" fill="none" stroke="#1C3A5A" stroke-width="0.8" stroke-dasharray="5 4"/>
+<rect x="400" y="30" width="320" height="510" rx="10" fill="none" stroke="#2A2A3A" stroke-width="0.8" stroke-dasharray="5 4"/>
+<rect x="740" y="30" width="430" height="510" rx="10" fill="none" stroke="#0F4030" stroke-width="0.8" stroke-dasharray="5 4"/>
 
-  <rect x="600" y="250" width="170" height="130" rx="5" fill="#38BDF8" fill-opacity="0.1" stroke="#38BDF8"/>
-  <text x="685" y="300" fill="white" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Frontend UI</text>
-  <text x="685" y="330" fill="#94A3B8" font-family="sans-serif" font-size="11" text-anchor="middle">Cloudflare Pages</text>
+<!-- ═══════════════════ MICROSOFT PUBLIC ZONE ═══════════════════ -->
 
-  <path d="M315 115 H210" stroke="#0078D4" stroke-width="2" marker-end="url(#arrowB)"/>
-  <text x="255" y="105" fill="#38BDF8" font-family="sans-serif" font-size="9" text-anchor="middle">OIDC Auth</text>
+<!-- Microsoft Entra ID -->
+<rect x="48" y="52" width="314" height="72" rx="8" fill="#2C1A00" stroke="#8C5800" stroke-width="0.8"/>
+<text x="205" y="79" text-anchor="middle" class="mono bold" fill="#F59E0B" style="font-size:15px">Microsoft Entra ID</text>
+<text x="205" y="99" text-anchor="middle" class="sans" fill="#F59E0B" style="font-size:11.5px;opacity:.8">Workload Identity Federation · OIDC validator</text>
+<rect x="88" y="112" width="234" height="16" rx="4" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.4)" stroke-width="0.8"/>
+<text x="205" y="124" text-anchor="middle" class="mono" fill="#F59E0B" style="font-size:9.5px;letter-spacing:.04em">EntraRoleFetcher-API · Federated Credential</text>
 
-  <path d="M210 70 H315" stroke="#94A3B8" marker-end="url(#arrow)"/>
-  <path d="M210 150 H315" stroke="#94A3B8" marker-end="url(#arrow)"/>
-  <path d="M505 200 H600" stroke="#00E5A3" marker-end="url(#arrowG)"/>
-  
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#94A3B8"/></marker>
-    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#0078D4"/></marker>
-    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#00E5A3"/></marker>
-  </defs>
+<!-- Graph API -->
+<rect x="48" y="148" width="314" height="72" rx="8" fill="#042C53" stroke="#185FA5" stroke-width="0.8"/>
+<text x="205" y="175" text-anchor="middle" class="mono bold" fill="#85B7EB" style="font-size:15px">Graph API</text>
+<text x="205" y="195" text-anchor="middle" class="sans" fill="#85B7EB" style="font-size:11.5px;opacity:.8">graph.microsoft.com/v1.0/roleManagement</text>
+<text x="52" y="212" class="mono" fill="#378ADD" style="font-size:10.5px">▸ 143+ roles · permissions · IDs · OIDC auth</text>
+
+<!-- MicrosoftDocs -->
+<rect x="48" y="242" width="314" height="58" rx="8" fill="#042C53" stroke="#185FA5" stroke-width="0.5"/>
+<text x="205" y="268" text-anchor="middle" class="mono bold" fill="#85B7EB" style="font-size:15px">MicrosoftDocs / entra-docs</text>
+<text x="205" y="288" text-anchor="middle" class="sans" fill="#85B7EB" style="font-size:11.5px;opacity:.8">Role descriptions · metadata · GitHub repo</text>
+
+<!-- Microsoft Learn -->
+<rect x="48" y="320" width="314" height="58" rx="8" fill="#042C53" stroke="#185FA5" stroke-width="0.5"/>
+<text x="205" y="346" text-anchor="middle" class="mono bold" fill="#85B7EB" style="font-size:15px">Microsoft Learn</text>
+<text x="205" y="366" text-anchor="middle" class="sans" fill="#85B7EB" style="font-size:11.5px;opacity:.8">least-privileged-by-task · 211 task mappings</text>
+
+<!-- Output files -->
+<text x="48" y="400" class="mono" fill="#444441" style="font-size:10px;letter-spacing:.08em">DATA OUTPUT FILES</text>
+<rect x="48" y="408" width="148" height="26" rx="5" fill="#0A1E38" stroke="#185FA5" stroke-width="0.5"/>
+<text x="122" y="425" text-anchor="middle" class="mono" fill="#378ADD" style="font-size:10.5px">roles_graph_raw.json</text>
+<rect x="206" y="408" width="156" height="26" rx="5" fill="#0A1E38" stroke="#185FA5" stroke-width="0.5"/>
+<text x="284" y="425" text-anchor="middle" class="mono" fill="#378ADD" style="font-size:10.5px">roles.json · tasks.json</text>
+
+<!-- ═══════════════════ GITHUB ACTIONS PIPELINE ═══════════════════ -->
+
+<!-- GitHub Actions header -->
+<rect x="418" y="52" width="284" height="56" rx="8" fill="#1C1C28" stroke="#444441" stroke-width="0.5"/>
+<text x="560" y="78" text-anchor="middle" class="mono bold" fill="#D3D1C7" style="font-size:15px">GitHub Actions</text>
+<text x="560" y="98" text-anchor="middle" class="sans" fill="#D3D1C7" style="font-size:11.5px;opacity:.75">cron · 01:00 UTC · ubuntu-latest · free tier</text>
+
+<!-- connector: header → azure/login -->
+<line x1="560" y1="108" x2="560" y2="120" stroke="#F59E0B" stroke-width="0.8" marker-end="url(#ao)"/>
+
+<!-- azure/login@v3 -->
+<rect x="418" y="122" width="284" height="48" rx="6" fill="#241800" stroke="#8C5800" stroke-width="0.8"/>
+<text x="560" y="143" text-anchor="middle" class="mono bold" fill="#F59E0B" style="font-size:13px">azure/login@v3</text>
+<text x="560" y="161" text-anchor="middle" class="mono" fill="#F59E0B" style="font-size:10px;opacity:.8">OIDC handshake → temporary access token</text>
+
+<!-- connector: azure/login → ① -->
+<line x1="560" y1="170" x2="560" y2="180" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ① fetch_roles.py -->
+<rect x="418" y="182" width="284" height="32" rx="5" fill="#131723" stroke="#2C2C2A" stroke-width="0.5"/>
+<text x="560" y="202" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">① fetch_roles.py  <tspan fill="#F59E0B" style="font-size:10px">Graph API + docs</tspan></text>
+<line x1="560" y1="214" x2="560" y2="220" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ② scrape_tasks.py -->
+<rect x="418" y="222" width="284" height="32" rx="5" fill="#131723" stroke="#2C2C2A" stroke-width="0.5"/>
+<text x="560" y="242" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">② scrape_tasks.py</text>
+<line x1="560" y1="254" x2="560" y2="260" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ③ diff_roles.py -->
+<rect x="418" y="262" width="284" height="32" rx="5" fill="#131723" stroke="#2C2C2A" stroke-width="0.5"/>
+<text x="560" y="282" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">③ diff_roles.py</text>
+<line x1="560" y1="294" x2="560" y2="300" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ④ enrich.py -->
+<rect x="418" y="302" width="284" height="32" rx="5" fill="#131723" stroke="#2C2C2A" stroke-width="0.5"/>
+<text x="560" y="322" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">④ enrich.py  <tspan fill="#7F77DD" style="font-size:10px">shadow detector</tspan></text>
+<line x1="560" y1="334" x2="560" y2="340" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ⑤ validate.py -->
+<rect x="418" y="342" width="284" height="32" rx="5" fill="#131723" stroke="#2C2C2A" stroke-width="0.5"/>
+<text x="560" y="362" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">⑤ validate.py</text>
+<line x1="560" y1="374" x2="560" y2="380" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ag)"/>
+
+<!-- ⑥ push_to_cloudflare.py -->
+<rect x="418" y="382" width="284" height="32" rx="5" fill="#04342C" stroke="#1D9E75" stroke-width="0.8"/>
+<text x="560" y="402" text-anchor="middle" class="mono" fill="#1D9E75" style="font-size:12.5px">⑥ push_to_cloudflare.py</text>
+<line x1="560" y1="414" x2="560" y2="420" stroke="#444441" stroke-width="0.8" marker-end="url(#a)"/>
+
+<!-- ⑦ git commit -->
+<rect x="418" y="422" width="284" height="32" rx="5" fill="#131723" stroke="#444441" stroke-width="0.5"/>
+<text x="560" y="442" text-anchor="middle" class="mono" fill="#B4B2A9" style="font-size:12.5px">⑦ git commit  <tspan fill="#555553" style="font-size:10px">[skip ci]</tspan></text>
+
+<!-- Shadow detector callout -->
+<rect x="418" y="468" width="284" height="38" rx="5" fill="#1A0E2E" stroke="#534AB7" stroke-width="0.6" stroke-dasharray="4 3"/>
+<text x="560" y="485" text-anchor="middle" class="mono" fill="#7F77DD" style="font-size:10.5px">13 shadow roles detected this run</text>
+<text x="560" y="500" text-anchor="middle" class="mono" fill="#7F77DD" style="font-size:9.5px;opacity:.7">Graph API roles ∉ docs → isShadowRole: true</text>
+
+<!-- ═══════════════════ OUTPUTS ZONE ═══════════════════ -->
+
+<!-- Cloudflare KV Store -->
+<rect x="758" y="148" width="394" height="62" rx="8" fill="#04342C" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="955" y="175" text-anchor="middle" class="mono bold" fill="#5DCAA5" style="font-size:15px">Cloudflare KV Store</text>
+<text x="955" y="195" text-anchor="middle" class="sans" fill="#5DCAA5" style="font-size:11px;opacity:.8">master.json · pipeline_status · shadow_role_count</text>
+<circle class="dot" cx="746" cy="179" r="6" fill="#1D9E75"/>
+
+<!-- Cloudflare D1 SQLite -->
+<rect x="758" y="242" width="394" height="62" rx="8" fill="#04342C" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="955" y="269" text-anchor="middle" class="mono bold" fill="#5DCAA5" style="font-size:15px">Cloudflare D1 SQLite</text>
+<text x="955" y="289" text-anchor="middle" class="sans" fill="#5DCAA5" style="font-size:11px;opacity:.8">roles · tasks · task_search · role_changes</text>
+<circle class="dot" cx="746" cy="273" r="6" fill="#1D9E75"/>
+
+<!-- GitHub Issues (failure path) -->
+<rect x="758" y="342" width="394" height="62" rx="8" fill="#2A0A0A" stroke="#6B1C1C" stroke-width="0.8" stroke-dasharray="6 3"/>
+<text x="955" y="368" text-anchor="middle" class="mono bold" fill="#EF4444" style="font-size:15px">GitHub Issue (auto-opened)</text>
+<text x="955" y="388" text-anchor="middle" class="sans" fill="#EF4444" style="font-size:11px;opacity:.8">validate failure · live data protected · no overwrite</text>
+
+<!-- Git Repository -->
+<rect x="758" y="422" width="394" height="62" rx="8" fill="#1C1C28" stroke="#444441" stroke-width="0.5"/>
+<text x="955" y="448" text-anchor="middle" class="mono bold" fill="#D3D1C7" style="font-size:15px">Git Repository</text>
+<text x="955" y="468" text-anchor="middle" class="sans" fill="#D3D1C7" style="font-size:11px;opacity:.8">data/ auto-committed · permanent role change log</text>
+<circle class="dot" cx="746" cy="453" r="5" fill="#888780"/>
+
+<!-- ═══════════════════ CROSS-ZONE FLOWS ═══════════════════ -->
+
+<!-- OIDC JWT: azure/login → Entra ID (orange, going left) -->
+<path class="fl2" d="M418 136 L364 82" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="368" y="100" class="mono" fill="#F59E0B" style="font-size:9.5px">OIDC JWT</text>
+
+<!-- Access token: Entra ID → azure/login (orange, going right) -->
+<path class="fl2" d="M364 108 L418 156" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="360" y="142" class="mono" fill="#F59E0B" style="font-size:9.5px">access token</text>
+
+<!-- Graph API → fetch_roles (blue, authenticated) -->
+<path class="fl2" d="M362 182 L416 198" fill="none" stroke="#378ADD" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="363" y="178" class="mono" fill="#378ADD" style="font-size:9.5px">authenticated</text>
+
+<!-- MicrosoftDocs → fetch_roles (blue) -->
+<path class="fl3" d="M362 270 L416 206" fill="none" stroke="#378ADD" stroke-width="1.2" marker-end="url(#ab)"/>
+<text x="364" y="248" class="mono" fill="#378ADD" style="font-size:9.5px">fetch</text>
+
+<!-- Microsoft Learn → scrape_tasks (blue) -->
+<path class="fl3" d="M362 350 L416 242" fill="none" stroke="#378ADD" stroke-width="1.2" marker-end="url(#ab)"/>
+<text x="364" y="306" class="mono" fill="#378ADD" style="font-size:9.5px">scrape</text>
+
+<!-- push_to_cloudflare → KV (green) -->
+<path class="fl1" d="M702 392 L756 179" fill="none" stroke="#1D9E75" stroke-width="2" marker-end="url(#ag)"/>
+
+<!-- push_to_cloudflare → D1 (green) -->
+<path class="fl1" d="M702 400 L756 273" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#ag)"/>
+<text x="710" y="314" class="mono" fill="#1D9E75" style="font-size:9.5px">push nightly</text>
+
+<!-- validate → GitHub Issues (red dashed, failure path) -->
+<path d="M702 358 L756 368" fill="none" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#ar)"/>
+<text x="706" y="349" class="mono" fill="#EF4444" style="font-size:9px">on failure</text>
+
+<!-- git commit → Git Repo (gray) -->
+<path class="fl2" d="M702 438 L756 453" fill="none" stroke="#888780" stroke-width="1.2" marker-end="url(#a)"/>
+
+<!-- ═══════════════════ BOTTOM SECTION ═══════════════════ -->
+
+<!-- Stats bar -->
+<rect x="30" y="556" width="490" height="72" rx="8" fill="#0D1018" stroke="#2A2A3A" stroke-width="0.8"/>
+<text x="50" y="578" class="mono" fill="#555553" style="font-size:10px;letter-spacing:.08em">PIPELINE STATS</text>
+<text x="50" y="608" class="mono bold" fill="#1D9E75" style="font-size:15px">143</text>
+<text x="84" y="608" class="mono" fill="#888780" style="font-size:11px">roles</text>
+<text x="154" y="608" class="mono bold" fill="#1D9E75" style="font-size:15px">211</text>
+<text x="188" y="608" class="mono" fill="#888780" style="font-size:11px">tasks</text>
+<text x="268" y="608" class="mono bold" fill="#7F77DD" style="font-size:15px">13</text>
+<text x="292" y="608" class="mono" fill="#888780" style="font-size:11px">shadow roles</text>
+<text x="400" y="608" class="mono bold" fill="#F59E0B" style="font-size:15px">01:00</text>
+<text x="448" y="608" class="mono" fill="#888780" style="font-size:11px">UTC nightly</text>
+
+<!-- Cost badge -->
+<rect x="540" y="556" width="630" height="72" rx="8" fill="#04342C" stroke="#1D9E75" stroke-width="1"/>
+<text x="855" y="582" text-anchor="middle" class="mono bold" fill="#1D9E75" style="font-size:12px;letter-spacing:.08em">PIPELINE + INFRASTRUCTURE COST</text>
+<text x="855" y="616" text-anchor="middle" class="mono bold" fill="#1D9E75" style="font-size:36px">€ 0 / month</text>
+
+<!-- ═══════════════════ LEGEND ═══════════════════ -->
+<text x="48"  y="672" class="mono" fill="#378ADD" style="font-size:11.5px">━━  Microsoft data fetch</text>
+<text x="270" y="672" class="mono" fill="#F59E0B" style="font-size:11.5px">━━  OIDC auth flow</text>
+<text x="466" y="672" class="mono" fill="#1D9E75" style="font-size:11.5px">━━  Cloudflare push</text>
+<text x="660" y="672" class="mono" fill="#EF4444" style="font-size:11.5px">╌╌  Failure path</text>
+<text x="832" y="672" class="mono" fill="#7F77DD" style="font-size:11.5px">╌╌  Shadow detection</text>
+<text x="1042" y="672" class="mono" fill="#888780" style="font-size:11.5px">━━  git push</text>
+
 </svg>
