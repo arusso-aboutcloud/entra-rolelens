@@ -1667,11 +1667,9 @@
     `);
   }
 
-  function isNewRole(firstSeen) {
-    if (!firstSeen) return false;
-    const d = new Date(firstSeen);
-    if (isNaN(d.getTime())) return false;
-    return (Date.now() - d.getTime()) < 14 * 24 * 60 * 60 * 1000;
+  const _newRoleIds = new Set();
+  function isNewRole(roleId) {
+    return roleId ? _newRoleIds.has(roleId) : false;
   }
 
   const NEW_BADGE = `<span style="background:#00E5A3;color:#07080D;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">NEW</span>`;
@@ -1692,7 +1690,7 @@
       const privBadge = r.is_privileged
         ? `<span class="badge-privileged">⚠ Privileged</span>`
         : '';
-      const newBadge = isNewRole(r.first_seen) ? NEW_BADGE : '';
+      const newBadge = isNewRole(r.role_id) ? NEW_BADGE : '';
       return `
         <div class="result-card">
           <div class="card-top">
@@ -1826,14 +1824,14 @@
 
     const summaryEl = document.getElementById('diff-summary');
     if (summaryEl) {
-      const newBadgeSumA = isNewRole(ra.first_seen) ? NEW_BADGE : '';
-      const newBadgeSumB = isNewRole(rb.first_seen) ? NEW_BADGE : '';
+      const newBadgeSumA = isNewRole(ra.id) ? NEW_BADGE : '';
+      const newBadgeSumB = isNewRole(rb.id) ? NEW_BADGE : '';
       summaryEl.innerHTML =
         `${esc(ra.display_name)}${newBadgeSumA} (${ra.permission_count} permissions) vs ${esc(rb.display_name)}${newBadgeSumB} (${rb.permission_count} permissions)`;
     }
 
-    const newBadgeA = isNewRole(ra.first_seen) ? NEW_BADGE : '';
-    const newBadgeB = isNewRole(rb.first_seen) ? NEW_BADGE : '';
+    const newBadgeA = isNewRole(ra.id) ? NEW_BADGE : '';
+    const newBadgeB = isNewRole(rb.id) ? NEW_BADGE : '';
 
     document.getElementById('diff-header').innerHTML = `
       <div class="diff-col-header">
@@ -1948,6 +1946,11 @@
       const res = await fetch(CHANGELOG_URL);
       if (!res.ok) return;
       const changelog = await res.json();
+      changelog.forEach(c => {
+        if (c.change_type?.toUpperCase() === 'ADDED' && c.role_id) {
+          _newRoleIds.add(c.role_id);
+        }
+      });
       const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
       const recent = changelog.filter(c => c.date >= cutoff).slice(0, 20);
       if (!recent.length) return;

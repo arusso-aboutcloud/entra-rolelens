@@ -1863,5 +1863,12 @@
     "min_role": "Tenant Governance Administrator",
     "alt_roles": [],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure passkeys (FIDO2) authentication method policy",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   }
 ]
