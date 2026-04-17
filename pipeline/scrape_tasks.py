@@ -131,6 +131,35 @@ def scrape(html: str) -> tuple[list[dict], set[str]]:
     return tasks, feature_areas_seen
 
 
+MANUAL_FEATURE_AREAS = {"Agent Identity", "Backup and Recovery", "Tenant Governance"}
+MANUAL_SOURCE_MARKER = "permissions-reference"
+
+
+def load_manual_tasks(path: Path) -> list[dict]:
+    """Return tasks from existing file that are manually curated (not scraped)."""
+    if not path.exists():
+        return []
+    try:
+        existing = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+    return [
+        t for t in existing
+        if t.get("feature_area") in MANUAL_FEATURE_AREAS
+        or MANUAL_SOURCE_MARKER in t.get("source_url", "")
+    ]
+
+
+def merge_tasks(scraped: list[dict], manual: list[dict]) -> list[dict]:
+    """Scraped tasks win on description collision; manual tasks are appended."""
+    scraped_descs = {t["task"].strip().lower() for t in scraped}
+    deduped_manual = [
+        t for t in manual
+        if t["task"].strip().lower() not in scraped_descs
+    ]
+    return scraped + deduped_manual
+
+
 def main() -> None:
     print(f"Fetching: {SOURCE_URL}")
     html = fetch_page(SOURCE_URL)
@@ -145,11 +174,17 @@ def main() -> None:
         )
         sys.exit(1)
 
+    manual = load_manual_tasks(OUTPUT_PATH)
+    merged = merge_tasks(tasks, manual)
+
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with OUTPUT_PATH.open("w", encoding="utf-8") as fh:
-        json.dump(tasks, fh, indent=2, ensure_ascii=False)
+        json.dump(merged, fh, indent=2, ensure_ascii=False)
 
-    print(f"Scraped {len(tasks)} tasks across {len(feature_areas)} feature areas")
+    print(
+        f"Scraped {len(tasks)} tasks across {len(feature_areas)} feature areas"
+        f" + preserved {len(manual)} manual tasks = {len(merged)} total"
+    )
     print(f"Written -> {OUTPUT_PATH}")
 
 
