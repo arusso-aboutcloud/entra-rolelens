@@ -200,14 +200,12 @@ entra-rolelens/
 ---
 
 ## Data quality
-
-- **143+ built-in roles** — covers all named Entra ID built-in roles including preview and service-specific roles
-- **211 task mappings** — sourced from Microsoft's official documentation
-- **30 tasks with no built-in role** — Microsoft uses descriptive terms ("Group owner", "Resource owner") for these; they are flagged in results rather than silently dropped
-- **Shadow role detection** — roles present in the Graph API but absent from docs are flagged `isShadowRole: true`
-- **Nightly diff** — every permission change Microsoft makes is logged to the `role_changes` D1 table with full before/after values
-
----
+- **143+ built-in roles** - covers all named Entra ID built-in roles including preview roles
+- **228 task mappings** - sourced from Microsoft's official documentation and community contributions
+- **13 unlisted roles** - present in the Graph API but not yet in Microsoft's public documentation
+- **0 partially documented roles** - in roles reference but missing from task mappings
+- **Nightly diff** - every permission change Microsoft makes is logged to the role_changes D1 table
+- **Self-healing pipeline** - validation gate prevents bad data reaching production
 
 ## Contributing
 

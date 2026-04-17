@@ -388,34 +388,44 @@ def update_readme_data_quality(master_path: Path, readme_path: Path) -> None:
 
     new_section = (
         f"\n"
-        f"- **{role_count}+ built-in roles** — covers all named Entra ID built-in roles"
-        f" including preview and service-specific roles\n"
-        f"- **{task_count} task mappings** — sourced from Microsoft's official documentation"
-        f" and community contributions\n"
-        f"- **{shadow_count} unlisted roles** — present in the Graph API but not yet"
-        f" in Microsoft's public documentation\n"
-        f"- **{partial_count} partially documented roles** — in the roles reference but"
-        f" missing from task mappings\n"
-        f"- **Nightly diff** — every permission change Microsoft makes is logged to the"
-        f" `role_changes` D1 table with full before/after values\n"
-        f"- **Self-healing pipeline** — validation gate prevents bad data reaching"
-        f" production; previous data stays live on failure\n"
+        f"- **{role_count}+ built-in roles** - covers all named "
+        f"Entra ID built-in roles including preview roles\n"
+        f"- **{task_count} task mappings** - sourced from "
+        f"Microsoft's official documentation and community contributions\n"
+        f"- **{shadow_count} unlisted roles** - present in the "
+        f"Graph API but not yet in Microsoft's public documentation\n"
+        f"- **{partial_count} partially documented roles** - in "
+        f"roles reference but missing from task mappings\n"
+        f"- **Nightly diff** - every permission change Microsoft "
+        f"makes is logged to the role_changes D1 table\n"
+        f"- **Self-healing pipeline** - validation gate prevents "
+        f"bad data reaching production\n"
     )
 
-    with open(readme_path, encoding="utf-8") as f:
+    with open(readme_path, "r", encoding="utf-8") as f:
         readme = f.read()
 
-    updated = re.sub(
-        r"(## Data quality\n)(.*?)(\n## )",
-        r"\1" + new_section + r"\3",
-        readme,
-        flags=re.DOTALL,
-    )
+    start_marker = "## Data quality"
+    end_marker   = "\n## "
+
+    start_idx = readme.find(start_marker)
+    if start_idx == -1:
+        print("WARNING: Data quality section not found in README")
+        return
+
+    end_idx = readme.find(end_marker, start_idx + len(start_marker))
+    if end_idx == -1:
+        end_idx = len(readme)
+
+    new_readme = readme[:start_idx] + start_marker + new_section + readme[end_idx:]
 
     with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(updated)
+        f.write(new_readme)
 
-    print("  README Data Quality section updated")
+    print(
+        f"  README Data quality updated: {role_count} roles, "
+        f"{task_count} tasks, {shadow_count} unlisted"
+    )
 
 
 # ---------------------------------------------------------------------------
