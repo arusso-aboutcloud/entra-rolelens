@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-17T12:16:47.258364+00:00",
+  "generated_at": "2026-04-17T21:38:13.847198+00:00",
   "role_count": 143,
-  "task_count": 228,
+  "task_count": 230,
   "shadow_role_count": 13,
   "roles": [
     {
@@ -5747,6 +5747,24 @@
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
       "role_id": "1981f584-96e9-4a6f-95b0-f522373f8fae",
       "is_privileged": false
+    },
+    {
+      "feature_area": "Security - Authentication methods",
+      "task": "Configure passkeys (FIDO2) authentication method policy",
+      "min_role": "Authentication Policy Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
+      "is_privileged": false
+    },
+    {
+      "feature_area": "Security - Authentication methods",
+      "task": "Reset a user multi-factor authentication registration",
+      "min_role": "Authentication Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "c4e39bd9-1100-46d3-8c65-fb160da0071f",
+      "is_privileged": true
     }
   ]
 }
