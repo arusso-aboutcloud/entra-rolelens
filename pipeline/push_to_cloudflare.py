@@ -372,6 +372,53 @@ def update_readme_whats_new(changelog_path: Path, readme_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
+# README Data Quality
+# ---------------------------------------------------------------------------
+
+def update_readme_data_quality(master_path: Path, readme_path: Path) -> None:
+    if not master_path.exists():
+        return
+    with open(master_path, encoding="utf-8") as f:
+        master = json.load(f)
+
+    role_count    = master.get("role_count", 0)
+    task_count    = master.get("task_count", 0)
+    shadow_count  = master.get("shadow_role_count", 0)
+    partial_count = master.get("partial_role_count", 0)
+
+    new_section = (
+        f"\n"
+        f"- **{role_count}+ built-in roles** — covers all named Entra ID built-in roles"
+        f" including preview and service-specific roles\n"
+        f"- **{task_count} task mappings** — sourced from Microsoft's official documentation"
+        f" and community contributions\n"
+        f"- **{shadow_count} unlisted roles** — present in the Graph API but not yet"
+        f" in Microsoft's public documentation\n"
+        f"- **{partial_count} partially documented roles** — in the roles reference but"
+        f" missing from task mappings\n"
+        f"- **Nightly diff** — every permission change Microsoft makes is logged to the"
+        f" `role_changes` D1 table with full before/after values\n"
+        f"- **Self-healing pipeline** — validation gate prevents bad data reaching"
+        f" production; previous data stays live on failure\n"
+    )
+
+    with open(readme_path, encoding="utf-8") as f:
+        readme = f.read()
+
+    updated = re.sub(
+        r"(## Data quality\n)(.*?)(\n## )",
+        r"\1" + new_section + r"\3",
+        readme,
+        flags=re.DOTALL,
+    )
+
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(updated)
+
+    print("  README Data Quality section updated")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -402,7 +449,9 @@ def main() -> None:
     push_tasks(account_id, database_id, api_token, master["tasks"], role_index)
     push_task_search(account_id, database_id, api_token)
     push_changelog(account_id, database_id, api_token, changelog)
-    update_readme_whats_new(CHANGELOG_PATH, Path(__file__).parent.parent / "README.md")
+    readme_path = Path(__file__).parent.parent / "README.md"
+    update_readme_whats_new(CHANGELOG_PATH, readme_path)
+    update_readme_data_quality(MASTER_PATH, readme_path)
 
     print("Push complete")
 

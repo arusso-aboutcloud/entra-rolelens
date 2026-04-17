@@ -571,6 +571,54 @@
       50%       { opacity: 0.5; transform: scale(0.75); }
     }
 
+    /* ── What's New panel ──────────────────────────────────────────── */
+    .whats-new-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .whats-new-panel.hidden { display: none; }
+
+    .whats-new-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+      gap: 8px;
+    }
+    .whats-new-header:hover { background: var(--surface2); }
+    .whats-new-chevron { color: var(--muted); transition: transform 0.2s; }
+    .whats-new-chevron.open { transform: rotate(180deg); }
+
+    .whats-new-body {
+      padding: 4px 20px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .whats-new-entry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .whats-new-entry:last-child { border-bottom: none; }
+    .wn-badge { font-size: 14px; flex-shrink: 0; }
+    .wn-name  { font-family: var(--font-mono); font-size: 13px; color: var(--text); flex: 1; }
+    .wn-action { font-family: var(--font-body); font-size: 13px; color: var(--muted); }
+    .wn-date  { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
     /* ── Explainer grid ─────────────────────────────────────────────── */
     .explainer-grid {
       display: grid;
@@ -723,6 +771,13 @@
       color: var(--muted);
     }
     .status-item b { color: var(--text); }
+
+    @keyframes stat-pulse {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .stat-pulse { animation: stat-pulse 0.3s ease; }
     .status-item.sep { color: var(--border); user-select: none; }
 
     /* ── Footer ─────────────────────────────────────────────────────── */
@@ -947,6 +1002,15 @@
       <!-- GitHub stats — CHANGE 6 -->
       <div class="gh-stats-bar" id="gh-stats"></div>
 
+      <!-- What's new panel -->
+      <div class="whats-new-panel hidden" id="whats-new-panel">
+        <button class="whats-new-header" id="whats-new-toggle" onclick="toggleWhatsNew()">
+          <span id="whats-new-title">What's new · loading…</span>
+          <svg class="whats-new-chevron" id="whats-new-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="whats-new-body" id="whats-new-body" style="display:none"></div>
+      </div>
+
       <!-- Explainer cards — CHANGE 3 -->
       <div class="explainer-grid" id="explainer-grid">
         <div class="explainer-card">
@@ -993,23 +1057,32 @@
       </div>
       <div class="search-hint" id="search-hint"></div>
 
-      <!-- Example pills — 15 most common Entra admin tasks -->
+      <!-- Example pills — 24 common Entra admin tasks -->
       <div class="example-pills" id="example-pills">
         <button class="pill-btn" onclick="runPillSearch('reset user MFA')">reset user MFA</button>
         <button class="pill-btn" onclick="runPillSearch('reset user password')">reset user password</button>
         <button class="pill-btn" onclick="runPillSearch('create user')">create user</button>
-        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
         <button class="pill-btn" onclick="runPillSearch('read audit logs')">read audit logs</button>
+        <button class="pill-btn" onclick="runPillSearch('manage guest users')">manage guest users</button>
+        <button class="pill-btn" onclick="runPillSearch('assign licenses')">assign licenses</button>
         <button class="pill-btn" onclick="runPillSearch('manage conditional access')">manage conditional access</button>
         <button class="pill-btn" onclick="runPillSearch('configure PIM')">configure PIM</button>
         <button class="pill-btn" onclick="runPillSearch('manage app registrations')">manage app registrations</button>
-        <button class="pill-btn" onclick="runPillSearch('assign licenses')">assign licenses</button>
         <button class="pill-btn" onclick="runPillSearch('manage groups')">manage groups</button>
-        <button class="pill-btn" onclick="runPillSearch('manage enterprise apps')">manage enterprise apps</button>
         <button class="pill-btn" onclick="runPillSearch('configure SSPR')">configure SSPR</button>
         <button class="pill-btn" onclick="runPillSearch('read sign-in logs')">read sign-in logs</button>
+        <button class="pill-btn" onclick="runPillSearch('manage enterprise apps')">manage enterprise apps</button>
         <button class="pill-btn" onclick="runPillSearch('manage named locations')">manage named locations</button>
         <button class="pill-btn" onclick="runPillSearch('manage authentication methods')">manage authentication methods</button>
+        <button class="pill-btn" onclick="runPillSearch('configure passkeys')">configure passkeys</button>
+        <button class="pill-btn" onclick="runPillSearch('manage administrative units')">manage administrative units</button>
+        <button class="pill-btn" onclick="runPillSearch('manage access packages')">manage access packages</button>
+        <button class="pill-btn" onclick="runPillSearch('manage AI agents')">manage AI agents</button>
+        <button class="pill-btn" onclick="runPillSearch('configure GDAP')">configure GDAP</button>
+        <button class="pill-btn" onclick="runPillSearch('backup Entra directory')">backup Entra directory</button>
+        <button class="pill-btn" onclick="runPillSearch('manage Copilot governance')">manage Copilot governance</button>
+        <button class="pill-btn" onclick="runPillSearch('manage agent registry')">manage agent registry</button>
+        <button class="pill-btn" onclick="runPillSearch('restore deleted objects')">restore deleted objects</button>
       </div>
 
       <div id="search-results"></div>
@@ -1090,7 +1163,7 @@
       <span class="status-item sep">·</span>
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
       <span class="status-item sep">·</span>
-      <span class="status-item">Data: Microsoft Learn + MicrosoftDocs/entra-docs</span>
+      <span class="status-item">Data: Microsoft Graph API · Microsoft Learn · MicrosoftDocs</span>
     </div>
   </div>
 </div>
@@ -1146,18 +1219,35 @@
   }
 
   // ── Status bar + last updated ────────────────────────────────────────
+  const _prevStats = { roles: null, tasks: null, shadow: null, updated: null };
+
+  function pulseEl(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('stat-pulse');
+    void el.offsetWidth; // force reflow to restart animation
+    el.classList.add('stat-pulse');
+  }
+
   async function loadStatus() {
     try {
       const res = await fetch(API + '/api/status');
       const d = await res.json();
 
-      document.getElementById('stat-roles').textContent = d.role_count ?? '—';
-      document.getElementById('stat-tasks').textContent = d.task_count ?? '—';
+      const newRoles = String(d.role_count ?? '—');
+      const newTasks = String(d.task_count ?? '—');
+      if (newRoles !== _prevStats.roles) { pulseEl('stat-roles');  _prevStats.roles  = newRoles; }
+      if (newTasks !== _prevStats.tasks) { pulseEl('stat-tasks');  _prevStats.tasks  = newTasks; }
+
+      document.getElementById('stat-roles').textContent = newRoles;
+      document.getElementById('stat-tasks').textContent = newTasks;
       document.getElementById('stat-pipeline').textContent =
         'Pipeline ' + (d.pipeline === 'healthy' ? 'healthy' : d.pipeline ?? 'unknown');
 
       const shadowCount = d.shadow_role_count ?? 0;
       if (shadowCount > 0) {
+        const newShadow = String(shadowCount);
+        if (newShadow !== _prevStats.shadow) { pulseEl('stat-shadow-count'); _prevStats.shadow = newShadow; }
         document.getElementById('stat-shadow-count').textContent = shadowCount;
         document.getElementById('stat-shadow').style.display = '';
         document.getElementById('stat-shadow-sep').style.display = '';
@@ -1184,7 +1274,9 @@
         });
 
         // Header badge — exact date
-        badge.textContent = `Updated ${fmtDate}`;
+        const newUpdated = `Updated ${fmtDate}`;
+        if (newUpdated !== _prevStats.updated) { pulseEl('last-updated-badge'); _prevStats.updated = newUpdated; }
+        badge.textContent = newUpdated;
         if (diffDays <= 1) badge.classList.add('fresh');
 
         // Sync bar — exact date + known pipeline run time (01:00 UTC)
@@ -1511,31 +1603,29 @@
     document.getElementById('explainer-grid')?.classList.toggle('hidden', typing);
     document.getElementById('how-to-use')?.classList.toggle('hidden', typing);
     document.getElementById('example-pills')?.classList.toggle('hidden', typing);
+    const wnPanel = document.getElementById('whats-new-panel');
+    if (wnPanel && !wnPanel.classList.contains('hidden')) {
+      wnPanel.style.display = typing ? 'none' : '';
+    }
 
     // Update expansion hint
     const hint = document.getElementById('search-hint');
     if (hint) {
+      hint.textContent = '';
       if (typing && hasSynonym) {
-        hint.textContent = '';
         const prefix = document.createTextNode('Searching for: ');
         const span = document.createElement('span');
         span.textContent = expandedQuery;
         span.className = 'hint-accent';
         hint.appendChild(prefix);
         hint.appendChild(span);
-      } else {
-        hint.textContent = '';
+      } else if (q.length === 3 && !hasSynonym) {
+        hint.textContent = 'Partial match — keep typing for better results';
       }
     }
 
-    // Clear results if not enough input
-    if (!typing) {
-      setSearchResults('');
-      return;
-    }
-
-    // Short queries (2-3 chars) only fire if a synonym match was found
-    if (q.length <= 3 && !hasSynonym) {
+    // Clear results if not enough input (1-2 chars, no synonym)
+    if (q.length <= 2 && !hasSynonym) {
       setSearchResults('');
       return;
     }
@@ -1850,9 +1940,51 @@
       .replace(/"/g, '&quot;');
   }
 
+  // ── What's New panel ─────────────────────────────────────────────────
+  const CHANGELOG_URL = 'https://raw.githubusercontent.com/arusso-aboutcloud/entra-rolelens/master/data/changelog.json';
+
+  async function loadWhatsNew() {
+    try {
+      const res = await fetch(CHANGELOG_URL);
+      if (!res.ok) return;
+      const changelog = await res.json();
+      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      const recent = changelog.filter(c => c.date >= cutoff).slice(0, 20);
+      if (!recent.length) return;
+
+      const ICONS = { ADDED: '✅', REMOVED: '❌', MODIFIED: '🔄' };
+      document.getElementById('whats-new-title').textContent =
+        `What's new · ${recent.length} change${recent.length === 1 ? '' : 's'} in the last 30 days`;
+
+      document.getElementById('whats-new-body').innerHTML = recent.map(c => {
+        const icon = ICONS[c.change_type?.toUpperCase()] ?? '•';
+        const action = c.change_type?.toLowerCase() === 'modified'
+          ? 'permissions updated'
+          : c.change_type?.toLowerCase() ?? '';
+        return `<div class="whats-new-entry">
+          <span class="wn-badge">${icon}</span>
+          <span class="wn-name">${esc(c.role_name ?? '')}</span>
+          <span class="wn-action">${esc(action)}</span>
+          <span class="wn-date">${esc(c.date ?? '')}</span>
+        </div>`;
+      }).join('');
+
+      const panel = document.getElementById('whats-new-panel');
+      panel.classList.remove('hidden');
+    } catch { /* changelog not critical */ }
+  }
+
+  function toggleWhatsNew() {
+    const body    = document.getElementById('whats-new-body');
+    const chevron = document.getElementById('whats-new-chevron');
+    const open    = body.style.display !== 'none';
+    body.style.display = open ? 'none' : '';
+    chevron.classList.toggle('open', !open);
+  }
+
   // ── Boot ─────────────────────────────────────────────────────────────
   (async () => {
-    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats()]);
+    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats(), loadWhatsNew()]);
     setInterval(loadStatus, 60000);
   })();
 </script>

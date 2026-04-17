@@ -104,7 +104,38 @@ async function handleSearch(
     relevance: row.relevance,
   }));
 
-  return json(rows);
+  // LIKE fallback for partial matching — appended after keyword results
+  const seenDescs = new Set<string>(rows.map((r) => r.task as string));
+  const likeWord = keywords.reduce((a, b) => (a.length >= b.length ? a : b));
+  const likeResult = await env.DB.prepare(
+    `SELECT DISTINCT t.task_description, t.feature_area, t.source_url,
+       r.id AS role_id, r.display_name AS min_role_name,
+       r.is_privileged, r.first_seen AS role_first_seen,
+       t.alt_role_ids, 1 AS relevance
+     FROM tasks t
+     JOIN roles r ON t.min_role_id = r.id
+     WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
+        OR lower(t.feature_area) LIKE '%' || lower(?1) || '%'
+     LIMIT 5`
+  )
+    .bind(likeWord)
+    .all();
+
+  const likeRows = (likeResult.results ?? [])
+    .filter((row) => !seenDescs.has(row.task_description as string))
+    .map((row) => ({
+      task: row.task_description,
+      feature_area: row.feature_area,
+      min_role: row.min_role_name,
+      role_id: row.role_id,
+      is_privileged: row.is_privileged === 1,
+      first_seen: row.role_first_seen ?? null,
+      alt_roles: safeParseJson(row.alt_role_ids as string, []),
+      source_url: row.source_url,
+      relevance: 0,
+    }));
+
+  return json([...rows, ...likeRows]);
 }
 
 async function handleRole(
