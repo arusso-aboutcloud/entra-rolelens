@@ -1045,6 +1045,11 @@
         <button class="pill-btn" onclick="runDiffPill('Intune Administrator','Cloud Device Administrator')">Intune Admin vs Cloud Device Admin</button>
         <button class="pill-btn" onclick="runDiffPill('Identity Governance Administrator','User Administrator')">Identity Governance Admin vs User Admin</button>
         <button class="pill-btn" onclick="runDiffPill('Password Administrator','Helpdesk Administrator')">Password Admin vs Helpdesk Admin</button>
+        <button class="pill-btn" onclick="runDiffPill('AI Administrator','AI Reader')">AI Administrator vs AI Reader</button>
+        <button class="pill-btn" onclick="runDiffPill('Agent ID Administrator','Agent ID Developer')">Agent ID Administrator vs Agent ID Developer</button>
+        <button class="pill-btn" onclick="runDiffPill('Entra Backup Administrator','Entra Backup Reader')">Entra Backup Administrator vs Entra Backup Reader</button>
+        <button class="pill-btn" onclick="runDiffPill('Tenant Governance Administrator','Tenant Governance Reader')">Tenant Governance Admin vs Tenant Governance Reader</button>
+        <button class="pill-btn" onclick="runDiffPill('Global Administrator','Agent Registry Administrator')">Global Admin vs Agent Registry Administrator</button>
       </div>
 
       <div class="diff-inputs">
@@ -1081,7 +1086,7 @@
       <span class="status-item sep">·</span>
       <span class="status-item"><b id="stat-tasks">—</b> tasks</span>
       <span class="status-item sep" id="stat-shadow-sep" style="display:none">·</span>
-      <span class="status-item" id="stat-shadow" style="display:none"><b id="stat-shadow-count">—</b> shadow roles</span>
+      <span class="status-item" id="stat-shadow" style="display:none"><b id="stat-shadow-count">—</b> unlisted roles</span>
       <span class="status-item sep">·</span>
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
       <span class="status-item sep">·</span>
@@ -1340,6 +1345,116 @@
     'tenant':                  'tenant settings configuration',
     'terms of use':            'terms of use compliance',
     'tou':                     'terms of use',
+
+    // Agent identity
+    'ai agent':                'agent identity',
+    'copilot agent':           'agent identity',
+    'bot identity':            'agent identity',
+    'bot':                     'agent identity',
+    'nhi':                     'agent identity',
+    'non-human identity':      'agent identity',
+    'nonhuman identity':       'agent identity',
+    'machine identity':        'agent identity',
+    'agentic identity':        'agent identity',
+    'genai identity':          'agent identity',
+    'llm agent':               'agent identity',
+    'autonomous agent':        'agent identity',
+    'blueprint':               'agent identity blueprint',
+    'agent blueprint':         'agent identity blueprint',
+    'agent id':                'agent identity',
+    'sponsor':                 'agent sponsor',
+    'agent owner':             'agent sponsor',
+    'agent registry':          'agent registry administrator',
+    'agent rbac':              'agent id administrator',
+    'govern agents':           'agent id administrator',
+    'service account':         'service principal',
+    'svc account':             'service principal',
+    'robot account':           'service principal',
+    'nhi governance':          'nonhuman identity',
+    'orphaned agent':          'agent identity',
+    'ownerless agent':         'agent identity',
+    'hybrid identity admin':   'entra connect administrator',
+    'entra connect admin':     'entra connect administrator',
+    'passkey admin':           'authentication administrator',
+    'fido admin':              'authentication administrator',
+    'external user admin':     'guest inviter',
+    'guest admin':             'guest inviter',
+    'pim for groups':          'privileged access administrator',
+    'privileged access group': 'privileged access administrator',
+    'eligible group member':   'privileged identity management',
+
+    // AI governance
+    'copilot admin':           'ai administrator',
+    'copilot rbac':            'ai administrator',
+    'ai rbac':                 'ai administrator',
+    'copilot permissions':     'ai administrator',
+    'copilot governance':      'ai administrator',
+    'm365 copilot admin':      'ai administrator',
+    'ai audit':                'ai reader',
+    'copilot audit':           'ai reader',
+    'ai read-only':            'ai reader',
+    'genai admin':             'ai administrator',
+    'llm admin':               'ai administrator',
+    'copilot':                 'ai administrator',
+    'm365 copilot':            'ai administrator',
+    'ai governance':           'ai administrator',
+    'ai admin':                'ai administrator',
+    'openai admin':            'ai administrator',
+    'chatgpt admin':           'ai administrator',
+    'ai reader':               'ai reader',
+    'govern copilot':          'ai administrator',
+
+    // Backup and recovery
+    'backup':                  'entra backup administrator',
+    'entra backup':            'entra backup administrator',
+    'tenant backup':           'entra backup administrator',
+    'directory backup':        'entra backup administrator',
+    'entra restore':           'entra backup administrator',
+    'tenant restore':          'entra backup administrator',
+    'disaster recovery':       'entra backup administrator',
+    'dr':                      'entra backup administrator',
+    'bcdr':                    'entra backup administrator',
+    'recover deleted':         'entra backup administrator',
+    'undelete':                'entra backup administrator',
+    'rollback':                'entra backup administrator',
+    'recovery':                'entra backup administrator',
+    'backup admin':            'entra backup administrator',
+    'entra dr':                'entra backup administrator',
+    'restore entra':           'entra backup administrator',
+    'recover deleted users':   'entra backup administrator',
+    'recover deleted groups':  'entra backup administrator',
+
+    // GDAP and tenant governance
+    'gdap':                    'tenant governance administrator',
+    'granular delegated admin':'tenant governance administrator',
+    'csp admin':               'tenant governance administrator',
+    'msp admin':               'tenant governance administrator',
+    'partner access':          'tenant governance administrator',
+    'delegated admin':         'tenant governance administrator',
+    'dap':                     'tenant governance administrator',
+    'customer tenant':         'tenant governance administrator',
+    'managing customer tenants':'tenant governance administrator',
+    'gdap relationship':       'tenant governance relationship administrator',
+    'csp':                     'tenant governance',
+    'partner delegation':      'tenant governance',
+
+    // Shadow / unlisted roles
+    'hidden roles':            'shadow role',
+    'undocumented roles':      'shadow role',
+    'new roles':               'shadow role',
+    'secret roles':            'shadow role',
+    'stealth roles':           'shadow role',
+    'graph only':              'shadow role',
+    'missing from docs':       'shadow role',
+    'not in docs':             'shadow role',
+    'unlisted roles':          'shadow role',
+    'unlisted':                'shadow role',
+
+    // Agent assignability
+    'role for agent':          'agent assignable',
+    'agent compatible':        'agent assignable',
+    'agent restrictions':      'agent blocked roles',
+    'blocked for agents':      'agent blocked roles',
   };
 
   // Build reverse map: every word in any expansion value → canonical expansion
@@ -1462,6 +1577,15 @@
     `);
   }
 
+  function isNewRole(firstSeen) {
+    if (!firstSeen) return false;
+    const d = new Date(firstSeen);
+    if (isNaN(d.getTime())) return false;
+    return (Date.now() - d.getTime()) < 14 * 24 * 60 * 60 * 1000;
+  }
+
+  const NEW_BADGE = `<span style="background:#00E5A3;color:#07080D;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">NEW</span>`;
+
   function renderResults(results) {
     if (!results || results.length === 0) {
       setSearchResults(`
@@ -1478,6 +1602,7 @@
       const privBadge = r.is_privileged
         ? `<span class="badge-privileged">⚠ Privileged</span>`
         : '';
+      const newBadge = isNewRole(r.first_seen) ? NEW_BADGE : '';
       return `
         <div class="result-card">
           <div class="card-top">
@@ -1486,7 +1611,7 @@
           </div>
           <div class="card-task">${esc(r.task)}</div>
           <div class="card-bottom">
-            <span class="role-pill">${esc(r.min_role)}</span>
+            <span class="role-pill">${esc(r.min_role)}</span>${newBadge}
             ${altText}
             <a href="${esc(r.source_url)}" target="_blank" rel="noopener" class="source-link">Microsoft Learn ↗</a>
           </div>
@@ -1611,13 +1736,18 @@
 
     const summaryEl = document.getElementById('diff-summary');
     if (summaryEl) {
-      summaryEl.textContent =
-        `${ra.display_name} (${ra.permission_count} permissions) vs ${rb.display_name} (${rb.permission_count} permissions)`;
+      const newBadgeSumA = isNewRole(ra.first_seen) ? NEW_BADGE : '';
+      const newBadgeSumB = isNewRole(rb.first_seen) ? NEW_BADGE : '';
+      summaryEl.innerHTML =
+        `${esc(ra.display_name)}${newBadgeSumA} (${ra.permission_count} permissions) vs ${esc(rb.display_name)}${newBadgeSumB} (${rb.permission_count} permissions)`;
     }
+
+    const newBadgeA = isNewRole(ra.first_seen) ? NEW_BADGE : '';
+    const newBadgeB = isNewRole(rb.first_seen) ? NEW_BADGE : '';
 
     document.getElementById('diff-header').innerHTML = `
       <div class="diff-col-header">
-        <div class="col-label only-a">Only in ${esc(ra.display_name)} (${d.only_in_a.length})</div>
+        <div class="col-label only-a">Only in ${esc(ra.display_name)}${newBadgeA} (${d.only_in_a.length})</div>
         <div class="col-count">${d.only_in_a.length} unique permissions</div>
       </div>
       <div class="diff-col-header">
@@ -1625,7 +1755,7 @@
         <div class="col-count">${d.shared.length} shared permissions</div>
       </div>
       <div class="diff-col-header">
-        <div class="col-label only-b">Only in ${esc(rb.display_name)} (${d.only_in_b.length})</div>
+        <div class="col-label only-b">Only in ${esc(rb.display_name)}${newBadgeB} (${d.only_in_b.length})</div>
         <div class="col-count">${d.only_in_b.length} unique permissions</div>
       </div>`;
 
@@ -1723,6 +1853,7 @@
   // ── Boot ─────────────────────────────────────────────────────────────
   (async () => {
     await Promise.all([loadStatus(), loadRoles(), loadGitHubStats()]);
+    setInterval(loadStatus, 60000);
   })();
 </script>
 </body>

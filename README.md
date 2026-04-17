@@ -8,8 +8,9 @@
 [![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=nightly%20pipeline&style=flat-square&branch=master&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
 [![Last commit](https://img.shields.io/github/last-commit/arusso-aboutcloud/entra-rolelens/master?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/commits/master)
 [![License](https://img.shields.io/badge/license-MIT-38BDF8?style=flat-square)](LICENSE)
-[![Roles](https://img.shields.io/badge/roles-130%2B-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
-[![Tasks](https://img.shields.io/badge/tasks-211-0078D4?style=flat-square&logo=microsoft)](https://entrarolelens.aboutcloud.io)
+[![Roles](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=role_count&label=roles&color=0078D4&logo=microsoft&style=flat-square)](https://entrarolelens.aboutcloud.io)
+[![Tasks](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=task_count&label=tasks&color=0078D4&logo=microsoft&style=flat-square)](https://entrarolelens.aboutcloud.io)
+[![Unlisted roles](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=shadow_role_count&label=unlisted%20roles&color=E5A300&style=flat-square)](https://entrarolelens.aboutcloud.io)
 [![Stars](https://img.shields.io/github/stars/arusso-aboutcloud/entra-rolelens?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/stargazers)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-00E5A3?style=flat-square)](CONTRIBUTING.md)
 
@@ -46,6 +47,15 @@ Entra RoleLens cross-references the live Microsoft Graph API against Microsoft's
 
 The shadow role count is logged in every pipeline run and visible in the pipeline status endpoint:
 `GET /api/status` → `shadow_role_count`
+
+---
+
+## What's new
+
+> Auto-generated from the nightly pipeline · Last updated by GitHub Actions
+
+<!-- WHATS_NEW_START -->
+<!-- WHATS_NEW_END -->
 
 ---
 

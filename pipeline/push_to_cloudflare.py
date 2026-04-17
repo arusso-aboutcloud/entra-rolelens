@@ -24,7 +24,7 @@ import os
 import re
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -326,6 +326,52 @@ def push_changelog(account_id: str, database_id: str, token: str,
 
 
 # ---------------------------------------------------------------------------
+# README What's New
+# ---------------------------------------------------------------------------
+
+def update_readme_whats_new(changelog_path: Path, readme_path: Path) -> None:
+    if not changelog_path.exists():
+        return
+    with open(changelog_path, encoding="utf-8") as f:
+        changelog = json.load(f)
+
+    cutoff = (datetime.utcnow() - timedelta(days=30)).date().isoformat()
+    recent = [c for c in changelog if c.get("date", "") >= cutoff]
+
+    if not recent:
+        return
+
+    lines = [""]
+    for change in recent[:10]:
+        emoji = {"ADDED": "✅", "REMOVED": "❌", "MODIFIED": "🔄"}.get(
+            change.get("change_type", "").upper(), "•"
+        )
+        lines.append(
+            f"- {emoji} **{change['role_name']}** — "
+            f"{change['change_type'].lower()} "
+            f"({change['date']})"
+        )
+    lines.append("")
+
+    new_section = "\n".join(lines)
+
+    with open(readme_path, encoding="utf-8") as f:
+        readme = f.read()
+
+    updated = re.sub(
+        r"<!-- WHATS_NEW_START -->.*?<!-- WHATS_NEW_END -->",
+        f"<!-- WHATS_NEW_START -->{new_section}<!-- WHATS_NEW_END -->",
+        readme,
+        flags=re.DOTALL,
+    )
+
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(updated)
+
+    print("  README What's New section updated")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -356,6 +402,7 @@ def main() -> None:
     push_tasks(account_id, database_id, api_token, master["tasks"], role_index)
     push_task_search(account_id, database_id, api_token)
     push_changelog(account_id, database_id, api_token, changelog)
+    update_readme_whats_new(CHANGELOG_PATH, Path(__file__).parent.parent / "README.md")
 
     print("Push complete")
 

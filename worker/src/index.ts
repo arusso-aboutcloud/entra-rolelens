@@ -78,6 +78,7 @@ async function handleSearch(
        r.id          AS role_id,
        r.display_name AS min_role_name,
        r.is_privileged,
+       r.first_seen  AS role_first_seen,
        t.alt_role_ids,
        SUM(ts.weight) AS relevance
      FROM task_search ts
@@ -97,6 +98,7 @@ async function handleSearch(
     min_role: row.min_role_name,
     role_id: row.role_id,
     is_privileged: row.is_privileged === 1,
+    first_seen: row.role_first_seen ?? null,
     alt_roles: safeParseJson(row.alt_role_ids as string, []),
     source_url: row.source_url,
     relevance: row.relevance,
@@ -141,12 +143,12 @@ async function handleDiff(
 
   const [rowA, rowB] = await Promise.all([
     env.DB.prepare(
-      "SELECT id, display_name, permissions FROM roles WHERE lower(display_name) = lower(?)"
+      "SELECT id, display_name, permissions, first_seen FROM roles WHERE lower(display_name) = lower(?)"
     )
       .bind(a)
       .first(),
     env.DB.prepare(
-      "SELECT id, display_name, permissions FROM roles WHERE lower(display_name) = lower(?)"
+      "SELECT id, display_name, permissions, first_seen FROM roles WHERE lower(display_name) = lower(?)"
     )
       .bind(b)
       .first(),
@@ -167,11 +169,13 @@ async function handleDiff(
       id: rowA.id,
       display_name: rowA.display_name,
       permission_count: permsA.size,
+      first_seen: rowA.first_seen ?? null,
     },
     role_b: {
       id: rowB.id,
       display_name: rowB.display_name,
       permission_count: permsB.size,
+      first_seen: rowB.first_seen ?? null,
     },
     only_in_a: onlyInA,
     only_in_b: onlyInB,
@@ -206,11 +210,19 @@ async function handleStatus(env: Env): Promise<Response> {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store",
         },
       }
     );
   }
-  return json(JSON.parse(value));
+  return new Response(value, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store",
+    },
+  });
 }
 
 // ---------------------------------------------------------------------------
