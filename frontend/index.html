@@ -1683,7 +1683,7 @@
       return;
     }
 
-    const html = results.map(r => {
+    const html = results.map((r, idx) => {
       const altText = (r.alt_roles && r.alt_roles.length > 0)
         ? `<span class="alt-roles">Also: ${r.alt_roles.join(', ')}</span>`
         : '';
@@ -1691,6 +1691,12 @@
         ? `<span class="badge-privileged">⚠ Privileged</span>`
         : '';
       const newBadge = isNewRole(r.role_id) ? NEW_BADGE : '';
+      const bestBadge = (idx === 0 && r.match_type === 'exact')
+        ? `<span style="background:rgba(0,229,163,0.12);border:1px solid #00E5A3;color:#00E5A3;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Best match</span>`
+        : '';
+      const relatedBadge = (idx > 0 && r.match_type === 'partial')
+        ? `<span style="background:rgba(255,255,255,0.04);border:1px solid #2D3F60;color:#8899AA;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Related</span>`
+        : '';
       return `
         <div class="result-card">
           <div class="card-top">
@@ -1699,7 +1705,7 @@
           </div>
           <div class="card-task">${esc(r.task)}</div>
           <div class="card-bottom">
-            <span class="role-pill">${esc(r.min_role)}</span>${newBadge}
+            <span class="role-pill">${esc(r.min_role)}</span>${newBadge}${bestBadge}${relatedBadge}
             ${altText}
             <a href="${esc(r.source_url)}" target="_blank" rel="noopener" class="source-link">Microsoft Learn ↗</a>
           </div>

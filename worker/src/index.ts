@@ -9,6 +9,7 @@ export interface Env {
 
 const STOP_WORDS = new Set([
   "a", "an", "the", "to", "for", "of", "in", "and", "or", "with", "how",
+  "can", "i", "my", "is", "are", "do", "does", "what", "which", "who",
 ]);
 
 function extractKeywords(q: string): string[] {
@@ -21,6 +22,17 @@ function extractKeywords(q: string): string[] {
         .filter((w) => w.length >= 2 && !STOP_WORDS.has(w))
     ),
   ];
+}
+
+function privilegeFactor(permCount: number, isPrivileged: boolean): number {
+  let factor: number;
+  if      (permCount <= 20)  factor = 1.4;
+  else if (permCount <= 50)  factor = 1.2;
+  else if (permCount <= 100) factor = 1.0;
+  else if (permCount <= 200) factor = 0.8;
+  else                       factor = 0.6;
+  if (isPrivileged) factor *= 0.85;
+  return factor;
 }
 
 function json(body: unknown, status = 200): Response {
@@ -66,76 +78,108 @@ async function handleSearch(
   const keywords = extractKeywords(q);
   if (keywords.length === 0) return json([]);
 
-  // Build parameterised placeholders for IN clause
   const placeholders = keywords.map(() => "?").join(", ");
+  const kwCount = keywords.length;
 
-  const result = await env.DB.prepare(
-    `SELECT
-       t.id,
-       t.task_description,
-       t.feature_area,
-       t.source_url,
-       r.id          AS role_id,
-       r.display_name AS min_role_name,
-       r.is_privileged,
-       r.first_seen  AS role_first_seen,
-       t.alt_role_ids,
-       SUM(ts.weight) AS relevance
-     FROM task_search ts
-     JOIN tasks  t ON ts.task_id    = t.id
-     JOIN roles  r ON t.min_role_id = r.id
-     WHERE ts.keyword IN (${placeholders})
-     GROUP BY t.id
-     ORDER BY relevance DESC
-     LIMIT 10`
-  )
-    .bind(...keywords)
-    .all();
+  // Three parallel queries: phrase match, all-keywords, partial-keywords
+  const [phraseResult, fullKwResult, partialResult] = await Promise.all([
 
-  const rows = (result.results ?? []).map((row) => ({
-    task: row.task_description,
-    feature_area: row.feature_area,
-    min_role: row.min_role_name,
-    role_id: row.role_id,
-    is_privileged: row.is_privileged === 1,
-    first_seen: row.role_first_seen ?? null,
-    alt_roles: safeParseJson(row.alt_role_ids as string, []),
-    source_url: row.source_url,
-    relevance: row.relevance,
-  }));
+    // Q1: exact phrase match in task description (highest base score)
+    env.DB.prepare(
+      `SELECT t.id, t.task_description, t.feature_area,
+         t.alt_role_ids, t.source_url,
+         r.id AS min_role_id, r.display_name AS min_role_name,
+         r.is_privileged, r.permissions,
+         300 AS base_score
+       FROM tasks t
+       JOIN roles r ON t.min_role_id = r.id
+       WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
+       LIMIT 5`
+    ).bind(q).all(),
 
-  // LIKE fallback for partial matching — appended after keyword results
-  const seenDescs = new Set<string>(rows.map((r) => r.task as string));
-  const likeWord = keywords.reduce((a, b) => (a.length >= b.length ? a : b));
-  const likeResult = await env.DB.prepare(
-    `SELECT DISTINCT t.task_description, t.feature_area, t.source_url,
-       r.id AS role_id, r.display_name AS min_role_name,
-       r.is_privileged, r.first_seen AS role_first_seen,
-       t.alt_role_ids, 1 AS relevance
-     FROM tasks t
-     JOIN roles r ON t.min_role_id = r.id
-     WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
-        OR lower(t.feature_area) LIKE '%' || lower(?1) || '%'
-     LIMIT 5`
-  )
-    .bind(likeWord)
-    .all();
+    // Q2: all keywords present (AND semantics)
+    env.DB.prepare(
+      `SELECT t.id, t.task_description, t.feature_area,
+         t.alt_role_ids, t.source_url,
+         r.id AS min_role_id, r.display_name AS min_role_name,
+         r.is_privileged, r.permissions,
+         COUNT(DISTINCT ts.keyword) * 20 AS base_score
+       FROM task_search ts
+       JOIN tasks t ON ts.task_id = t.id
+       JOIN roles r ON t.min_role_id = r.id
+       WHERE ts.keyword IN (${placeholders})
+       GROUP BY t.id
+       HAVING COUNT(DISTINCT ts.keyword) = ${kwCount}
+       ORDER BY base_score DESC
+       LIMIT 5`
+    ).bind(...keywords).all(),
 
-  const likeRows = (likeResult.results ?? [])
-    .filter((row) => !seenDescs.has(row.task_description as string))
-    .map((row) => ({
-      task: row.task_description,
-      feature_area: row.feature_area,
-      min_role: row.min_role_name,
-      role_id: row.role_id,
-      is_privileged: row.is_privileged === 1,
-      first_seen: row.role_first_seen ?? null,
-      alt_roles: safeParseJson(row.alt_role_ids as string, []),
-      source_url: row.source_url,
-      relevance: 0,
-    }));
+    // Q3: partial keyword match (OR semantics, existing behaviour)
+    env.DB.prepare(
+      `SELECT t.id, t.task_description, t.feature_area,
+         t.alt_role_ids, t.source_url,
+         r.id AS min_role_id, r.display_name AS min_role_name,
+         r.is_privileged, r.permissions,
+         SUM(ts.weight) AS base_score
+       FROM task_search ts
+       JOIN tasks t ON ts.task_id = t.id
+       JOIN roles r ON t.min_role_id = r.id
+       WHERE ts.keyword IN (${placeholders})
+       GROUP BY t.id
+       ORDER BY base_score DESC
+       LIMIT 10`
+    ).bind(...keywords).all(),
+  ]);
 
-  return json([...rows, ...likeRows]);
+  // Merge all three result sets, deduplicate by task id keeping highest base_score
+  type MatchType = "exact" | "full_keyword" | "partial";
+  type Entry = { row: Record<string, unknown>; matchType: MatchType };
+
+  const seen = new Map<string, Entry>();
+
+  const addRows = (rows: Record<string, unknown>[], matchType: MatchType) => {
+    for (const row of rows) {
+      const id = row.id as string;
+      const score = (row.base_score as number) ?? 0;
+      const existing = seen.get(id);
+      if (!existing || score > ((existing.row.base_score as number) ?? 0)) {
+        seen.set(id, { row, matchType });
+      }
+    }
+  };
+
+  addRows((phraseResult.results  ?? []) as Record<string, unknown>[], "exact");
+  addRows((fullKwResult.results  ?? []) as Record<string, unknown>[], "full_keyword");
+  addRows((partialResult.results ?? []) as Record<string, unknown>[], "partial");
+
+  // Apply privilege factor and compute final score
+  const scored = [...seen.values()].map(({ row, matchType }) => {
+    const permCount = safeParseJson(row.permissions as string, []).length;
+    const isPriv    = row.is_privileged === 1;
+    const baseScore = (row.base_score as number) ?? 0;
+    const factor    = privilegeFactor(permCount, isPriv);
+    return {
+      task:             row.task_description,
+      feature_area:     row.feature_area,
+      min_role:         row.min_role_name,
+      min_role_id:      row.min_role_id,
+      alt_roles:        safeParseJson(row.alt_role_ids as string, []),
+      source_url:       row.source_url,
+      is_privileged:    isPriv,
+      permission_count: permCount,
+      match_type:       matchType,
+      score:            baseScore * factor,
+      _permCount:       permCount,
+    };
+  });
+
+  // Primary: score DESC; secondary: permission_count ASC (least privilege wins ties)
+  scored.sort((a, b) =>
+    b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
+  );
+
+  const top10 = scored.slice(0, 10).map(({ _permCount: _p, ...rest }) => rest);
+  return json(top10);
 }
 
 async function handleRole(

@@ -1870,5 +1870,12 @@
     "min_role": "Authentication Policy Administrator",
     "alt_roles": [],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Reset a user multi-factor authentication registration",
+    "min_role": "Authentication Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   }
 ]

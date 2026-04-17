@@ -179,13 +179,14 @@ def push_roles(account_id: str, database_id: str, token: str,
     sql = (
         "INSERT INTO roles "
         "(id, display_name, description, is_privileged, is_built_in, "
-        "permissions, first_seen, last_updated) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
+        "permissions, permission_count, first_seen, last_updated) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT(id) DO UPDATE SET "
         "display_name=excluded.display_name, "
         "description=excluded.description, "
         "is_privileged=excluded.is_privileged, "
         "permissions=excluded.permissions, "
+        "permission_count=excluded.permission_count, "
         "last_updated=excluded.last_updated"
         # first_seen is intentionally NOT updated — preserved from first insert
     )
@@ -199,6 +200,7 @@ def push_roles(account_id: str, database_id: str, token: str,
                 1 if r.get("isPrivileged") else 0,
                 1 if r.get("isBuiltIn", True) else 0,
                 json.dumps(r.get("permissions", [])),
+                len(r.get("permissions", [])),
                 TODAY,   # first_seen — ignored on update by ON CONFLICT clause
                 NOW,     # last_updated — always refreshed
             ],
