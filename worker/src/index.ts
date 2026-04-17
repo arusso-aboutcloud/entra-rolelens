@@ -4,13 +4,47 @@ export interface Env {
 }
 
 // ---------------------------------------------------------------------------
-// Helpers
+// Constants
 // ---------------------------------------------------------------------------
 
 const STOP_WORDS = new Set([
   "a", "an", "the", "to", "for", "of", "in", "and", "or", "with", "how",
   "can", "i", "my", "is", "are", "do", "does", "what", "which", "who",
 ]);
+
+// Verbs that appear in almost every task — excluded from topic matching
+const GENERIC_VERBS = new Set([
+  "configure", "manage", "update", "create", "read", "view", "set", "add",
+  "remove", "delete", "enable", "disable", "get", "list", "show", "use",
+  "make", "change", "edit", "modify", "access", "allow", "block",
+]);
+
+// Clusters of related feature areas for affinity scoring
+const RELATED_AREAS: Record<string, string[]> = {
+  "Security - Authentication methods": [
+    "Authentication", "Temporary Access Pass",
+    "Multi-factor authentication", "Password Reset", "Identity Protection",
+  ],
+  "Agent Identity": [
+    "Enterprise applications", "Application management",
+  ],
+  "Backup and Recovery": [
+    "Directory", "Identity Governance",
+  ],
+  "Tenant Governance": [
+    "External collaboration", "Cross-tenant access",
+  ],
+  "Privileged Identity Management": [
+    "Roles and administrators", "Identity Governance",
+  ],
+  "Conditional Access": [
+    "Security - Authentication methods", "Identity Protection", "Named locations",
+  ],
+};
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 function extractKeywords(q: string): string[] {
   return [
@@ -33,6 +67,18 @@ function privilegeFactor(permCount: number, isPrivileged: boolean): number {
   else                       factor = 0.6;
   if (isPrivileged) factor *= 0.85;
   return factor;
+}
+
+function affinityFactor(
+  area: string,
+  dominantArea: string,
+): number {
+  if (area === dominantArea) return 2.0;
+  const related = RELATED_AREAS[dominantArea];
+  if (related) {
+    return related.includes(area) ? 1.5 : 0.3;
+  }
+  return 0.5; // dominant area not in map — mild penalty for off-topic
 }
 
 function json(body: unknown, status = 200): Response {
@@ -78,13 +124,18 @@ async function handleSearch(
   const keywords = extractKeywords(q);
   if (keywords.length === 0) return json([]);
 
-  const placeholders = keywords.map(() => "?").join(", ");
-  const kwCount = keywords.length;
+  // Improvement 1: split into topic (specific) vs generic verbs.
+  // SQL matching uses only topic keywords so that "configure" doesn't
+  // pollute results with unrelated tasks.
+  const topicKeywords = keywords.filter((k) => !GENERIC_VERBS.has(k));
+  const sqKeywords    = topicKeywords.length > 0 ? topicKeywords : keywords;
+  const sqPlaceholders = sqKeywords.map(() => "?").join(", ");
+  const sqCount = sqKeywords.length;
 
-  // Three parallel queries: phrase match, all-keywords, partial-keywords
+  // Three parallel queries: phrase match, all-keywords AND, partial OR
   const [phraseResult, fullKwResult, partialResult] = await Promise.all([
 
-    // Q1: exact phrase match in task description (highest base score)
+    // Q1: exact phrase match (always uses full query for best phrase recall)
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -97,7 +148,7 @@ async function handleSearch(
        LIMIT 5`
     ).bind(q).all(),
 
-    // Q2: all keywords present (AND semantics)
+    // Q2: all topic keywords present (AND semantics)
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -107,14 +158,14 @@ async function handleSearch(
        FROM task_search ts
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
-       WHERE ts.keyword IN (${placeholders})
+       WHERE ts.keyword IN (${sqPlaceholders})
        GROUP BY t.id
-       HAVING COUNT(DISTINCT ts.keyword) = ${kwCount}
+       HAVING COUNT(DISTINCT ts.keyword) = ${sqCount}
        ORDER BY base_score DESC
        LIMIT 5`
-    ).bind(...keywords).all(),
+    ).bind(...sqKeywords).all(),
 
-    // Q3: partial keyword match (OR semantics, existing behaviour)
+    // Q3: partial topic keyword match (OR semantics)
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -124,14 +175,14 @@ async function handleSearch(
        FROM task_search ts
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
-       WHERE ts.keyword IN (${placeholders})
+       WHERE ts.keyword IN (${sqPlaceholders})
        GROUP BY t.id
        ORDER BY base_score DESC
        LIMIT 10`
-    ).bind(...keywords).all(),
+    ).bind(...sqKeywords).all(),
   ]);
 
-  // Merge all three result sets, deduplicate by task id keeping highest base_score
+  // Merge all three result sets — deduplicate by task id, keep highest base_score
   type MatchType = "exact" | "full_keyword" | "partial";
   type Entry = { row: Record<string, unknown>; matchType: MatchType };
 
@@ -152,15 +203,16 @@ async function handleSearch(
   addRows((fullKwResult.results  ?? []) as Record<string, unknown>[], "full_keyword");
   addRows((partialResult.results ?? []) as Record<string, unknown>[], "partial");
 
-  // Apply privilege factor and compute final score
+  if (seen.size === 0) return json([]);
+
+  // Apply privilege factor and compute initial score
   const scored = [...seen.values()].map(({ row, matchType }) => {
     const permCount = safeParseJson(row.permissions as string, []).length;
     const isPriv    = row.is_privileged === 1;
     const baseScore = (row.base_score as number) ?? 0;
-    const factor    = privilegeFactor(permCount, isPriv);
     return {
       task:             row.task_description,
-      feature_area:     row.feature_area,
+      feature_area:     row.feature_area as string,
       min_role:         row.min_role_name,
       min_role_id:      row.min_role_id,
       alt_roles:        safeParseJson(row.alt_role_ids as string, []),
@@ -168,17 +220,34 @@ async function handleSearch(
       is_privileged:    isPriv,
       permission_count: permCount,
       match_type:       matchType,
-      score:            baseScore * factor,
+      score:            baseScore * privilegeFactor(permCount, isPriv),
       _permCount:       permCount,
     };
   });
 
-  // Primary: score DESC; secondary: permission_count ASC (least privilege wins ties)
+  // Sort by privilege-factored score to find dominant feature area
   scored.sort((a, b) =>
     b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
   );
 
-  const top10 = scored.slice(0, 10).map(({ _permCount: _p, ...rest }) => rest);
+  // Improvement 2: feature area affinity — boost results from the same
+  // domain as the top result, penalise off-topic results
+  const dominantArea = scored[0].feature_area;
+  for (const r of scored) {
+    r.score = r.score * affinityFactor(r.feature_area, dominantArea);
+  }
+
+  // Re-sort with affinity-adjusted scores
+  scored.sort((a, b) =>
+    b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
+  );
+
+  // Improvement 3: drop results below 15% of the top score
+  const topScore = scored[0].score;
+  const threshold = topScore * 0.15;
+  const filtered = scored.filter((r) => r.score >= threshold);
+
+  const top10 = filtered.slice(0, 10).map(({ _permCount: _p, ...rest }) => rest);
   return json(top10);
 }
 
