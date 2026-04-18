@@ -68,6 +68,23 @@ jobs:
           CLOUDFLARE_KV_NAMESPACE_ID: ${{ secrets.CLOUDFLARE_KV_NAMESPACE_ID }}
           D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
 
+      - name: Run pill integration tests
+        id: pill_tests
+        continue-on-error: true
+        run: python pipeline/test_pills.py
+        env:
+          WORKER_URL: https://rolelens-worker.russo-antonio76.workers.dev
+
+      - name: Open issue on pill regression
+        if: steps.pill_tests.outcome == 'failure'
+        run: |
+          gh issue create \
+            --title "Pill regression detected in nightly run $(date +%Y-%m-%d)" \
+            --body "The nightly pipeline detected that one or more documented pill queries no longer return the expected top result. Check the Actions log for the specific failures and investigate before the next deploy." \
+            --label "bug,pill-regression"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Commit and push data to master
         run: |
           git config user.name "github-actions[bot]"
