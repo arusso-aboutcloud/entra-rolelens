@@ -254,11 +254,21 @@ function applyAffinityAndScore(seen: Map<string, Entry>): unknown[] {
     b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
   );
 
-  // FIX 2: minimum threshold 5% (was 15%)
+  // Minimum threshold 5%
   const topScore  = scored[0].score;
   const threshold = topScore * 0.05;
+
+  // Explicit deduplication by task description — safety guard so the same
+  // task can never appear twice regardless of how tiers merged
+  const taskSeen = new Set<string>();
   return scored
-    .filter((r) => r.score >= threshold)
+    .filter((r) => {
+      if (r.score < threshold) return false;
+      const key = String(r.task ?? "");
+      if (taskSeen.has(key)) return false;
+      taskSeen.add(key);
+      return true;
+    })
     .slice(0, 10)
     .map(({ _permCount: _p, ...rest }) => rest);
 }
