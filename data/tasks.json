@@ -1945,14 +1945,19 @@
     "feature_area": "Enterprise applications",
     "task": "Manage enterprise application assignments and permissions",
     "min_role": "Application Administrator",
-    "alt_roles": ["Cloud Application Administrator"],
+    "alt_roles": [
+      "Cloud Application Administrator"
+    ],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
     "feature_area": "Application management",
     "task": "Create and manage application registrations",
     "min_role": "Application Administrator",
-    "alt_roles": ["Cloud Application Administrator", "Application Developer"],
+    "alt_roles": [
+      "Cloud Application Administrator",
+      "Application Developer"
+    ],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
@@ -1966,14 +1971,18 @@
     "feature_area": "Groups",
     "task": "Manage security groups",
     "min_role": "Groups Administrator",
-    "alt_roles": ["User Administrator"],
+    "alt_roles": [
+      "User Administrator"
+    ],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
     "feature_area": "Users",
     "task": "Reset user account password",
     "min_role": "Password Administrator",
-    "alt_roles": ["User Administrator"],
+    "alt_roles": [
+      "User Administrator"
+    ],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
