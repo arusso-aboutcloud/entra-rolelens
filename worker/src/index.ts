@@ -135,6 +135,7 @@ async function runKeywordTier(
        FROM tasks t
        JOIN roles r ON t.min_role_id = r.id
        WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
+         AND t.out_of_scope IS NULL
        LIMIT 5`
     ).bind(q).all(),
 
@@ -148,6 +149,7 @@ async function runKeywordTier(
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
        WHERE ts.keyword IN (${ph})
+         AND t.out_of_scope IS NULL
        GROUP BY t.id
        HAVING COUNT(DISTINCT ts.keyword) = ${count}
        ORDER BY base_score DESC
@@ -164,6 +166,7 @@ async function runKeywordTier(
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
        WHERE ts.keyword IN (${ph})
+         AND t.out_of_scope IS NULL
        GROUP BY t.id
        ORDER BY base_score DESC
        LIMIT 10`
@@ -211,8 +214,9 @@ async function runLikeTier(
        1 AS base_score
      FROM tasks t
      JOIN roles r ON t.min_role_id = r.id
-     WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
-        OR lower(t.feature_area)     LIKE '%' || lower(?1) || '%'
+     WHERE (lower(t.task_description) LIKE '%' || lower(?1) || '%'
+        OR lower(t.feature_area)     LIKE '%' || lower(?1) || '%')
+       AND t.out_of_scope IS NULL
      LIMIT 10`
   ).bind(likeKw).all();
 
