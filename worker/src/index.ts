@@ -189,15 +189,19 @@ async function runKeywordTier(
   return merged;
 }
 
-// LIKE-only fallback using the longest topic or overall keyword
+// LIKE-only fallback — uses longest meaningful topic keyword (≥5 chars),
+// falling back to the full query phrase if none qualifies.
+// This prevents short generic words like "access" from matching unrelated tasks.
 async function runLikeTier(
   env: Env,
   q: string,
   keywords: string[],
   topicKeywords: string[],
 ): Promise<Map<string, Entry>> {
-  const pool   = topicKeywords.length > 0 ? topicKeywords : keywords;
-  const likeKw = pool.reduce((a, b) => (a.length >= b.length ? a : b));
+  const meaningfulTopic = topicKeywords
+    .filter((k) => k.length >= 5)
+    .sort((a, b) => b.length - a.length);
+  const likeKw = meaningfulTopic[0] ?? q;
 
   const res = await env.DB.prepare(
     `SELECT t.id, t.task_description, t.feature_area,

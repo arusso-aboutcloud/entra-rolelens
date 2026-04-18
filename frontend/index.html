@@ -1307,6 +1307,9 @@
 
   // ── Synonym expansion ────────────────────────────────────────────────
   const SYNONYMS = {
+    // Short abbreviations that need synonym to bypass length gate
+    'ai':                      'ai administrator',
+
     // Identity & access
     'pim':                     'privileged identity management',
     'privileged identity':     'privileged identity management',
@@ -1330,6 +1333,7 @@
     'sspr':                    'self service password reset',
     'self-service password':   'self service password reset',
     'password reset':          'self service password reset',
+    'reset user password':     'reset user account password',
     'tap':                     'temporary access pass',
     'temporary access pass':   'temporary access pass',
     'windows hello':           'passwordless authentication',
@@ -1359,6 +1363,7 @@
 
     // Applications & service principals
     'app registration':        'application registration',
+    'app registrations':       'application registration',
     'app reg':                 'application registration',
     'service principal':       'enterprise application service principal',
     'sp':                      'service principal enterprise application',
@@ -1374,6 +1379,8 @@
     'elm':                     'entitlement management',
     'entitlement':             'entitlement management access package',
     'access package':          'entitlement management access package',
+    'access packages':         'entitlement management access package',
+    'manage access packages':  'entitlement management access package',
     'access review':           'access reviews',
     'lifecycle':               'lifecycle workflows identity governance',
     'identity governance':     'entitlement management access reviews',
@@ -1412,6 +1419,7 @@
     'scoped admin':            'administrative unit',
     'au':                      'administrative unit',
     'bulk user':               'bulk create import users',
+    'manage groups':           'manage security groups',
     'dynamic group':           'dynamic membership group',
     'dynamic membership':      'dynamic membership group',
     'license':                 'license assignment',

@@ -1912,5 +1912,82 @@
     "min_role": "Privileged Role Administrator",
     "alt_roles": [],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Identity Governance",
+    "task": "Create and manage access packages",
+    "min_role": "Identity Governance Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Identity Governance",
+    "task": "Manage entitlement management catalogs",
+    "min_role": "Identity Governance Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Identity Governance",
+    "task": "Manage access reviews",
+    "min_role": "Identity Governance Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Conditional Access",
+    "task": "Manage named locations for conditional access",
+    "min_role": "Conditional Access Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Enterprise applications",
+    "task": "Manage enterprise application assignments and permissions",
+    "min_role": "Application Administrator",
+    "alt_roles": ["Cloud Application Administrator"],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Application management",
+    "task": "Create and manage application registrations",
+    "min_role": "Application Administrator",
+    "alt_roles": ["Cloud Application Administrator", "Application Developer"],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Application management",
+    "task": "Create own application registrations when user setting is disabled",
+    "min_role": "Application Developer",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Manage security groups",
+    "min_role": "Groups Administrator",
+    "alt_roles": ["User Administrator"],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset user account password",
+    "min_role": "Password Administrator",
+    "alt_roles": ["User Administrator"],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure self-service password reset",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Agent Identity",
+    "task": "Manage Copilot and AI governance",
+    "min_role": "AI Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   }
 ]
