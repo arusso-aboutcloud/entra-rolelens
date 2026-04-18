@@ -69,16 +69,14 @@ function privilegeFactor(permCount: number, isPrivileged: boolean): number {
   return factor;
 }
 
-function affinityFactor(
-  area: string,
-  dominantArea: string,
-): number {
+function affinityFactor(area: string, dominantArea: string): number {
   if (area === dominantArea) return 2.0;
   const related = RELATED_AREAS[dominantArea];
   if (related) {
-    return related.includes(area) ? 1.5 : 0.3;
+    // FIX 3: soften off-topic penalty from 0.3 → 0.6
+    return related.includes(area) ? 1.5 : 0.6;
   }
-  return 0.5; // dominant area not in map — mild penalty for off-topic
+  return 0.5; // dominant area not in map — mild penalty
 }
 
 function json(body: unknown, status = 200): Response {
@@ -111,31 +109,23 @@ function badRequest(msg: string): Response {
 }
 
 // ---------------------------------------------------------------------------
-// Route handlers
+// Search helpers
 // ---------------------------------------------------------------------------
 
-async function handleSearch(
-  url: URL,
-  env: Env
-): Promise<Response> {
-  const q = url.searchParams.get("q")?.trim() ?? "";
-  if (!q) return badRequest("Missing or empty query parameter: q");
+type MatchType = "exact" | "full_keyword" | "partial";
+type Entry = { row: Record<string, unknown>; matchType: MatchType };
 
-  const keywords = extractKeywords(q);
-  if (keywords.length === 0) return json([]);
+// Run all three keyword queries (phrase, full-AND, partial-OR) in parallel
+// and merge into a deduped map keyed by task id.
+async function runKeywordTier(
+  env: Env,
+  q: string,
+  kws: string[],
+): Promise<Map<string, Entry>> {
+  const ph    = kws.map(() => "?").join(", ");
+  const count = kws.length;
 
-  // Improvement 1: split into topic (specific) vs generic verbs.
-  // SQL matching uses only topic keywords so that "configure" doesn't
-  // pollute results with unrelated tasks.
-  const topicKeywords = keywords.filter((k) => !GENERIC_VERBS.has(k));
-  const sqKeywords    = topicKeywords.length > 0 ? topicKeywords : keywords;
-  const sqPlaceholders = sqKeywords.map(() => "?").join(", ");
-  const sqCount = sqKeywords.length;
-
-  // Three parallel queries: phrase match, all-keywords AND, partial OR
-  const [phraseResult, fullKwResult, partialResult] = await Promise.all([
-
-    // Q1: exact phrase match (always uses full query for best phrase recall)
+  const [phraseRes, fullRes, partialRes] = await Promise.all([
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -148,7 +138,6 @@ async function handleSearch(
        LIMIT 5`
     ).bind(q).all(),
 
-    // Q2: all topic keywords present (AND semantics)
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -158,14 +147,13 @@ async function handleSearch(
        FROM task_search ts
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
-       WHERE ts.keyword IN (${sqPlaceholders})
+       WHERE ts.keyword IN (${ph})
        GROUP BY t.id
-       HAVING COUNT(DISTINCT ts.keyword) = ${sqCount}
+       HAVING COUNT(DISTINCT ts.keyword) = ${count}
        ORDER BY base_score DESC
        LIMIT 5`
-    ).bind(...sqKeywords).all(),
+    ).bind(...kws).all(),
 
-    // Q3: partial topic keyword match (OR semantics)
     env.DB.prepare(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
@@ -175,37 +163,63 @@ async function handleSearch(
        FROM task_search ts
        JOIN tasks t ON ts.task_id = t.id
        JOIN roles r ON t.min_role_id = r.id
-       WHERE ts.keyword IN (${sqPlaceholders})
+       WHERE ts.keyword IN (${ph})
        GROUP BY t.id
        ORDER BY base_score DESC
        LIMIT 10`
-    ).bind(...sqKeywords).all(),
+    ).bind(...kws).all(),
   ]);
 
-  // Merge all three result sets — deduplicate by task id, keep highest base_score
-  type MatchType = "exact" | "full_keyword" | "partial";
-  type Entry = { row: Record<string, unknown>; matchType: MatchType };
-
-  const seen = new Map<string, Entry>();
-
-  const addRows = (rows: Record<string, unknown>[], matchType: MatchType) => {
+  const merged = new Map<string, Entry>();
+  const add = (rows: Record<string, unknown>[], matchType: MatchType) => {
     for (const row of rows) {
-      const id = row.id as string;
+      const id    = row.id as string;
       const score = (row.base_score as number) ?? 0;
-      const existing = seen.get(id);
+      const existing = merged.get(id);
       if (!existing || score > ((existing.row.base_score as number) ?? 0)) {
-        seen.set(id, { row, matchType });
+        merged.set(id, { row, matchType });
       }
     }
   };
 
-  addRows((phraseResult.results  ?? []) as Record<string, unknown>[], "exact");
-  addRows((fullKwResult.results  ?? []) as Record<string, unknown>[], "full_keyword");
-  addRows((partialResult.results ?? []) as Record<string, unknown>[], "partial");
+  add((phraseRes.results  ?? []) as Record<string, unknown>[], "exact");
+  add((fullRes.results    ?? []) as Record<string, unknown>[], "full_keyword");
+  add((partialRes.results ?? []) as Record<string, unknown>[], "partial");
 
-  if (seen.size === 0) return json([]);
+  return merged;
+}
 
-  // Apply privilege factor and compute initial score
+// LIKE-only fallback using the longest topic or overall keyword
+async function runLikeTier(
+  env: Env,
+  q: string,
+  keywords: string[],
+  topicKeywords: string[],
+): Promise<Map<string, Entry>> {
+  const pool   = topicKeywords.length > 0 ? topicKeywords : keywords;
+  const likeKw = pool.reduce((a, b) => (a.length >= b.length ? a : b));
+
+  const res = await env.DB.prepare(
+    `SELECT t.id, t.task_description, t.feature_area,
+       t.alt_role_ids, t.source_url,
+       r.id AS min_role_id, r.display_name AS min_role_name,
+       r.is_privileged, r.permissions,
+       1 AS base_score
+     FROM tasks t
+     JOIN roles r ON t.min_role_id = r.id
+     WHERE lower(t.task_description) LIKE '%' || lower(?1) || '%'
+        OR lower(t.feature_area)     LIKE '%' || lower(?1) || '%'
+     LIMIT 10`
+  ).bind(likeKw).all();
+
+  const merged = new Map<string, Entry>();
+  for (const row of (res.results ?? []) as Record<string, unknown>[]) {
+    merged.set(row.id as string, { row, matchType: "partial" });
+  }
+  return merged;
+}
+
+function applyAffinityAndScore(seen: Map<string, Entry>): unknown[] {
   const scored = [...seen.values()].map(({ row, matchType }) => {
     const permCount = safeParseJson(row.permissions as string, []).length;
     const isPriv    = row.is_privileged === 1;
@@ -225,36 +239,64 @@ async function handleSearch(
     };
   });
 
-  // Sort by privilege-factored score to find dominant feature area
+  // First sort determines dominant feature area
   scored.sort((a, b) =>
     b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
   );
 
-  // Improvement 2: feature area affinity — boost results from the same
-  // domain as the top result, penalise off-topic results
   const dominantArea = scored[0].feature_area;
   for (const r of scored) {
     r.score = r.score * affinityFactor(r.feature_area, dominantArea);
   }
 
-  // Re-sort with affinity-adjusted scores
+  // Re-sort after affinity
   scored.sort((a, b) =>
     b.score !== a.score ? b.score - a.score : a._permCount - b._permCount
   );
 
-  // Improvement 3: drop results below 15% of the top score
-  const topScore = scored[0].score;
-  const threshold = topScore * 0.15;
-  const filtered = scored.filter((r) => r.score >= threshold);
-
-  const top10 = filtered.slice(0, 10).map(({ _permCount: _p, ...rest }) => rest);
-  return json(top10);
+  // FIX 2: minimum threshold 5% (was 15%)
+  const topScore  = scored[0].score;
+  const threshold = topScore * 0.05;
+  return scored
+    .filter((r) => r.score >= threshold)
+    .slice(0, 10)
+    .map(({ _permCount: _p, ...rest }) => rest);
 }
 
-async function handleRole(
-  roleId: string,
-  env: Env
-): Promise<Response> {
+// ---------------------------------------------------------------------------
+// Route handlers
+// ---------------------------------------------------------------------------
+
+async function handleSearch(url: URL, env: Env): Promise<Response> {
+  const q = url.searchParams.get("q")?.trim() ?? "";
+  if (!q) return badRequest("Missing or empty query parameter: q");
+
+  const keywords = extractKeywords(q);
+  if (keywords.length === 0) return json([]);
+
+  const topicKeywords = keywords.filter((k) => !GENERIC_VERBS.has(k));
+  const sqKeywords    = topicKeywords.length > 0 ? topicKeywords : keywords;
+
+  // FIX 1 — Three-tier fallback:
+  // Tier 1: topic keywords only (precise, avoids "configure" noise)
+  const tier1 = await runKeywordTier(env, q, sqKeywords);
+  if (tier1.size > 0) return json(applyAffinityAndScore(tier1));
+
+  // Tier 2: all keywords including generic verbs (only runs if tier 1 empty
+  //         AND there are generic verbs that were stripped)
+  if (topicKeywords.length < keywords.length) {
+    const tier2 = await runKeywordTier(env, q, keywords);
+    if (tier2.size > 0) return json(applyAffinityAndScore(tier2));
+  }
+
+  // Tier 3: LIKE fallback on longest topic/overall keyword
+  const tier3 = await runLikeTier(env, q, keywords, topicKeywords);
+  if (tier3.size > 0) return json(applyAffinityAndScore(tier3));
+
+  return json([]);
+}
+
+async function handleRole(roleId: string, env: Env): Promise<Response> {
   const row = await env.DB.prepare(
     `SELECT id, display_name, description, is_privileged, is_built_in,
             permissions, first_seen, last_updated
@@ -277,10 +319,7 @@ async function handleRole(
   });
 }
 
-async function handleDiff(
-  url: URL,
-  env: Env
-): Promise<Response> {
+async function handleDiff(url: URL, env: Env): Promise<Response> {
   const a = url.searchParams.get("a")?.trim() ?? "";
   const b = url.searchParams.get("b")?.trim() ?? "";
   if (!a || !b) return badRequest("Missing params: a and b (role display names)");
@@ -335,29 +374,26 @@ async function handleRoles(env: Env): Promise<Response> {
      ORDER BY display_name ASC`
   ).all();
 
-  const rows = (result.results ?? []).map((r) => ({
-    id: r.id,
-    display_name: r.display_name,
-    is_privileged: r.is_privileged === 1,
-  }));
-
-  return json(rows);
+  return json(
+    (result.results ?? []).map((r) => ({
+      id: r.id,
+      display_name: r.display_name,
+      is_privileged: r.is_privileged === 1,
+    }))
+  );
 }
 
 async function handleStatus(env: Env): Promise<Response> {
   const value = await env.KV.get("pipeline_status");
   if (value === null) {
-    return new Response(
-      JSON.stringify({ error: "Pipeline status unavailable" }),
-      {
-        status: 503,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "no-store",
-        },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Pipeline status unavailable" }), {
+      status: 503,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store",
+      },
+    });
   }
   return new Response(value, {
     status: 200,
@@ -390,7 +426,7 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method === "OPTIONS") return corsOptions();
 
-    const url = new URL(request.url);
+    const url  = new URL(request.url);
     const path = url.pathname;
 
     if (path === "/api/status") return handleStatus(env);
