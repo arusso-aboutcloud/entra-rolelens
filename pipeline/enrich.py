@@ -21,6 +21,28 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Tasks scraped from Microsoft Learn sometimes reference Azure RBAC roles
+# (Owner, Contributor, Reader) or non-role values. These aren't Entra
+# directory roles and should be tagged out_of_scope rather than dropped.
+AZURE_RBAC_ROLES = {
+    "owner",
+    "contributor",
+    "reader",
+    "user access administrator",
+    "reader on azure subscription containing ad ds service",
+}
+NON_ROLE_VALUES = {
+    "all non-guest users",
+    "all users",
+    "any user",
+    # Object/implicit roles — not Entra directory roles
+    "default user role",
+    "enterprise application owner",
+    "group owner",
+    "group member",
+    "aad dc administrators group",
+}
+
 GRAPH_ROLES_PATH = Path(__file__).parent.parent / "data" / "roles_graph_raw.json"
 DOCS_ROLES_PATH  = Path(__file__).parent.parent / "data" / "roles.json"
 TASKS_PATH       = Path(__file__).parent.parent / "data" / "tasks.json"
@@ -103,16 +125,35 @@ def enrich_tasks(tasks: list[dict], role_index: dict) -> tuple[list[dict], int]:
     unmatched: set[str] = set()
 
     for task in tasks:
-        role = role_index.get(task["min_role"].lower())
+        min_role_raw   = task["min_role"]
+        min_role_lower = min_role_raw.lower()
+        role = role_index.get(min_role_lower)
         enriched_task = dict(task)
+
         if role:
-            enriched_task["role_id"]      = role["id"]
+            # Normal case: resolved to an Entra directory role
+            enriched_task["role_id"]       = role["id"]
             enriched_task["is_privileged"] = role["isPrivileged"]
+            enriched_task["out_of_scope"]  = None
             matched += 1
-        else:
-            enriched_task["role_id"]      = None
+        elif min_role_lower in AZURE_RBAC_ROLES:
+            # Task requires Azure RBAC (not Entra) — tag explicitly
+            enriched_task["role_id"]       = None
             enriched_task["is_privileged"] = None
-            unmatched.add(task["min_role"])
+            enriched_task["out_of_scope"]  = "azure_rbac"
+            enriched_task["out_of_scope_role"] = min_role_raw
+        elif min_role_lower in NON_ROLE_VALUES:
+            # Task reference isn't a role at all — tag as informational
+            enriched_task["role_id"]       = None
+            enriched_task["is_privileged"] = None
+            enriched_task["out_of_scope"]  = "not_a_role"
+            enriched_task["out_of_scope_role"] = min_role_raw
+        else:
+            # Genuinely unexpected — warn for investigation
+            enriched_task["role_id"]       = None
+            enriched_task["is_privileged"] = None
+            enriched_task["out_of_scope"]  = None
+            unmatched.add(min_role_raw)
         enriched.append(enriched_task)
 
     for name in sorted(unmatched):

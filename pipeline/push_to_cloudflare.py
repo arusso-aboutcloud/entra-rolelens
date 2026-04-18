@@ -220,11 +220,16 @@ def push_tasks(account_id: str, database_id: str, token: str,
     role_index: displayName.lower() -> id (GUID)
     Only tasks with a resolvable min_role_id are inserted (NOT NULL constraint).
     """
-    valid = [t for t in tasks if t.get("role_id")]
-    skipped = len(tasks) - len(valid)
-    if skipped:
-        print(f"  Skipping {skipped} tasks with no role_id (non-built-in min_role)")
+    in_scope     = [t for t in tasks if t.get("role_id")]
+    out_of_scope = [t for t in tasks if not t.get("role_id") and t.get("out_of_scope")]
+    dropped      = [t for t in tasks
+                    if not t.get("role_id") and not t.get("out_of_scope")]
+    if dropped:
+        print(f"  Dropping {len(dropped)} tasks with unrecognised min_role "
+              f"(investigate: {sorted({t['min_role'] for t in dropped})[:5]})")
+    print(f"  In-scope tasks: {len(in_scope)} | Out-of-scope (Azure RBAC/non-role): {len(out_of_scope)}")
 
+    valid = in_scope + out_of_scope
     print(f"Replacing {len(valid)} tasks in D1...")
 
     # Delete all existing tasks (task_search cascades)
@@ -233,8 +238,8 @@ def push_tasks(account_id: str, database_id: str, token: str,
     sql = (
         "INSERT INTO tasks "
         "(feature_area, task_description, min_role_id, alt_role_ids, "
-        "source_url, last_verified) "
-        "VALUES (?, ?, ?, ?, ?, ?)"
+        "source_url, last_verified, out_of_scope, out_of_scope_role) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     )
 
     def resolve_guids(names: list[str]) -> list[str]:
@@ -247,10 +252,12 @@ def push_tasks(account_id: str, database_id: str, token: str,
             "params": [
                 t["feature_area"],
                 t["task"],                              # our field name
-                t["role_id"],                           # already a GUID
+                t.get("role_id"),                       # may be None for out-of-scope
                 json.dumps(resolve_guids(t.get("alt_roles", []))),
                 t.get("source_url", ""),
                 TODAY,
+                t.get("out_of_scope"),
+                t.get("out_of_scope_role"),
             ],
         }
         for t in valid
