@@ -72,9 +72,8 @@ def scrape(html: str) -> tuple[list[dict], set[str]]:
     tasks = []
     feature_areas_seen = set()
 
-    # The page has two div.content elements; pick the one with the most tables
-    candidates = soup.find_all("div", class_="content")
-    content = max(candidates, key=lambda d: len(d.find_all("table"))) if candidates else soup
+    # Target the primary content container
+    content = soup.find("main") or soup.find("div", id="main-column") or soup
 
     for h2 in content.find_all("h2"):
         heading_raw = h2.get_text(strip=True)
@@ -85,6 +84,7 @@ def scrape(html: str) -> tuple[list[dict], set[str]]:
         if not feature_area:
             continue
 
+        # Locate the table following the heading
         table = None
         for sibling in h2.find_next_siblings():
             if sibling.name == "table":
@@ -101,32 +101,59 @@ def scrape(html: str) -> tuple[list[dict], set[str]]:
             continue
 
         feature_areas_seen.add(feature_area)
+        
+        # 1. Identify Column Indices dynamically from headers
+        headers = [th.get_text(strip=True).lower() for th in table.find_all("th")]
+        try:
+            task_idx = next(i for i, h in enumerate(headers) if "task" in h)
+            role_idx = next(i for i, h in enumerate(headers) if "least privileged" in h)
+        except StopIteration:
+            # Fallback for tables without standard headers
+            task_idx, role_idx = 0, 1
+
+        last_task_text = ""  # For handling rowspan/inherited tasks
+        
         tbody = table.find("tbody")
         rows = tbody.find_all("tr") if tbody else table.find_all("tr")[1:]
 
         for row in rows:
-            cols = row.find_all("td")
-            if len(cols) < 2:
+            cols = row.find_all(["td", "th"])
+            if not cols:
                 continue
 
-            task_text = cell_text(cols[0])
-            if not task_text:
+            # 2. Handle Rowspan / Missing Task Column
+            # If the row has fewer cells than columns, the first cell is likely the role
+            if len(cols) < len(headers):
+                task_text = last_task_text
+                # If we are missing the task col, role is shifted
+                effective_role_idx = role_idx - 1 
+            else:
+                task_text = cell_text(cols[task_idx])
+                last_task_text = task_text
+                effective_role_idx = role_idx
+
+            if not task_text or task_text.lower() == "task":
                 continue
 
-            min_roles = cell_roles(cols[1])
-            min_role = min_roles[0] if min_roles else ""
-            if not min_role:
-                continue
+            # 3. Extract Role and Alt Roles
+            if effective_role_idx < len(cols):
+                min_roles = cell_roles(cols[effective_role_idx])
+                min_role = min_roles[0] if min_roles else ""
+                
+                if not min_role:
+                    continue
 
-            alt_roles = cell_roles(cols[2]) if len(cols) > 2 else []
+                # Alt roles are typically the next column after 'Least Privileged'
+                alt_idx = effective_role_idx + 1
+                alt_roles = cell_roles(cols[alt_idx]) if alt_idx < len(cols) else []
 
-            tasks.append({
-                "feature_area": feature_area,
-                "task": task_text,
-                "min_role": min_role,
-                "alt_roles": alt_roles,
-                "source_url": SOURCE_URL,
-            })
+                tasks.append({
+                    "feature_area": feature_area,
+                    "task": task_text,
+                    "min_role": min_role,
+                    "alt_roles": alt_roles,
+                    "source_url": SOURCE_URL,
+                })
 
     return tasks, feature_areas_seen
 
