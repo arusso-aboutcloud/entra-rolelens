@@ -15,6 +15,9 @@ permissions:
   contents: write
   models: read          # GitHub Copilot / GitHub Models — no extra secret needed
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
