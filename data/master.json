@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-22T07:12:11.450614+00:00",
+  "generated_at": "2026-04-22T07:14:13.431831+00:00",
   "role_count": 143,
-  "task_count": 235,
+  "task_count": 237,
   "shadow_role_count": 13,
   "roles": [
     {
@@ -6115,6 +6115,28 @@
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
       "role_id": "d2562ede-74db-457e-a7b6-544e236ebb61",
       "is_privileged": true,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Security - Authentication methods",
+      "task": "Configure passkeys and FIDO2 authentication methods",
+      "min_role": "Authentication Policy Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
+      "is_privileged": false,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Administrative units",
+      "task": "Manage administrative units and member assignments",
+      "min_role": "Groups Administrator",
+      "alt_roles": [
+        "Privileged Role Administrator"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
+      "is_privileged": false,
       "out_of_scope": null
     }
   ]
