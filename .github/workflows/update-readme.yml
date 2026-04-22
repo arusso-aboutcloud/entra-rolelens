@@ -1,15 +1,17 @@
 name: Update README on Release
 
 on:
-  # Trigger on version tag push (e.g. v1.0.0, v2.1.3)
   push:
     tags:
       - 'v*'
-  # Also allow manual trigger with optional version label
   workflow_dispatch:
     inputs:
       version_label:
         description: 'Version label (e.g. v1.2.0) — leave blank to auto-detect'
+        required: false
+        default: ''
+      ai_engine:
+        description: 'AI engine override: openai | anthropic (leave blank to use repo variable)'
         required: false
         default: ''
 
@@ -25,7 +27,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0          # full history so we can read git log
+          fetch-depth: 0
 
       # ── 2. Resolve version ─────────────────────────────────────────────────
       - name: Resolve version label
@@ -36,210 +38,212 @@ jobs:
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             VERSION="${GITHUB_REF##*/}"
           else
-            # Fallback: use short SHA
             VERSION="$(git rev-parse --short HEAD)"
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Resolved version: $VERSION"
 
-      # ── 3. Gather live stats from Cloudflare Worker ────────────────────────
+      # ── 3. Resolve AI engine ───────────────────────────────────────────────
+      # Priority: manual input > repo variable README_AI_ENGINE > default (openai)
+      - name: Resolve AI engine
+        id: engine
+        run: |
+          MANUAL="${{ github.event.inputs.ai_engine }}"
+          REPO_VAR="${{ vars.README_AI_ENGINE }}"   # set via Settings → Variables
+          ENGINE="${MANUAL:-${REPO_VAR:-openai}}"
+          ENGINE=$(echo "$ENGINE" | tr '[:upper:]' '[:lower:]')
+          echo "ENGINE=$ENGINE" >> "$GITHUB_OUTPUT"
+          echo "Using AI engine: $ENGINE"
+
+      # ── 4. Fetch live stats ────────────────────────────────────────────────
       - name: Fetch live stats from Worker API
         id: stats
         run: |
           WORKER_URL="https://rolelens-worker.russo-antonio76.workers.dev/api/status"
           RESPONSE=$(curl -sf "$WORKER_URL" || echo '{}')
-          ROLE_COUNT=$(echo "$RESPONSE"    | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('role_count','?'))"  2>/dev/null || echo "?")
-          TASK_COUNT=$(echo "$RESPONSE"    | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('task_count','?'))"  2>/dev/null || echo "?")
-          SHADOW_COUNT=$(echo "$RESPONSE"  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('shadow_role_count','?'))" 2>/dev/null || echo "?")
+          ROLE_COUNT=$(echo "$RESPONSE"   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('role_count','?'))"        2>/dev/null || echo "?")
+          TASK_COUNT=$(echo "$RESPONSE"   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('task_count','?'))"        2>/dev/null || echo "?")
+          SHADOW_COUNT=$(echo "$RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('shadow_role_count','?'))" 2>/dev/null || echo "?")
           echo "ROLE_COUNT=$ROLE_COUNT"     >> "$GITHUB_OUTPUT"
           echo "TASK_COUNT=$TASK_COUNT"     >> "$GITHUB_OUTPUT"
           echo "SHADOW_COUNT=$SHADOW_COUNT" >> "$GITHUB_OUTPUT"
           echo "Stats → roles=$ROLE_COUNT  tasks=$TASK_COUNT  shadow=$SHADOW_COUNT"
 
-      # ── 4. Collect code-level context ─────────────────────────────────────
+      # ── 5. Collect code context ────────────────────────────────────────────
       - name: Collect code context for AI
-        id: context
         run: |
-          # Worker routes (first 120 lines covers all route definitions)
-          WORKER_SNIPPET=$(head -120 worker/src/index.ts 2>/dev/null || echo "not found")
+          head -120 worker/src/index.ts 2>/dev/null > /tmp/worker_snippet.txt || echo "not found" > /tmp/worker_snippet.txt
 
-          # Pipeline script list + their first docstring/comment
           PIPELINE_SUMMARY=""
           for f in pipeline/*.py; do
             SCRIPT=$(basename "$f")
             DOCLINE=$(grep -m1 '"""' "$f" | tr -d '"' | xargs 2>/dev/null || head -2 "$f" | tail -1 | tr -d '#' | xargs)
             PIPELINE_SUMMARY="${PIPELINE_SUMMARY}\n- ${SCRIPT}: ${DOCLINE}"
           done
-
-          # Recent git log (last 15 commits, skip nightly data commits)
-          GIT_LOG=$(git log --oneline --no-merges -20 \
-            --invert-grep --grep="\[skip ci\]" \
-            --pretty=format:"- %s (%ad)" --date=short 2>/dev/null | head -15)
-
-          # Write to temp files (avoids env-var size limits)
-          echo "$WORKER_SNIPPET"     > /tmp/worker_snippet.txt
           printf "$PIPELINE_SUMMARY" > /tmp/pipeline_summary.txt
-          echo "$GIT_LOG"            > /tmp/git_log.txt
+
+          git log --oneline --no-merges -20 \
+            --invert-grep --grep="\[skip ci\]" \
+            --pretty=format:"- %s (%ad)" --date=short 2>/dev/null | head -15 > /tmp/git_log.txt
+
           echo "context files written"
 
-      # ── 5. Generate updated README sections with AI ───────────────────────
+      # ── 6. Generate README sections (engine-aware) ─────────────────────────
       - name: Generate updated README sections
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          VERSION: ${{ steps.version.outputs.VERSION }}
-          ROLE_COUNT: ${{ steps.stats.outputs.ROLE_COUNT }}
-          TASK_COUNT: ${{ steps.stats.outputs.TASK_COUNT }}
-          SHADOW_COUNT: ${{ steps.stats.outputs.SHADOW_COUNT }}
+          ENGINE:            ${{ steps.engine.outputs.ENGINE }}
+          OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          VERSION:           ${{ steps.version.outputs.VERSION }}
+          ROLE_COUNT:        ${{ steps.stats.outputs.ROLE_COUNT }}
+          TASK_COUNT:        ${{ steps.stats.outputs.TASK_COUNT }}
+          SHADOW_COUNT:      ${{ steps.stats.outputs.SHADOW_COUNT }}
         run: |
-          pip install openai --quiet
+          pip install openai anthropic --quiet
 
           python3 << 'PYEOF'
-          import os, json, re
-          from openai import OpenAI
+          import os, re, datetime
 
-          client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-
+          engine       = os.environ.get("ENGINE", "openai")
           version      = os.environ.get("VERSION", "unknown")
           role_count   = os.environ.get("ROLE_COUNT", "?")
           task_count   = os.environ.get("TASK_COUNT", "?")
           shadow_count = os.environ.get("SHADOW_COUNT", "?")
-          release_date = __import__("datetime").date.today().isoformat()
+          release_date = datetime.date.today().isoformat()
 
           worker_snippet   = open("/tmp/worker_snippet.txt").read()[:3000]
           pipeline_summary = open("/tmp/pipeline_summary.txt").read()[:1500]
           git_log          = open("/tmp/git_log.txt").read()[:1500]
+          readme           = open("README.md").read()
 
-          readme = open("README.md").read()
+          prompt = f"""You are a technical writer maintaining the README for Entra RoleLens.
+The project is a zero-cost Cloudflare-hosted tool that maps Entra ID tasks to minimum
+built-in roles, detects shadow/unlisted roles, and keeps data fresh via a nightly
+passwordless OIDC pipeline.
 
-          # ── Prompt ──────────────────────────────────────────────────────────
-          prompt = f"""
-          You are a technical writer maintaining the README for Entra RoleLens.
-          The project is a zero-cost Cloudflare-hosted tool that maps Entra ID tasks to
-          minimum built-in roles, detects shadow/unlisted roles, and keeps data fresh via a
-          nightly passwordless OIDC pipeline.
+## Current live stats (from Worker /api/status)
+- Roles: {role_count}
+- Tasks: {task_count}
+- Shadow (unlisted) roles: {shadow_count}
 
-          ## Current live stats (from Worker /api/status)
-          - Roles: {role_count}
-          - Tasks: {task_count}
-          - Shadow (unlisted) roles: {shadow_count}
+## Release being documented
+Version: {version}
+Date: {release_date}
 
-          ## Release being documented
-          Version: {version}
-          Date: {release_date}
+## Recent commits (non-data)
+{git_log}
 
-          ## Recent commits (non-data)
-          {git_log}
+## Worker routes (index.ts, first 120 lines)
+{worker_snippet}
 
-          ## Worker routes (index.ts, first 120 lines)
-          {worker_snippet}
+## Pipeline scripts
+{pipeline_summary}
 
-          ## Pipeline scripts
-          {pipeline_summary}
+## Current README (for context — do NOT reproduce in full)
+{readme[:8000]}
 
-          ## Current README (for context — do NOT reproduce in full)
-          {readme[:8000]}
+---
 
-          ---
+Your tasks:
 
-          Your tasks:
+1. **WHATS_NEW block** — Write 3–6 bullet points summarising what changed in this
+   release. Base them on the git log. Each bullet: one line, starts with a verb,
+   no filler. Wrap output in:
+   <!-- WHATS_NEW_START -->
+   ...bullets...
+   <!-- WHATS_NEW_END -->
 
-          1. **WHATS_NEW block** — Write 3–6 bullet points summarising what changed in this
-             release. Base them on the git log. Each bullet: one line, starts with a verb,
-             no filler. Return ONLY the bullet content (no markers, no outer section header).
-             Wrap output in:
-             <!-- WHATS_NEW_START -->
-             ...bullets...
-             <!-- WHATS_NEW_END -->
+2. **Data quality block** — Rewrite the "Data quality" section bullets using the
+   live stats above to replace hardcoded numbers. Keep the same 5-bullet structure.
+   Wrap in:
+   <!-- DATA_QUALITY_START -->
+   ...bullets...
+   <!-- DATA_QUALITY_END -->
 
-          2. **Data quality block** — Rewrite the "Data quality" section body ONLY using the
-             live stats above to replace hardcoded numbers (roles, tasks, shadow roles).
-             Keep the same 5-bullet structure. Return ONLY the updated bullet lines.
-             Wrap in:
-             <!-- DATA_QUALITY_START -->
-             ...bullets...
-             <!-- DATA_QUALITY_END -->
+Return BOTH blocks and nothing else."""
 
-          Return BOTH blocks, nothing else.
-          """
+          # ── OpenAI ──────────────────────────────────────────────────────────
+          if engine == "openai":
+              from openai import OpenAI
+              client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+              resp = client.chat.completions.create(
+                  model="gpt-4o-mini",
+                  messages=[{"role": "user", "content": prompt}],
+                  temperature=0.3,
+                  max_tokens=800,
+              )
+              output = resp.choices[0].message.content
 
-          resp = client.chat.completions.create(
-              model="gpt-4o-mini",
-              messages=[{"role": "user", "content": prompt}],
-              temperature=0.3,
-              max_tokens=800,
-          )
+          # ── Anthropic (Claude) ───────────────────────────────────────────────
+          elif engine == "anthropic":
+              import anthropic
+              client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+              resp = client.messages.create(
+                  model="claude-3-5-haiku-20241022",   # fast + cheap; swap to claude-opus-4-5 for higher quality
+                  max_tokens=800,
+                  messages=[{"role": "user", "content": prompt}],
+              )
+              output = resp.content[0].text
 
-          output = resp.choices[0].message.content
-          print("=== AI OUTPUT ===")
+          else:
+              raise ValueError(f"Unknown engine: {engine}. Use 'openai' or 'anthropic'.")
+
+          print(f"=== AI OUTPUT ({engine}) ===")
           print(output)
-          print("=================")
+          print("=" * 30)
           open("/tmp/ai_output.txt", "w").write(output)
           PYEOF
 
-      # ── 6. Patch README ───────────────────────────────────────────────────
+      # ── 7. Patch README ────────────────────────────────────────────────────
       - name: Patch README with AI output
-        env:
-          VERSION: ${{ steps.version.outputs.VERSION }}
-          ROLE_COUNT: ${{ steps.stats.outputs.ROLE_COUNT }}
-          TASK_COUNT: ${{ steps.stats.outputs.TASK_COUNT }}
         run: |
           python3 << 'PYEOF'
-          import re, os
+          import re
 
           ai_output = open("/tmp/ai_output.txt").read()
           readme    = open("README.md").read()
 
-          # ── Extract WHATS_NEW block ────────────────────────────────────────
-          wn_match = re.search(
-              r"<!-- WHATS_NEW_START -->(.*?)<!-- WHATS_NEW_END -->",
-              ai_output, re.DOTALL
-          )
-          if wn_match:
-              wn_content = wn_match.group(1).strip()
-              # Replace in README (the block already exists as empty placeholder)
+          # WHATS_NEW
+          wn = re.search(r"<!-- WHATS_NEW_START -->(.*?)<!-- WHATS_NEW_END -->", ai_output, re.DOTALL)
+          if wn:
               readme = re.sub(
                   r"<!-- WHATS_NEW_START -->.*?<!-- WHATS_NEW_END -->",
-                  f"<!-- WHATS_NEW_START -->\n{wn_content}\n<!-- WHATS_NEW_END -->",
+                  f"<!-- WHATS_NEW_START -->\n{wn.group(1).strip()}\n<!-- WHATS_NEW_END -->",
                   readme, flags=re.DOTALL
               )
-              print("✅ WHATS_NEW section updated")
+              print("✅ WHATS_NEW updated")
           else:
               print("⚠️  WHATS_NEW block not found in AI output — skipping")
 
-          # ── Extract DATA_QUALITY block ─────────────────────────────────────
-          dq_match = re.search(
-              r"<!-- DATA_QUALITY_START -->(.*?)<!-- DATA_QUALITY_END -->",
-              ai_output, re.DOTALL
-          )
-          if dq_match:
-              dq_content = dq_match.group(1).strip()
-              # The README doesn't yet have these markers — add them around
-              # the existing "Data quality" bullets block
-              readme = re.sub(
-                  r"(## Data quality\n)(.*?)(\n\n## Contributing)",
-                  lambda m: f"{m.group(1)}<!-- DATA_QUALITY_START -->\n{dq_content}\n<!-- DATA_QUALITY_END -->{m.group(3)}",
-                  readme, flags=re.DOTALL
-              )
-              print("✅ Data quality section updated")
-
-              # If markers already exist, replace content between them
-              readme = re.sub(
-                  r"<!-- DATA_QUALITY_START -->.*?<!-- DATA_QUALITY_END -->",
-                  f"<!-- DATA_QUALITY_START -->\n{dq_content}\n<!-- DATA_QUALITY_END -->",
-                  readme, flags=re.DOTALL
-              )
+          # DATA_QUALITY
+          dq = re.search(r"<!-- DATA_QUALITY_START -->(.*?)<!-- DATA_QUALITY_END -->", ai_output, re.DOTALL)
+          if dq:
+              # Insert markers on first run if they don't exist yet
+              if "<!-- DATA_QUALITY_START -->" not in readme:
+                  readme = re.sub(
+                      r"(## Data quality\n)(.*?)(\n\n## Contributing)",
+                      lambda m: f"{m.group(1)}<!-- DATA_QUALITY_START -->\n{dq.group(1).strip()}\n<!-- DATA_QUALITY_END -->{m.group(3)}",
+                      readme, flags=re.DOTALL
+                  )
+              else:
+                  readme = re.sub(
+                      r"<!-- DATA_QUALITY_START -->.*?<!-- DATA_QUALITY_END -->",
+                      f"<!-- DATA_QUALITY_START -->\n{dq.group(1).strip()}\n<!-- DATA_QUALITY_END -->",
+                      readme, flags=re.DOTALL
+                  )
+              print("✅ Data quality updated")
           else:
               print("⚠️  DATA_QUALITY block not found in AI output — skipping")
 
-          # ── Write patched README ───────────────────────────────────────────
           open("README.md", "w").write(readme)
           print("README.md written.")
           PYEOF
 
-      # ── 7. Commit & push ─────────────────────────────────────────────────
+      # ── 8. Commit & push ──────────────────────────────────────────────────
       - name: Commit updated README
         env:
-          VERSION: ${{ steps.version.outputs.VERSION }}
+          VERSION:      ${{ steps.version.outputs.VERSION }}
+          ENGINE:       ${{ steps.engine.outputs.ENGINE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"
@@ -248,7 +252,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No README changes to commit."
           else
-            git commit -m "docs: auto-update README for $VERSION [skip ci]"
+            git commit -m "docs: auto-update README for $VERSION via $ENGINE [skip ci]"
             git push origin HEAD:master
             echo "✅ README committed and pushed."
           fi
