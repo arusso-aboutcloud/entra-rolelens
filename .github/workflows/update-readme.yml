@@ -10,14 +10,10 @@ on:
         description: 'Version label (e.g. v1.2.0) — leave blank to auto-detect'
         required: false
         default: ''
-      ai_engine:
-        description: 'AI engine override: github | anthropic | openai (blank = repo variable)'
-        required: false
-        default: ''
 
 permissions:
   contents: write
-  models: read        # required for GitHub Models API (GITHUB_TOKEN auth)
+  models: read          # GitHub Copilot / GitHub Models — no extra secret needed
 
 jobs:
   update-readme:
@@ -44,20 +40,7 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Resolved version: $VERSION"
 
-      # ── 3. Resolve AI engine ───────────────────────────────────────────────
-      # Priority: manual input > repo variable README_AI_ENGINE > default (github)
-      # Set repo variable at: Settings → Variables → Actions → README_AI_ENGINE
-      - name: Resolve AI engine
-        id: engine
-        run: |
-          MANUAL="${{ github.event.inputs.ai_engine }}"
-          REPO_VAR="${{ vars.README_AI_ENGINE }}"
-          ENGINE="${MANUAL:-${REPO_VAR:-github}}"
-          ENGINE=$(echo "$ENGINE" | tr '[:upper:]' '[:lower:]')
-          echo "ENGINE=$ENGINE" >> "$GITHUB_OUTPUT"
-          echo "Using AI engine: $ENGINE"
-
-      # ── 4. Fetch live stats ────────────────────────────────────────────────
+      # ── 3. Fetch live stats ────────────────────────────────────────────────
       - name: Fetch live stats from Worker API
         id: stats
         run: |
@@ -71,156 +54,84 @@ jobs:
           echo "SHADOW_COUNT=$SHADOW_COUNT" >> "$GITHUB_OUTPUT"
           echo "Stats → roles=$ROLE_COUNT  tasks=$TASK_COUNT  shadow=$SHADOW_COUNT"
 
-      # ── 5. Collect code context ────────────────────────────────────────────
-      - name: Collect code context for AI
-        run: |
-          head -120 worker/src/index.ts 2>/dev/null > /tmp/worker_snippet.txt || echo "not found" > /tmp/worker_snippet.txt
-
-          PIPELINE_SUMMARY=""
-          for f in pipeline/*.py; do
-            SCRIPT=$(basename "$f")
-            DOCLINE=$(grep -m1 '"""' "$f" | tr -d '"' | xargs 2>/dev/null || head -2 "$f" | tail -1 | tr -d '#' | xargs)
-            PIPELINE_SUMMARY="${PIPELINE_SUMMARY}\n- ${SCRIPT}: ${DOCLINE}"
-          done
-          printf "$PIPELINE_SUMMARY" > /tmp/pipeline_summary.txt
-
-          git log --oneline --no-merges -20 \
-            --invert-grep --grep="\[skip ci\]" \
-            --pretty=format:"- %s (%ad)" --date=short 2>/dev/null | head -15 > /tmp/git_log.txt
-
-          echo "Context files written."
-
-      # ── 6. Generate README sections (engine-aware) ─────────────────────────
-      - name: Generate updated README sections
+      # ── 4. Build prompt from live context ──────────────────────────────────
+      - name: Build AI prompt
+        id: prompt
         env:
-          ENGINE:            ${{ steps.engine.outputs.ENGINE }}
-          # GitHub Models — uses GITHUB_TOKEN (no extra secret needed)
-          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
-          # Optional: only needed if you select these engines
-          OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          VERSION:           ${{ steps.version.outputs.VERSION }}
-          ROLE_COUNT:        ${{ steps.stats.outputs.ROLE_COUNT }}
-          TASK_COUNT:        ${{ steps.stats.outputs.TASK_COUNT }}
-          SHADOW_COUNT:      ${{ steps.stats.outputs.SHADOW_COUNT }}
+          VERSION:      ${{ steps.version.outputs.VERSION }}
+          ROLE_COUNT:   ${{ steps.stats.outputs.ROLE_COUNT }}
+          TASK_COUNT:   ${{ steps.stats.outputs.TASK_COUNT }}
+          SHADOW_COUNT: ${{ steps.stats.outputs.SHADOW_COUNT }}
         run: |
-          pip install openai anthropic --quiet
+          # Collect context snippets
+          WORKER_SNIPPET=$(head -120 worker/src/index.ts 2>/dev/null || echo "not found")
+          GIT_LOG=$(git log --oneline --no-merges -15 \
+            --invert-grep --grep="\[skip ci\]" \
+            --pretty=format:"- %s (%ad)" --date=short 2>/dev/null)
+          README_HEAD=$(head -120 README.md)
 
-          python3 << 'PYEOF'
-          import os, datetime
+          # Write prompt to file (avoids YAML quoting issues with multiline)
+          cat > /tmp/prompt.txt << PROMPT
+          You are a technical writer maintaining the README for Entra RoleLens — a zero-cost
+          Cloudflare-hosted tool that maps Entra ID tasks to minimum built-in roles, detects
+          shadow/unlisted roles, and keeps data fresh via a nightly passwordless OIDC pipeline.
 
-          engine       = os.environ.get("ENGINE", "github")
-          version      = os.environ.get("VERSION", "unknown")
-          role_count   = os.environ.get("ROLE_COUNT", "?")
-          task_count   = os.environ.get("TASK_COUNT", "?")
-          shadow_count = os.environ.get("SHADOW_COUNT", "?")
-          release_date = datetime.date.today().isoformat()
+          ## Live stats (from /api/status as of this run)
+          - Roles indexed: ${ROLE_COUNT}
+          - Tasks mapped:  ${TASK_COUNT}
+          - Shadow (unlisted) roles: ${SHADOW_COUNT}
 
-          worker_snippet   = open("/tmp/worker_snippet.txt").read()[:3000]
-          pipeline_summary = open("/tmp/pipeline_summary.txt").read()[:1500]
-          git_log          = open("/tmp/git_log.txt").read()[:1500]
-          readme           = open("README.md").read()
+          ## Release
+          Version: ${VERSION}
+          Date: $(date -u +%Y-%m-%d)
 
-          prompt = f"""You are a technical writer maintaining the README for Entra RoleLens.
-The project is a zero-cost Cloudflare-hosted tool that maps Entra ID tasks to minimum
-built-in roles, detects shadow/unlisted roles, and keeps data fresh via a nightly
-passwordless OIDC pipeline.
+          ## Recent commits (non-data)
+          ${GIT_LOG}
 
-## Current live stats (from Worker /api/status)
-- Roles: {role_count}
-- Tasks: {task_count}
-- Shadow (unlisted) roles: {shadow_count}
+          ## Worker (index.ts excerpt)
+          ${WORKER_SNIPPET}
 
-## Release being documented
-Version: {version}
-Date: {release_date}
+          ## README header (context)
+          ${README_HEAD}
 
-## Recent commits (non-data)
-{git_log}
+          ---
 
-## Worker routes (index.ts, first 120 lines)
-{worker_snippet}
+          Return exactly TWO blocks and nothing else:
 
-## Pipeline scripts
-{pipeline_summary}
+          1. WHATS_NEW — 3 to 6 bullet points summarising what changed in this release,
+             based on the git log. Each bullet starts with a verb. No filler.
+             Wrap in:
+             <!-- WHATS_NEW_START -->
+             - bullet
+             <!-- WHATS_NEW_END -->
 
-## Current README (context only — do NOT reproduce in full)
-{readme[:8000]}
+          2. DATA_QUALITY — rewrite the five data-quality bullets replacing any hardcoded
+             numbers with the live stats above. Keep the same structure.
+             Wrap in:
+             <!-- DATA_QUALITY_START -->
+             - bullet
+             <!-- DATA_QUALITY_END -->
+          PROMPT
 
----
+          echo "Prompt written ($(wc -c < /tmp/prompt.txt) bytes)"
 
-Your tasks:
+      # ── 5. Call GitHub Copilot via actions/ai-inference ────────────────────
+      - name: Generate README sections with GitHub Copilot
+        id: ai
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini     # swap to: anthropic/claude-3-5-haiku — same token
+          prompt-file: /tmp/prompt.txt
 
-1. **WHATS_NEW block** — Write 3–6 bullet points summarising what changed in this
-   release. Base them on the git log. Each bullet: one line, starts with a verb,
-   no filler. Wrap in:
-   <!-- WHATS_NEW_START -->
-   ...bullets...
-   <!-- WHATS_NEW_END -->
-
-2. **Data quality block** — Rewrite the "Data quality" section bullets using the
-   live stats above to replace hardcoded numbers. Keep the same 5-bullet structure.
-   Wrap in:
-   <!-- DATA_QUALITY_START -->
-   ...bullets...
-   <!-- DATA_QUALITY_END -->
-
-Return BOTH blocks and nothing else."""
-
-          # ── GitHub Models (free, GITHUB_TOKEN, no extra secret) ─────────────
-          if engine == "github":
-              from openai import OpenAI   # GitHub Models is OpenAI-SDK compatible
-              client = OpenAI(
-                  base_url="https://models.github.ai/inference",
-                  api_key=os.environ["GITHUB_TOKEN"],
-              )
-              resp = client.chat.completions.create(
-                  model="openai/gpt-4o-mini",   # or "anthropic/claude-3-5-haiku" — same endpoint
-                  messages=[{"role": "user", "content": prompt}],
-                  temperature=0.3,
-                  max_tokens=800,
-              )
-              output = resp.choices[0].message.content
-
-          # ── Anthropic direct API ─────────────────────────────────────────────
-          elif engine == "anthropic":
-              import anthropic
-              client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-              resp = client.messages.create(
-                  model="claude-3-5-haiku-20241022",
-                  max_tokens=800,
-                  messages=[{"role": "user", "content": prompt}],
-              )
-              output = resp.content[0].text
-
-          # ── OpenAI direct API ────────────────────────────────────────────────
-          elif engine == "openai":
-              from openai import OpenAI
-              client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-              resp = client.chat.completions.create(
-                  model="gpt-4o-mini",
-                  messages=[{"role": "user", "content": prompt}],
-                  temperature=0.3,
-                  max_tokens=800,
-              )
-              output = resp.choices[0].message.content
-
-          else:
-              raise ValueError(f"Unknown engine '{engine}'. Use: github | anthropic | openai")
-
-          print(f"=== AI OUTPUT ({engine}) ===")
-          print(output)
-          print("=" * 30)
-          open("/tmp/ai_output.txt", "w").write(output)
-          PYEOF
-
-      # ── 7. Patch README ────────────────────────────────────────────────────
-      - name: Patch README with AI output
+      # ── 6. Patch README ────────────────────────────────────────────────────
+      - name: Patch README with Copilot output
+        env:
+          AI_RESPONSE: ${{ steps.ai.outputs.response }}
         run: |
           python3 << 'PYEOF'
-          import re
+          import re, os
 
-          ai_output = open("/tmp/ai_output.txt").read()
+          ai_output = os.environ["AI_RESPONSE"]
           readme    = open("README.md").read()
 
           # WHATS_NEW
@@ -233,9 +144,9 @@ Return BOTH blocks and nothing else."""
               )
               print("✅ WHATS_NEW updated")
           else:
-              print("⚠️  WHATS_NEW block not found in AI output — skipping")
+              print("⚠️  WHATS_NEW block missing in Copilot output — skipping")
 
-          # DATA_QUALITY — insert markers on first run if absent, then replace
+          # DATA_QUALITY — add markers on first run if absent
           dq = re.search(r"<!-- DATA_QUALITY_START -->(.*?)<!-- DATA_QUALITY_END -->", ai_output, re.DOTALL)
           if dq:
               dq_body = dq.group(1).strip()
@@ -253,17 +164,16 @@ Return BOTH blocks and nothing else."""
                   )
               print("✅ Data quality updated")
           else:
-              print("⚠️  DATA_QUALITY block not found in AI output — skipping")
+              print("⚠️  DATA_QUALITY block missing in Copilot output — skipping")
 
           open("README.md", "w").write(readme)
           print("README.md written.")
           PYEOF
 
-      # ── 8. Commit & push ──────────────────────────────────────────────────
+      # ── 7. Commit & push ──────────────────────────────────────────────────
       - name: Commit updated README
         env:
           VERSION:      ${{ steps.version.outputs.VERSION }}
-          ENGINE:       ${{ steps.engine.outputs.ENGINE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"
@@ -272,7 +182,7 @@ Return BOTH blocks and nothing else."""
           if git diff --staged --quiet; then
             echo "No README changes to commit."
           else
-            git commit -m "docs: auto-update README for $VERSION via $ENGINE [skip ci]"
+            git commit -m "docs: auto-update README for $VERSION via GitHub Copilot [skip ci]"
             git push origin HEAD:master
             echo "✅ README committed and pushed."
           fi
