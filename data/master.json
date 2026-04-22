@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-22T03:57:18.481606+00:00",
+  "generated_at": "2026-04-22T07:05:04.366714+00:00",
   "role_count": 143,
-  "task_count": 246,
+  "task_count": 247,
   "shadow_role_count": 13,
   "roles": [
     {
@@ -6228,6 +6228,16 @@
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
       "role_id": "d2562ede-74db-457e-a7b6-544e236ebb61",
+      "is_privileged": true,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Agent Identity",
+      "task": "Manage AI agents and agent identities",
+      "min_role": "Agent ID Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task",
+      "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
       "is_privileged": true,
       "out_of_scope": null
     }

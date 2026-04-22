@@ -2000,6 +2000,7 @@
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
+<<<<<<< HEAD
     "feature_area": "Security - Authentication methods",
     "task": "Configure SSPR self-service password reset policy",
     "min_role": "Authentication Policy Administrator",
@@ -2007,10 +2008,13 @@
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
+=======
+>>>>>>> 25f3a17edac243159e5f743bcade8be597c8b7e0
     "feature_area": "Agent Identity",
     "task": "Manage AI agents and agent identities",
     "min_role": "Agent ID Administrator",
     "alt_roles": [],
+<<<<<<< HEAD
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   },
   {
@@ -2055,5 +2059,8 @@
       "User Administrator"
     ],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+=======
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+>>>>>>> 25f3a17edac243159e5f743bcade8be597c8b7e0
   }
 ]
