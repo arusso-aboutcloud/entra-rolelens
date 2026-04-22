@@ -11,12 +11,13 @@ on:
         required: false
         default: ''
       ai_engine:
-        description: 'AI engine override: openai | anthropic (leave blank to use repo variable)'
+        description: 'AI engine override: github | anthropic | openai (blank = repo variable)'
         required: false
         default: ''
 
 permissions:
   contents: write
+  models: read        # required for GitHub Models API (GITHUB_TOKEN auth)
 
 jobs:
   update-readme:
@@ -44,13 +45,14 @@ jobs:
           echo "Resolved version: $VERSION"
 
       # ── 3. Resolve AI engine ───────────────────────────────────────────────
-      # Priority: manual input > repo variable README_AI_ENGINE > default (openai)
+      # Priority: manual input > repo variable README_AI_ENGINE > default (github)
+      # Set repo variable at: Settings → Variables → Actions → README_AI_ENGINE
       - name: Resolve AI engine
         id: engine
         run: |
           MANUAL="${{ github.event.inputs.ai_engine }}"
-          REPO_VAR="${{ vars.README_AI_ENGINE }}"   # set via Settings → Variables
-          ENGINE="${MANUAL:-${REPO_VAR:-openai}}"
+          REPO_VAR="${{ vars.README_AI_ENGINE }}"
+          ENGINE="${MANUAL:-${REPO_VAR:-github}}"
           ENGINE=$(echo "$ENGINE" | tr '[:upper:]' '[:lower:]')
           echo "ENGINE=$ENGINE" >> "$GITHUB_OUTPUT"
           echo "Using AI engine: $ENGINE"
@@ -86,12 +88,15 @@ jobs:
             --invert-grep --grep="\[skip ci\]" \
             --pretty=format:"- %s (%ad)" --date=short 2>/dev/null | head -15 > /tmp/git_log.txt
 
-          echo "context files written"
+          echo "Context files written."
 
       # ── 6. Generate README sections (engine-aware) ─────────────────────────
       - name: Generate updated README sections
         env:
           ENGINE:            ${{ steps.engine.outputs.ENGINE }}
+          # GitHub Models — uses GITHUB_TOKEN (no extra secret needed)
+          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
+          # Optional: only needed if you select these engines
           OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           VERSION:           ${{ steps.version.outputs.VERSION }}
@@ -102,9 +107,9 @@ jobs:
           pip install openai anthropic --quiet
 
           python3 << 'PYEOF'
-          import os, re, datetime
+          import os, datetime
 
-          engine       = os.environ.get("ENGINE", "openai")
+          engine       = os.environ.get("ENGINE", "github")
           version      = os.environ.get("VERSION", "unknown")
           role_count   = os.environ.get("ROLE_COUNT", "?")
           task_count   = os.environ.get("TASK_COUNT", "?")
@@ -139,7 +144,7 @@ Date: {release_date}
 ## Pipeline scripts
 {pipeline_summary}
 
-## Current README (for context — do NOT reproduce in full)
+## Current README (context only — do NOT reproduce in full)
 {readme[:8000]}
 
 ---
@@ -148,7 +153,7 @@ Your tasks:
 
 1. **WHATS_NEW block** — Write 3–6 bullet points summarising what changed in this
    release. Base them on the git log. Each bullet: one line, starts with a verb,
-   no filler. Wrap output in:
+   no filler. Wrap in:
    <!-- WHATS_NEW_START -->
    ...bullets...
    <!-- WHATS_NEW_END -->
@@ -162,8 +167,34 @@ Your tasks:
 
 Return BOTH blocks and nothing else."""
 
-          # ── OpenAI ──────────────────────────────────────────────────────────
-          if engine == "openai":
+          # ── GitHub Models (free, GITHUB_TOKEN, no extra secret) ─────────────
+          if engine == "github":
+              from openai import OpenAI   # GitHub Models is OpenAI-SDK compatible
+              client = OpenAI(
+                  base_url="https://models.github.ai/inference",
+                  api_key=os.environ["GITHUB_TOKEN"],
+              )
+              resp = client.chat.completions.create(
+                  model="openai/gpt-4o-mini",   # or "anthropic/claude-3-5-haiku" — same endpoint
+                  messages=[{"role": "user", "content": prompt}],
+                  temperature=0.3,
+                  max_tokens=800,
+              )
+              output = resp.choices[0].message.content
+
+          # ── Anthropic direct API ─────────────────────────────────────────────
+          elif engine == "anthropic":
+              import anthropic
+              client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+              resp = client.messages.create(
+                  model="claude-3-5-haiku-20241022",
+                  max_tokens=800,
+                  messages=[{"role": "user", "content": prompt}],
+              )
+              output = resp.content[0].text
+
+          # ── OpenAI direct API ────────────────────────────────────────────────
+          elif engine == "openai":
               from openai import OpenAI
               client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
               resp = client.chat.completions.create(
@@ -174,19 +205,8 @@ Return BOTH blocks and nothing else."""
               )
               output = resp.choices[0].message.content
 
-          # ── Anthropic (Claude) ───────────────────────────────────────────────
-          elif engine == "anthropic":
-              import anthropic
-              client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-              resp = client.messages.create(
-                  model="claude-3-5-haiku-20241022",   # fast + cheap; swap to claude-opus-4-5 for higher quality
-                  max_tokens=800,
-                  messages=[{"role": "user", "content": prompt}],
-              )
-              output = resp.content[0].text
-
           else:
-              raise ValueError(f"Unknown engine: {engine}. Use 'openai' or 'anthropic'.")
+              raise ValueError(f"Unknown engine '{engine}'. Use: github | anthropic | openai")
 
           print(f"=== AI OUTPUT ({engine}) ===")
           print(output)
@@ -215,20 +235,20 @@ Return BOTH blocks and nothing else."""
           else:
               print("⚠️  WHATS_NEW block not found in AI output — skipping")
 
-          # DATA_QUALITY
+          # DATA_QUALITY — insert markers on first run if absent, then replace
           dq = re.search(r"<!-- DATA_QUALITY_START -->(.*?)<!-- DATA_QUALITY_END -->", ai_output, re.DOTALL)
           if dq:
-              # Insert markers on first run if they don't exist yet
+              dq_body = dq.group(1).strip()
               if "<!-- DATA_QUALITY_START -->" not in readme:
                   readme = re.sub(
                       r"(## Data quality\n)(.*?)(\n\n## Contributing)",
-                      lambda m: f"{m.group(1)}<!-- DATA_QUALITY_START -->\n{dq.group(1).strip()}\n<!-- DATA_QUALITY_END -->{m.group(3)}",
+                      lambda m: f"{m.group(1)}<!-- DATA_QUALITY_START -->\n{dq_body}\n<!-- DATA_QUALITY_END -->{m.group(3)}",
                       readme, flags=re.DOTALL
                   )
               else:
                   readme = re.sub(
                       r"<!-- DATA_QUALITY_START -->.*?<!-- DATA_QUALITY_END -->",
-                      f"<!-- DATA_QUALITY_START -->\n{dq.group(1).strip()}\n<!-- DATA_QUALITY_END -->",
+                      f"<!-- DATA_QUALITY_START -->\n{dq_body}\n<!-- DATA_QUALITY_END -->",
                       readme, flags=re.DOTALL
                   )
               print("✅ Data quality updated")
