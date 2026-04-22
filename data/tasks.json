@@ -1998,5 +1998,52 @@
     "min_role": "AI Administrator",
     "alt_roles": [],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure SSPR self-service password reset policy",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Agent Identity",
+    "task": "Manage AI agents and agent identities",
+    "min_role": "Agent ID Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Groups",
+    "task": "Manage groups and group memberships",
+    "min_role": "Groups Administrator",
+    "alt_roles": [
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Privileged Identity Management",
+    "task": "Configure PIM Privileged Identity Management settings and role assignments",
+    "min_role": "Privileged Role Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Identity Governance",
+    "task": "Approve and manage access reviews for users and groups",
+    "min_role": "Identity Governance Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
+  },
+  {
+    "feature_area": "Users",
+    "task": "Reset user password for standard accounts",
+    "min_role": "Password Administrator",
+    "alt_roles": [
+      "Helpdesk Administrator",
+      "User Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task"
   }
 ]
