@@ -1917,5 +1917,21 @@
     "min_role": "AI Administrator",
     "alt_roles": [],
     "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Security - Authentication methods",
+    "task": "Configure passkeys and FIDO2 authentication methods",
+    "min_role": "Authentication Policy Administrator",
+    "alt_roles": [],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
+  },
+  {
+    "feature_area": "Administrative units",
+    "task": "Manage administrative units and member assignments",
+    "min_role": "Groups Administrator",
+    "alt_roles": [
+      "Privileged Role Administrator"
+    ],
+    "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference"
   }
 ]
