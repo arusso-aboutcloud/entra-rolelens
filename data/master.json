@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-22T07:07:57.770026+00:00",
+  "generated_at": "2026-04-22T07:09:59.593409+00:00",
   "role_count": 143,
-  "task_count": 211,
+  "task_count": 217,
   "shadow_role_count": 13,
   "roles": [
     {
@@ -5869,6 +5869,71 @@
       ],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/delegate-by-task",
       "role_id": "f023fd81-a637-4b56-95fd-791ac0226033",
+      "is_privileged": false,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Users",
+      "task": "Reset user password for non-admin accounts",
+      "min_role": "Password Administrator",
+      "alt_roles": [
+        "Helpdesk Administrator",
+        "User Administrator"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "966707d0-3269-4727-9be2-8c3a10f19b9d",
+      "is_privileged": true,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Security - Authentication methods",
+      "task": "Configure SSPR self-service password reset policy",
+      "min_role": "Authentication Policy Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
+      "is_privileged": false,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Agent Identity",
+      "task": "Manage AI agents and agent identities",
+      "min_role": "Agent ID Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
+      "is_privileged": true,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Groups",
+      "task": "Manage groups and group memberships",
+      "min_role": "Groups Administrator",
+      "alt_roles": [
+        "User Administrator"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
+      "is_privileged": false,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Privileged Identity Management",
+      "task": "Configure PIM Privileged Identity Management settings and role assignments",
+      "min_role": "Privileged Role Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "e8611ab8-c189-46e8-94e1-60213ab1f814",
+      "is_privileged": true,
+      "out_of_scope": null
+    },
+    {
+      "feature_area": "Identity Governance",
+      "task": "Approve and manage access reviews for users and groups",
+      "min_role": "Identity Governance Administrator",
+      "alt_roles": [],
+      "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "role_id": "45d8d3c5-c802-45c6-b32a-1d70b5e1e86e",
       "is_privileged": false,
       "out_of_scope": null
     }
