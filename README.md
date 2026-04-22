@@ -55,6 +55,11 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 > Auto-generated from the nightly pipeline · Last updated by GitHub Actions
 
 <!-- WHATS_NEW_START -->
+- Refactored CI workflows to enhance compatibility with GitHub Actions and improve secret management.
+- Added a new workflow for auto-syncing README on release.
+- Improved session handing documentation with new chunks.
+- Added integration tests for pill functionality in the nightly pipeline.
+- Fixed several issues related to task mappings, synonym handling, and data gaps.
 <!-- WHATS_NEW_END -->
 
 ---
@@ -200,12 +205,11 @@ entra-rolelens/
 ---
 
 ## Data quality
-- **143+ built-in roles** - covers all named Entra ID built-in roles including preview roles
-- **228 task mappings** - sourced from Microsoft's official documentation and community contributions
-- **13 unlisted roles** - present in the Graph API but not yet in Microsoft's public documentation
-- **0 partially documented roles** - in roles reference but missing from task mappings
-- **Nightly diff** - every permission change Microsoft makes is logged to the role_changes D1 table
-- **Self-healing pipeline** - validation gate prevents bad data reaching production
+<!-- DATA_QUALITY_START -->
+- Indexed a total of **143 roles** to map user tasks precisely.
+- Mapped **246 tasks** to help users identify the required roles efficiently.
+- Detected **13 shadow (unlisted) roles**, ensuring awareness of roles that may not be officially documented.
+<!-- DATA_QUALITY_END -->
 
 ## Contributing
 
