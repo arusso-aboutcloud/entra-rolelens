@@ -55,11 +55,10 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 > Auto-generated from the nightly pipeline · Last updated by GitHub Actions
 
 <!-- WHATS_NEW_START -->
-- Refactored CI workflows to enhance compatibility with GitHub Actions and improve secret management.
-- Added a new workflow for auto-syncing README on release.
-- Improved session handing documentation with new chunks.
-- Added integration tests for pill functionality in the nightly pipeline.
-- Fixed several issues related to task mappings, synonym handling, and data gaps.
+- Corpus now honestly reflects scope — 30 Azure RBAC tasks tagged `out_of_scope` instead of silently dropped, no more phantom empty results for Connect Health or MFA Server queries
+- Pill integration tests added to the nightly pipeline — 15 documented search expectations validated against the live worker every night, regressions auto-open a GitHub issue
+- Test harness now mirrors the real user path — pill queries are routed through the same synonym expansion the frontend uses, eliminating a gap that masked 5 live-frontend ranking issues now queued for a search quality refresh
+- 26 curated tasks explicitly tagged `synthetic: true` in `tasks.json` — clear distinction between Microsoft Learn scraped content and hand-curated coverage for role families the docs don't cover yet (Agent Identity, Tenant Governance, Entra Backup)
 <!-- WHATS_NEW_END -->
 
 ---

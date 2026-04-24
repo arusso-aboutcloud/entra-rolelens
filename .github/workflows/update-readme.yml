@@ -1,9 +1,10 @@
 name: Update README on Release
 
+# DISABLED 2026-04-24 — rebuilding per docs/VISION-WHATS-NEW.md (weekend work)
+# Original trigger fired on v* tag pushes. Current AI prompt produces
+# dev-facing summaries of git commits instead of user-facing changes.
+# Manual dispatch retained so the workflow remains inspectable.
 on:
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       version_label:
