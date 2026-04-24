@@ -13,6 +13,8 @@ from urllib.parse import quote
 
 import requests
 
+from synonyms import expand_query
+
 WORKER_URL = os.environ.get(
     "WORKER_URL",
     "https://rolelens-worker.russo-antonio76.workers.dev",
@@ -41,7 +43,8 @@ EXPECTATIONS: list[tuple[str, str]] = [
 
 def run_pill(query: str, expected_role: str) -> tuple[bool, str]:
     """Returns (passed, detail_message)."""
-    url = f"{WORKER_URL}/api/search?q={quote(query)}"
+    expanded = expand_query(query)
+    url = f"{WORKER_URL}/api/search?q={quote(expanded)}"
     try:
         resp = requests.get(url, timeout=10)
     except requests.RequestException as exc:
@@ -67,7 +70,9 @@ def main() -> int:
     for query, expected in EXPECTATIONS:
         passed, detail = run_pill(query, expected)
         marker = "PASS" if passed else "FAIL"
-        print(f"  {marker}  {query!r:45s}  {detail}")
+        expanded = expand_query(query)
+        suffix = f" [-> {expanded!r}]" if expanded != query else ""
+        print(f"  {marker}  {query!r:45s}  {detail}{suffix}")
         if not passed:
             failures.append(f"  - {query!r}: {detail}")
 
