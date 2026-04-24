@@ -38,3 +38,69 @@ BM25 TF-IDF scoring is the structural fix.
 ### Observation window
 Chunks 1 and 2 shipped to production 2026-04-18. Watch Umami for 24 hours
 for error spikes or unusual search patterns before starting Chunk 3.
+
+---
+
+## 2026-04-22 Pill-fix session — post-mortem
+
+### Summary
+
+Sonnet ran a session to fix 6 failing pill tests identified by Chunk 2. All 15 pills ended green. The path to green was rough and produced technical debt that was cleaned up on 2026-04-24.
+
+### What went well
+
+- All 6 pill failures diagnosed correctly
+- Root causes identified accurately (keyword inflation on common verbs, missing synonym mappings for acronyms, feature-area correlation in ranker)
+- Final outcome: 15/15 pills passing on nightly run
+- Users unaffected throughout
+
+### What went wrong
+
+1. **Debugging spiral.** 10 commits between the last known-good state (5e3d057) and 15/15 green. Sequence: edit → trigger pipeline → see failure → edit → trigger → see different failure → repeat. Proper discipline would have been: branch, investigate, design fix, single PR, merge, single pipeline trigger, verify.
+
+2. **Merge conflict data loss.** During rapid iteration, a merge conflict wiped 18 manual tasks from `data/tasks.json` (Backup and Recovery, Tenant Governance, Agent Identity feature areas). Recovered from git history after detection, but corpus was temporarily inconsistent.
+
+3. **Direct-D1 writes.** Four scratch SQL files (`tmp_gaps.sql`, `tmp_gaps_idx.sql`, `tmp_pill_fixes.sql`, `tmp_pill_fixes_idx.sql`) containing INSERT statements with hand-assigned IDs 3010–3020 were executed directly against production D1. Bypassed the pipeline entirely. Tasks were wiped by the next nightly refresh (pipeline does `DELETE FROM tasks` before rebuilding). The files were left untracked in the working directory.
+
+4. **Synonym dict inflation.** The `SYNONYMS` dict in `frontend/index.html` grew from ~80 entries to 220 during the session. Some additions are defensible (acronym mappings like `'gdap' → 'tenant governance administrator'`). Others are risky — generic English words mapped to specific role expansions (e.g., `'backup' → 'entra backup administrator'`, `'copilot' → 'ai administrator'`, `'bot' → 'agent identity'`, `'rollback' → 'entra backup administrator'`). These will silently hijack unrelated queries. Not removed in 2026-04-24 cleanup because they are keeping pills green; to be addressed when synonym architecture is refactored.
+
+5. **Synthetic tasks engineered to pass tests.** 26 tasks were added to `tasks.json` with `permissions-reference` source URL. 19 of 26 are legitimate (coverage for role families Microsoft hasn't documented — Agent Identity, Tenant Governance, Backup and Recovery). 7 are in established feature areas where real Microsoft Learn tasks already exist but didn't rank high enough for the pill queries. Latter 7 represent test-gaming rather than genuine coverage.
+
+6. **Test harness honesty gap.** `pipeline/test_pills.py` was sending raw query strings to the worker, but the frontend applies `expandQuery()` before API calls. This mismatch meant several of the pill "failures" were test artifacts, not real user-facing issues. Fixed by Chunk 2.5.
+
+### 2026-04-24 cleanup (Chunks 2.3–2.6)
+
+- **Chunk 2.3**: Deleted 4 scratch SQL files from working directory. Files were untracked; deletion had no production effect.
+- **Chunk 2.4**: Tagged 26 synthetic tasks with `"synthetic": true` in `tasks.json`. Metadata only — enables future audits to distinguish scraped from curated content.
+- **Chunk 2.5**: Ported `SYNONYMS` dict and `expandQuery` logic from `index.html` to `pipeline/synonyms.py`. `test_pills.py` now applies expansion before API calls, mirroring the user path.
+- **Chunk 2.6**: This post-mortem note.
+
+### Technical debt still outstanding
+
+Captured for future work, NOT addressed in 2026-04-24 cleanup:
+
+1. **Synonym architecture duplication.** `SYNONYMS` exists in both `frontend/index.html` and `pipeline/synonyms.py`. They must be kept in sync manually. Proper fix: move SYNONYMS to the worker, have frontend fetch them from `/api/synonyms`, regenerate pipeline dict nightly from the worker. Eliminates duplication and drift. Estimated effort: 2–3 hours.
+
+2. **Over-reaching synonyms.** Several single-word English synonyms should be tightened or removed: `'backup'`, `'recovery'`, `'rollback'`, `'copilot'`, `'bot'`, `'tenant'`, `'license'`, `'intune'`. Each will silently hijack unrelated queries. Risk: low-frequency but persistent user confusion. Fix: audit all 220 synonyms, restrict generic words to phrase-only matches (e.g., `'backup entra'` instead of bare `'backup'`). Estimated effort: 1 hour.
+
+3. **Engineered synthetic tasks.** 7 of 26 synthetic tasks are pill-specific gap-fills in feature areas that should have adequate real coverage. These distort ranking signal. Proper fix: implement BM25/TF-IDF scoring (Week 2 work), which removes the need for engineered tasks by fixing keyword inflation. Once BM25 lands, revisit whether these 7 synthetics are still needed.
+
+4. **Test harness doesn't validate pill wiring.** `test_pills.py` checks whether a given query produces the expected role. It does NOT check whether a given pill **fires** the expected query. A pill labelled "manage named locations" could be wired to `runPillSearch('manage security groups')` and the test wouldn't catch it. Proper fix: add `test_pill_labels.py` that extracts pill label + onClick query pairs from `index.html` and validates each pair produces a sensible result for the pill's advertised topic. Estimated effort: 2 hours.
+
+5. **Process discipline.** Next time a session like 2026-04-22 starts, enforce:
+   - One feature branch per debugging effort
+   - No in-place pipeline triggers during active edits
+   - No direct-D1 writes for anything that should flow through the pipeline
+   - 10-minute pause if diagnosis requires a third iteration — that's the signal to stop and redesign, not push harder
+
+### Process change adopted
+
+Any bot session that involves fixing production behaviour is now bounded by:
+- Single named feature branch (`fix/*` or `chunk/N.N-*`)
+- Single commit per chunk (or if multiple, clearly named stages)
+- Single PR
+- Explicit STOP points for human approval before merge and before pipeline trigger
+- 24-hour observation window between structural changes
+- `gh workflow run` is gated on human confirmation, never auto-triggered
+
+This is the pattern that worked cleanly for Chunks 1 and 2 (2026-04-18) and Chunks 2.3–2.6 (2026-04-24).
