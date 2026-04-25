@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-24T04:15:24.787463+00:00",
+  "generated_at": "2026-04-25T03:49:39.333388+00:00",
   "role_count": 143,
   "task_count": 237,
   "shadow_role_count": 13,
@@ -5881,6 +5881,7 @@
         "User Administrator"
       ],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "966707d0-3269-4727-9be2-8c3a10f19b9d",
       "is_privileged": true,
       "out_of_scope": null
@@ -5891,6 +5892,7 @@
       "min_role": "Authentication Policy Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
       "is_privileged": false,
       "out_of_scope": null
@@ -5901,6 +5903,7 @@
       "min_role": "Agent ID Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
       "is_privileged": true,
       "out_of_scope": null
@@ -5913,6 +5916,7 @@
         "User Administrator"
       ],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
       "is_privileged": false,
       "out_of_scope": null
@@ -5923,6 +5927,7 @@
       "min_role": "Privileged Role Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "e8611ab8-c189-46e8-94e1-60213ab1f814",
       "is_privileged": true,
       "out_of_scope": null
@@ -5933,6 +5938,7 @@
       "min_role": "Identity Governance Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "45d8d3c5-c802-45c6-b32a-1d70b5e1e86e",
       "is_privileged": false,
       "out_of_scope": null
@@ -5943,6 +5949,7 @@
       "min_role": "Agent ID Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
       "is_privileged": true,
       "out_of_scope": null
@@ -5953,6 +5960,7 @@
       "min_role": "Agent ID Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
       "is_privileged": true,
       "out_of_scope": null
@@ -5963,6 +5971,7 @@
       "min_role": "Agent ID Developer",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "adb2368d-a9be-41b5-8667-d96778e081b0",
       "is_privileged": false,
       "out_of_scope": null
@@ -5973,6 +5982,7 @@
       "min_role": "Agent Registry Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "6b942400-691f-4bf0-9d12-d8a254a2baf5",
       "is_privileged": false,
       "out_of_scope": null
@@ -5983,6 +5993,7 @@
       "min_role": "Agent Registry Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "6b942400-691f-4bf0-9d12-d8a254a2baf5",
       "is_privileged": false,
       "out_of_scope": null
@@ -5993,6 +6004,7 @@
       "min_role": "AI Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "d2562ede-74db-457e-a7b6-544e236ebb61",
       "is_privileged": true,
       "out_of_scope": null
@@ -6003,6 +6015,7 @@
       "min_role": "AI Reader",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
       "is_privileged": false,
       "out_of_scope": null
@@ -6013,6 +6026,7 @@
       "min_role": "AI Reader",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
       "is_privileged": false,
       "out_of_scope": null
@@ -6023,6 +6037,7 @@
       "min_role": "Entra Backup Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "b6a27b2b-f905-4b2e-81b5-0d90e0ef1fdb",
       "is_privileged": false,
       "out_of_scope": null
@@ -6033,6 +6048,7 @@
       "min_role": "Entra Backup Reader",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "f42252d9-5400-4d7b-b9ef-cc582dbb8577",
       "is_privileged": false,
       "out_of_scope": null
@@ -6043,6 +6059,7 @@
       "min_role": "Entra Backup Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "b6a27b2b-f905-4b2e-81b5-0d90e0ef1fdb",
       "is_privileged": false,
       "out_of_scope": null
@@ -6053,6 +6070,7 @@
       "min_role": "Entra Backup Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "b6a27b2b-f905-4b2e-81b5-0d90e0ef1fdb",
       "is_privileged": false,
       "out_of_scope": null
@@ -6063,6 +6081,7 @@
       "min_role": "Tenant Governance Relationship Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "b8e31d83-1534-480f-9b10-0338ded51b7e",
       "is_privileged": false,
       "out_of_scope": null
@@ -6073,6 +6092,7 @@
       "min_role": "Tenant Governance Relationship Reader",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "124577f8-48ed-456a-839f-13b419002e33",
       "is_privileged": false,
       "out_of_scope": null
@@ -6083,6 +6103,7 @@
       "min_role": "Tenant Governance Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "1981f584-96e9-4a6f-95b0-f522373f8fae",
       "is_privileged": false,
       "out_of_scope": null
@@ -6093,6 +6114,7 @@
       "min_role": "Tenant Governance Reader",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "e0a4caa6-fe82-443f-b92f-d87341d17b2e",
       "is_privileged": false,
       "out_of_scope": null
@@ -6103,6 +6125,7 @@
       "min_role": "Tenant Governance Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "1981f584-96e9-4a6f-95b0-f522373f8fae",
       "is_privileged": false,
       "out_of_scope": null
@@ -6113,6 +6136,7 @@
       "min_role": "AI Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "d2562ede-74db-457e-a7b6-544e236ebb61",
       "is_privileged": true,
       "out_of_scope": null
@@ -6123,6 +6147,7 @@
       "min_role": "Authentication Policy Administrator",
       "alt_roles": [],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
       "is_privileged": false,
       "out_of_scope": null
@@ -6135,6 +6160,7 @@
         "Privileged Role Administrator"
       ],
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "synthetic": true,
       "role_id": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
       "is_privileged": false,
       "out_of_scope": null
