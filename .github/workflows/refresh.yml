@@ -75,6 +75,9 @@ jobs:
         env:
           WORKER_URL: https://rolelens-worker.russo-antonio76.workers.dev
 
+      # Only fires when test_pills.py exits 1, which now means a NEW
+      # regression rather than any failure. Known failures are
+      # suppressed via KNOWN_FAILURES in pipeline/test_pills.py.
       - name: Open issue on pill regression
         if: steps.pill_tests.outcome == 'failure'
         run: |
