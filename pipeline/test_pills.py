@@ -56,7 +56,7 @@ KNOWN_FAILURES: set[str] = {
     "reset user password",     # External ID User Flow Admin keyword tie
     "manage groups",           # Identity Governance ranks above Groups Admin
     "GDAP relationships",      # Synonym chain produces noisy phrase, Reader wins
-    "restore deleted users",   # 'users' reverse-synonym fires guest expansion
+    # "restore deleted users" RESOLVED 2026-04-25 by Chunk 4 stopword guard
 }
 
 

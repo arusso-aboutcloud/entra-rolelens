@@ -259,13 +259,56 @@ SYNONYMS: dict[str, str] = {
     'blocked for agents':           'agent blocked roles',
 }
 
-# Build reverse map: every word in any expansion value → canonical expansion
-_REVERSE_SYNONYMS: dict[str, str] = {}
-for _key, _expansion in SYNONYMS.items():
-    _REVERSE_SYNONYMS[_key.lower()] = _expansion
-    for _word in _expansion.split():
-        if len(_word) >= 3 and _word not in _REVERSE_SYNONYMS:
-            _REVERSE_SYNONYMS[_word.lower()] = _expansion
+# Words that appear inside multiple synonym expansion values but should NOT
+# independently route queries. Without this guard, common words like "users"
+# get reverse-indexed back to the first expansion containing them, causing
+# unrelated queries to be hijacked.
+#
+# Keep this list in sync with the equivalent STOPWORDS set in
+# frontend/index.html (Chunk 4, 2026-04-25).
+_REVERSE_MAP_STOPWORDS = {
+    "access", "account", "accounts", "active", "all", "and", "any",
+    "application", "applications", "audit", "based", "between", "block",
+    "can", "cloud", "configuration", "connect", "create", "data",
+    "device", "devices", "directory", "domain", "edit", "entra", "every",
+    "factor", "for", "from", "group", "groups", "id", "identities",
+    "identity", "in", "information", "into", "issue", "key", "list",
+    "log", "logs", "manage", "management", "method", "methods",
+    "microsoft", "mobile", "monitoring", "name", "new", "not", "of",
+    "on", "or", "out", "own", "policy", "premises", "principal",
+    "register", "registration", "reset", "review", "reviews", "role",
+    "roles", "secure", "security", "service", "services", "set",
+    "settings", "shadow", "sign", "single", "tenant", "the", "through",
+    "time", "to", "trust", "two", "use", "user", "users", "via", "with",
+    "workload", "zero",
+}
+
+
+def _build_reverse_map(synonyms: dict) -> dict:
+    """Mirror the JS REVERSE_SYNONYMS IIFE.
+
+    Indexes synonym keys back to their expansions, plus each word in every
+    expansion value (length >= 3) that is NOT in _REVERSE_MAP_STOPWORDS.
+    The stopword guard prevents common English words from hijacking queries
+    via Step 3 of expand_query.
+    """
+    mapping = {}
+    for key, expansion in synonyms.items():
+        lower_key = key.lower()
+        if lower_key not in mapping:
+            mapping[lower_key] = expansion
+        for word in expansion.split():
+            lw = word.lower()
+            if (
+                len(word) >= 3
+                and lw not in mapping
+                and lw not in _REVERSE_MAP_STOPWORDS
+            ):
+                mapping[lw] = expansion
+    return mapping
+
+
+_REVERSE_SYNONYMS: dict[str, str] = _build_reverse_map(SYNONYMS)
 
 
 def expand_query(input_query: str) -> str:
