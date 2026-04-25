@@ -56,8 +56,9 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 
 <!-- WHATS_NEW_START -->
 - Corpus now honestly reflects scope — 30 Azure RBAC tasks tagged `out_of_scope` instead of silently dropped, no more phantom empty results for Connect Health or MFA Server queries
-- Pill integration tests added to the nightly pipeline — 15 documented search expectations validated against the live worker every night, regressions auto-open a GitHub issue
-- Test harness now mirrors the real user path — pill queries are routed through the same synonym expansion the frontend uses, eliminating a gap that masked 5 live-frontend ranking issues now queued for a search quality refresh
+- Pill integration tests added to the nightly pipeline — 15 documented search expectations validated against the live worker every night, regressions auto-open a GitHub issue only for genuine new regressions (known failures suppressed via `KNOWN_FAILURES` list)
+- Test harness now mirrors the real user path — pill queries routed through the same synonym expansion the frontend uses; `restore deleted users` fixed and verified passing end-to-end
+- Fixed a category of query-hijack bug in the synonym reverse-map — common English words like `users` can no longer silently reroute unrelated queries to the wrong role (stopword guard applied identically in frontend and pipeline)
 - 26 curated tasks explicitly tagged `synthetic: true` in `tasks.json` — clear distinction between Microsoft Learn scraped content and hand-curated coverage for role families the docs don't cover yet (Agent Identity, Tenant Governance, Entra Backup)
 <!-- WHATS_NEW_END -->
 

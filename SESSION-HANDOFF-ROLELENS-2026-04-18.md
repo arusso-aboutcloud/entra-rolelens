@@ -104,3 +104,49 @@ Any bot session that involves fixing production behaviour is now bounded by:
 - `gh workflow run` is gated on human confirmation, never auto-triggered
 
 This is the pattern that worked cleanly for Chunks 1 and 2 (2026-04-18) and Chunks 2.3–2.6 (2026-04-24).
+
+---
+
+## 2026-04-25 session — Chunks 2.8 and 4
+
+### Chunk 2.8 — Known-failure suppression in pill tests (PR #19, merged)
+
+- Added `KNOWN_FAILURES: set[str]` to `pipeline/test_pills.py` listing 5 pills failing due to documented Week 2 technical debt
+- Pills in `KNOWN_FAILURES` now report as `KNOWN-FAIL` (not `FAIL`) and do NOT trigger exit 1
+- Pills in `KNOWN_FAILURES` that suddenly pass report as `RESOLVED` — prompts pruning the suppression list
+- Pills NOT in `KNOWN_FAILURES` that fail still trigger exit 1 and auto-open a GitHub issue
+- Stops daily issue spam from known failures without losing genuine regression detection
+- Added explanatory comment to refresh.yml "Open issue on pill regression" step
+- Result: nightly pipeline now exits 0 cleanly; issue alarm fires only on real regressions
+
+### Chunk 4 — Reverse-map stopword guard (PR #20, merged)
+
+**Root cause fixed:** `_build_reverse_map` (JS IIFE + Python equivalent) was indexing every 3+ char word from every synonym expansion value back to that expansion. Common English words appearing in multiple expansions would hijack unrelated queries via Step 3 of `expandQuery`.
+
+**Concrete case:** `'guest' → 'guest users external collaboration'` caused `users` to be reverse-indexed to the guest expansion. Any query containing "users" (e.g., `restore deleted users`) was routed to Guest Inviter.
+
+**Fix:** Added `REVERSE_MAP_STOPWORDS` / `_REVERSE_MAP_STOPWORDS` (~85 words) to both `frontend/index.html` and `pipeline/synonyms.py`. Both implementations updated identically. `REVERSE_SYNONYMS` count: unguarded → 279 (guarded).
+
+**Verification:**
+- `restore deleted users` → RESOLVED (was KNOWN-FAIL) — now correctly returns Entra Backup Administrator
+- `KNOWN_FAILURES` pruned from 5 to 4
+- Pill test result: 11 PASS, 4 KNOWN-FAIL, 0 REGRESSION, exit 0
+
+**This is a category fix** — future synonym additions cannot introduce the same routing bug as long as stopword tokens are not overloaded.
+
+### Remaining KNOWN_FAILURES (4 entries) — route to Chunk 6 / Week 2 BM25
+
+| Query | Actual (wrong) | Expected | Root cause |
+|---|---|---|---|
+| `reset password` | Authentication Policy Administrator | Password Administrator | `'password reset'` synonym → SSPR expansion beats Password Admin |
+| `reset user password` | External ID User Flow Administrator | Password Administrator | Keyword tie; wrong role wins |
+| `manage groups` | Identity Governance Administrator | Groups Administrator | Identity Governance ranks higher via partial keyword match |
+| `GDAP relationships` | Tenant Governance Reader | Tenant Governance Relationship Administrator | `gdap` → `tenant governance administrator relationships` — noisy phrase, Reader wins |
+
+All four require BM25/TF-IDF ranking improvements (Week 2 work, `feat/search-v2`). Stopword guard alone cannot fix these — their root cause is ranking weight, not reverse-map routing.
+
+### Next session priorities
+
+1. **Chunk 6 / feat/search-v2** — BM25 scoring to fix the 4 remaining KNOWN_FAILURES
+2. **Synonym architecture** — deduplicate `SYNONYMS` from frontend + pipeline into single source (worker `/api/synonyms` endpoint), estimated 2–3 hours
+3. **Over-reach synonym audit** — single-word triggers like `'backup'`, `'copilot'`, `'bot'`, `'tenant'` still risk hijacking; restrict to phrase-only once BM25 is in place
