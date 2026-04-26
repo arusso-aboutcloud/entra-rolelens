@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+
+# Internal documentation - not for public repo
+_internal/
