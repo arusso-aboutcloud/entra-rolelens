@@ -20,9 +20,11 @@ Actual D1 schema (queried from live DB):
 """
 
 import json
+import math
 import os
 import re
 import sys
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -64,6 +66,72 @@ def extract_keywords(text: str) -> list[str]:
     """Return deduplicated lowercase words, stop-words removed."""
     words = re.findall(r"[a-zA-Z]{3,}", text.lower())
     return list({w for w in words if w not in STOP_WORDS})
+
+
+def extract_keywords_with_repetition(text: str) -> list[str]:
+    """Like extract_keywords but preserves duplicates for term-frequency math.
+
+    The existing extract_keywords() deduplicates via a set comprehension,
+    which is correct for the existing keyword-index use case but loses
+    information needed for BM25 term frequency. This sibling preserves
+    repetition. Used only by compute_bm25_stats — existing callers
+    continue using extract_keywords().
+    """
+    words = re.findall(r"[a-zA-Z]{3,}", text.lower())
+    return [w for w in words if w not in STOP_WORDS]
+
+
+def compute_bm25_stats(tasks: list[dict]) -> tuple[dict, dict, dict]:
+    """Compute BM25 statistics for the task corpus.
+
+    Args:
+        tasks: list of {"id": int, "task_description": str, "feature_area": str}
+
+    Returns:
+        tf_per_task:  {task_id: {keyword: term_frequency}}
+        doc_lengths:  {task_id: token_count}
+        corpus: {
+            "total_docs": int,
+            "avg_doc_length": float,
+            "idf_per_keyword": {keyword: idf_score},
+        }
+
+    IDF formula (smoothed Okapi BM25):
+        IDF(q) = ln((N - n(q) + 0.5) / (n(q) + 0.5) + 1)
+    """
+    tf_per_task: dict = {}
+    doc_lengths: dict = {}
+    docs_containing: Counter = Counter()
+
+    for task in tasks:
+        task_id = task["id"]
+        text = (task.get("task_description", "") + " " + task.get("feature_area", ""))
+        tokens = extract_keywords_with_repetition(text)
+
+        tf_counts = Counter(tokens)
+        tf_per_task[task_id] = dict(tf_counts)
+        doc_lengths[task_id] = len(tokens)
+
+        for keyword in tf_counts.keys():
+            docs_containing[keyword] += 1
+
+    total_docs = len(tasks)
+    avg_doc_length = (
+        sum(doc_lengths.values()) / total_docs if total_docs > 0 else 0.0
+    )
+
+    idf_per_keyword: dict = {}
+    for keyword, df in docs_containing.items():
+        idf = math.log((total_docs - df + 0.5) / (df + 0.5) + 1)
+        idf_per_keyword[keyword] = idf
+
+    corpus = {
+        "total_docs": total_docs,
+        "avg_doc_length": avg_doc_length,
+        "idf_per_keyword": idf_per_keyword,
+    }
+
+    return tf_per_task, doc_lengths, corpus
 
 
 # ---------------------------------------------------------------------------
@@ -273,8 +341,9 @@ def push_task_search(account_id: str, database_id: str, token: str) -> None:
     """
     Build keyword index from tasks already in D1.
     Queries tasks table, extracts keywords, bulk-inserts into task_search.
+    Also computes and persists BM25 statistics (tf, idf, doc_length, corpus_stats).
     """
-    print("  Building task_search keyword index...")
+    print("  Building task_search keyword index (with BM25 stats)...")
     rows = d1_exec(
         account_id, database_id, token,
         "SELECT id, task_description, feature_area FROM tasks",
@@ -283,20 +352,43 @@ def push_task_search(account_id: str, database_id: str, token: str) -> None:
         print("  No tasks found — skipping task_search")
         return
 
-    sql = "INSERT INTO task_search (task_id, keyword, weight) VALUES (?, ?, ?)"
+    tf_per_task, doc_lengths, corpus = compute_bm25_stats(rows)
+
+    sql = "INSERT INTO task_search (task_id, keyword, weight, tf, idf) VALUES (?, ?, ?, ?, ?)"
     statements = []
     for row in rows:
         task_id = row["id"]
         desc_kws = extract_keywords(row.get("task_description", ""))
         area_kws = extract_keywords(row.get("feature_area", ""))
         for kw in desc_kws:
-            statements.append({"sql": sql, "params": [task_id, kw, 1.0]})
+            tf = tf_per_task.get(task_id, {}).get(kw, 1.0)
+            idf = corpus["idf_per_keyword"].get(kw, 0.0)
+            statements.append({"sql": sql, "params": [task_id, kw, 1.0, tf, idf]})
         for kw in area_kws:
             if kw not in set(desc_kws):
-                statements.append({"sql": sql, "params": [task_id, kw, 0.5]})
+                tf = tf_per_task.get(task_id, {}).get(kw, 1.0)
+                idf = corpus["idf_per_keyword"].get(kw, 0.0)
+                statements.append({"sql": sql, "params": [task_id, kw, 0.5, tf, idf]})
 
     d1_run_many(account_id, database_id, token, statements, "task_search insert")
     print(f"  Indexed {len(rows)} tasks → {len(statements)} keyword entries")
+
+    update_sql = "UPDATE tasks SET doc_length = ? WHERE id = ?"
+    update_statements = [
+        {"sql": update_sql, "params": [doc_lengths.get(row["id"], 0), row["id"]]}
+        for row in rows
+    ]
+    d1_run_many(account_id, database_id, token, update_statements, "doc_length update")
+
+    stats_sql = "INSERT OR REPLACE INTO corpus_stats (key, value) VALUES (?, ?)"
+    stats_statements = [
+        {"sql": stats_sql, "params": ["total_docs", corpus["total_docs"]]},
+        {"sql": stats_sql, "params": ["avg_doc_length", corpus["avg_doc_length"]]},
+    ]
+    d1_run_many(account_id, database_id, token, stats_statements, "corpus_stats")
+
+    print(f"  BM25 stats: {len(corpus['idf_per_keyword'])} unique keywords, "
+          f"avg_doc_length={corpus['avg_doc_length']:.2f}")
 
 
 # ---------------------------------------------------------------------------
