@@ -109,10 +109,42 @@ function badRequest(msg: string): Response {
 }
 
 // ---------------------------------------------------------------------------
+// Corpus stats cache (BM25)
+// ---------------------------------------------------------------------------
+
+interface CorpusStats {
+  total_docs: number;
+  avg_doc_length: number;
+}
+
+// Loaded once per worker isolate. Refreshes on isolate recycle or deploy.
+// Staleness is acceptable because corpus_stats only updates nightly.
+let _corpusStatsCache: CorpusStats | null = null;
+
+async function getCorpusStats(env: Env): Promise<CorpusStats> {
+  if (_corpusStatsCache) return _corpusStatsCache;
+
+  const result = await env.DB.prepare(
+    `SELECT key, value FROM corpus_stats`
+  ).all();
+
+  // Safe defaults match measured values so BM25 stays sensible on cache miss.
+  const stats: CorpusStats = { total_docs: 237, avg_doc_length: 6.0 };
+
+  for (const row of result.results ?? []) {
+    if (row.key === "total_docs")     stats.total_docs     = Number(row.value);
+    if (row.key === "avg_doc_length") stats.avg_doc_length = Number(row.value);
+  }
+
+  _corpusStatsCache = stats;
+  return stats;
+}
+
+// ---------------------------------------------------------------------------
 // Search helpers
 // ---------------------------------------------------------------------------
 
-type MatchType = "exact" | "full_keyword" | "partial";
+type MatchType = "exact" | "full_keyword" | "partial" | "bm25";
 type Entry = { row: Record<string, unknown>; matchType: MatchType };
 
 // Run all three keyword queries (phrase, full-AND, partial-OR) in parallel
@@ -192,6 +224,57 @@ async function runKeywordTier(
   return merged;
 }
 
+// ── BM25 ranking tier ─────────────────────────────────────────────────────
+// Smoothed Okapi BM25 (k1=1.2, b=0.5).
+// b reduced from standard 0.75 because corpus has short docs (avg ~6 tokens).
+const BM25_K1 = 1.2;
+const BM25_B  = 0.5;
+
+async function runBM25Tier(
+  env: Env,
+  kws: string[],
+): Promise<Map<string, Entry>> {
+  if (kws.length === 0) return new Map();
+
+  const corpus = await getCorpusStats(env);
+  const avgdl  = corpus.avg_doc_length;
+  const k1     = BM25_K1;
+  const b      = BM25_B;
+
+  const ph = kws.map(() => "?").join(",");
+
+  // Per-task sum of per-keyword BM25 contributions * 100 keeps base_score
+  // magnitude comparable to existing tiers after privilegeFactor multiplies.
+  const sql = `
+    SELECT t.id, t.task_description, t.feature_area,
+           t.alt_role_ids, t.source_url,
+           r.id AS min_role_id, r.display_name AS min_role_name,
+           r.is_privileged, r.permissions,
+           SUM(
+             ts.idf *
+             (ts.tf * (${k1} + 1)) /
+             (ts.tf + ${k1} * (1 - ${b} + ${b} * COALESCE(t.doc_length, ${avgdl}) / ${avgdl}))
+           ) * 100 AS base_score
+    FROM task_search ts
+    JOIN tasks t ON ts.task_id = t.id
+    JOIN roles r ON t.min_role_id = r.id
+    WHERE ts.keyword IN (${ph})
+      AND ts.idf IS NOT NULL
+      AND t.out_of_scope IS NULL
+    GROUP BY t.id
+    ORDER BY base_score DESC
+    LIMIT 20
+  `;
+
+  const result = await env.DB.prepare(sql).bind(...kws).all();
+
+  const map = new Map<string, Entry>();
+  for (const row of (result.results ?? []) as Record<string, unknown>[]) {
+    map.set(String(row.id), { row, matchType: "bm25" });
+  }
+  return map;
+}
+
 // LIKE-only fallback — uses longest meaningful topic keyword (≥5 chars),
 // falling back to the full query phrase if none qualifies.
 // This prevents short generic words like "access" from matching unrelated tasks.
@@ -228,6 +311,7 @@ async function runLikeTier(
 }
 
 function applyAffinityAndScore(seen: Map<string, Entry>): unknown[] {
+  if (seen.size === 0) return [];
   const scored = [...seen.values()].map(({ row, matchType }) => {
     const permCount = safeParseJson(row.permissions as string, []).length;
     const isPriv    = row.is_privileged === 1;
@@ -285,23 +369,76 @@ function applyAffinityAndScore(seen: Map<string, Entry>): unknown[] {
 // Route handlers
 // ---------------------------------------------------------------------------
 
+function extractKeywordsForSearch(q: string): {
+  keywords: string[];
+  topicKeywords: string[];
+  sqKeywords: string[];
+} {
+  const keywords      = extractKeywords(q);
+  const topicKeywords = keywords.filter((k) => !GENERIC_VERBS.has(k));
+  const sqKeywords    = topicKeywords.length > 0 ? topicKeywords : keywords;
+  return { keywords, topicKeywords, sqKeywords };
+}
+
+async function handleSearchCompare(
+  env: Env,
+  q: string,
+): Promise<Response> {
+  const { keywords, topicKeywords, sqKeywords } = extractKeywordsForSearch(q);
+
+  const [keywordMap, bm25Map] = await Promise.all([
+    runKeywordTier(env, q, sqKeywords),
+    runBM25Tier(env, sqKeywords),
+  ]);
+
+  const keywordResults = applyAffinityAndScore(keywordMap) as any[];
+  const bm25Results    = applyAffinityAndScore(bm25Map)    as any[];
+
+  return json({
+    query:          q,
+    keywords,
+    topic_keywords: topicKeywords,
+    keyword_ranker: {
+      count: keywordResults.length,
+      top_5: keywordResults.slice(0, 5).map((r) => ({
+        task:       r.task,
+        min_role:   r.min_role,
+        score:      r.score,
+        match_type: r.match_type,
+      })),
+    },
+    bm25_ranker: {
+      count: bm25Results.length,
+      top_5: bm25Results.slice(0, 5).map((r) => ({
+        task:       r.task,
+        min_role:   r.min_role,
+        score:      r.score,
+        match_type: r.match_type,
+      })),
+    },
+    same_top_role:
+      keywordResults[0]?.min_role != null &&
+      keywordResults[0]?.min_role === bm25Results[0]?.min_role,
+  });
+}
+
 async function handleSearch(url: URL, env: Env): Promise<Response> {
   const q = url.searchParams.get("q")?.trim() ?? "";
   if (!q) return badRequest("Missing or empty query parameter: q");
 
-  const keywords = extractKeywords(q);
+  // Internal A/B endpoint — not part of normal search flow.
+  if (url.searchParams.get("debug") === "compare") {
+    return handleSearchCompare(env, q);
+  }
+
+  const { keywords, topicKeywords, sqKeywords } = extractKeywordsForSearch(q);
   if (keywords.length === 0) return json([]);
 
-  const topicKeywords = keywords.filter((k) => !GENERIC_VERBS.has(k));
-  const sqKeywords    = topicKeywords.length > 0 ? topicKeywords : keywords;
-
-  // FIX 1 — Three-tier fallback:
   // Tier 1: topic keywords only (precise, avoids "configure" noise)
   const tier1 = await runKeywordTier(env, q, sqKeywords);
   if (tier1.size > 0) return json(applyAffinityAndScore(tier1));
 
-  // Tier 2: all keywords including generic verbs (only runs if tier 1 empty
-  //         AND there are generic verbs that were stripped)
+  // Tier 2: all keywords including generic verbs (only if some were stripped)
   if (topicKeywords.length < keywords.length) {
     const tier2 = await runKeywordTier(env, q, keywords);
     if (tier2.size > 0) return json(applyAffinityAndScore(tier2));
