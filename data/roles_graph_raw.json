@@ -5155,7 +5155,7 @@
   },
   {
     "id": "adb2368d-a9be-41b5-8667-d96778e081b0",
-    "description": "Create an agent blueprint and its service principal in a tenant. User will be added as an owner of the agent blueprint and its service principal.",
+    "description": "Create an agent identity blueprint and its agent identity blueprint principal in a tenant. User will be added as an owner of the created agent identity blueprint and its agent identity blueprint principal.",
     "displayName": "Agent ID Developer",
     "isBuiltIn": true,
     "isEnabled": true,
