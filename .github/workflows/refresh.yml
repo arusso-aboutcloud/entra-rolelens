@@ -60,6 +60,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
 
+      - name: Sentrux structural quality gate
+        run: |
+          curl -L -o sentrux https://github.com/sentrux/sentrux/releases/download/v0.5.7/sentrux-linux-x86_64-gnu
+          chmod +x sentrux
+          mkdir -p .sentrux
+          ./sentrux gate . 2> .sentrux/gate_stderr.txt || true
+          QUALITY=$(grep -oP 'Quality:\s+\K\d+' .sentrux/gate_stderr.txt | head -1)
+          QUALITY=${QUALITY:-0}
+          echo "{\"quality\": $QUALITY}" > .sentrux/quality.json
+          echo "Sentrux quality: $QUALITY"
+        continue-on-error: true
+
       - name: Push to Cloudflare KV and D1
         run: python pipeline/push_to_cloudflare.py
         env:

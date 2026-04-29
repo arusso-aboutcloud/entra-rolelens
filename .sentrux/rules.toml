@@ -1,0 +1,31 @@
+# ----------------------------------------------------------------------
+# Entra RoleLens — Sentrux architectural rules
+#
+# These rules define structural boundaries that the codebase should respect.
+# Enforced by:  sentrux check .  (run by CI in .github/workflows/refresh.yml)
+#
+# Levels:
+#   error  -> CI fails
+#   warn   -> reported but does not fail CI
+# ----------------------------------------------------------------------
+
+[rule.no_cyclic_dependencies]
+description = "No circular dependencies between modules"
+level = "error"
+
+[rule.worker_boundary]
+description = "Worker should not import from pipeline modules — they live on different runtimes"
+level = "error"
+query = "worker"
+
+[rule.module_boundaries]
+description = "Frontend, worker, and pipeline should remain independent"
+level = "warn"
+
+[rule.keep_max_depth_reasonable]
+description = "Keep directory nesting depth <= 4 levels"
+level = "warn"
+
+[rule.no_god_files]
+description = "Prevent any single file from accumulating too much logic or coupling"
+level = "warn"

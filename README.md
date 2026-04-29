@@ -70,6 +70,18 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 
 ---
 
+## Code quality
+
+This codebase is continuously monitored for structural quality. Every nightly pipeline run validates that the architectural rules in [`.sentrux/rules.toml`](.sentrux/rules.toml) hold, and reports the latest quality score below.
+
+The check runs via [Sentrux](https://github.com/sentrux/sentrux), a free open-source structural quality gate. The score reflects metrics like cyclic-dependency count, coupling between modules, and file-size distribution — informational only, never blocking the pipeline.
+
+<!-- SENTRUX_QUALITY_START -->
+- Last quality score: **—** — will populate after first nightly run
+<!-- SENTRUX_QUALITY_END -->
+
+---
+
 ## Technical stack
 
 | Layer | Technology | Cost |
