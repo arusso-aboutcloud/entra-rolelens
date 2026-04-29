@@ -530,6 +530,61 @@ def update_readme_data_quality(master_path: Path, readme_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
+# README Sentrux quality
+# ---------------------------------------------------------------------------
+
+def update_readme_sentrux(readme_path: Path) -> None:
+    """Update the Sentrux quality score in the README.
+
+    Reads .sentrux/quality.json (written by the CI workflow's sentrux step).
+    If the file doesn't exist or can't be parsed, prints a notice and
+    returns without modifying the README. Never raises — Sentrux failures
+    must not break the pipeline.
+    """
+    quality_file = Path(__file__).parent.parent / ".sentrux" / "quality.json"
+
+    if not quality_file.exists():
+        print("  Sentrux quality.json not found — skipping README update")
+        return
+
+    try:
+        with open(quality_file, encoding="utf-8") as f:
+            data = json.load(f)
+        score = data.get("quality")
+    except (json.JSONDecodeError, OSError) as exc:
+        print(f"  Sentrux quality.json unreadable ({exc}) — skipping README update")
+        return
+
+    if not score:
+        print("  Sentrux quality score is 0 or missing — skipping README update")
+        return
+
+    new_section = (
+        f"\n"
+        f"- Last quality score: **{score}** — structural regression gate passes\n"
+    )
+
+    with open(readme_path, "r", encoding="utf-8") as f:
+        readme = f.read()
+
+    if "<!-- SENTRUX_QUALITY_START -->" not in readme:
+        print("  README does not contain SENTRUX_QUALITY markers — skipping")
+        return
+
+    updated = re.sub(
+        r"<!-- SENTRUX_QUALITY_START -->.*?<!-- SENTRUX_QUALITY_END -->",
+        f"<!-- SENTRUX_QUALITY_START -->{new_section}<!-- SENTRUX_QUALITY_END -->",
+        readme,
+        flags=re.DOTALL,
+    )
+
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(updated)
+
+    print(f"  README Sentrux quality updated: {score}")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -563,6 +618,7 @@ def main() -> None:
     readme_path = Path(__file__).parent.parent / "README.md"
     update_readme_whats_new(CHANGELOG_PATH, readme_path)
     update_readme_data_quality(MASTER_PATH, readme_path)
+    update_readme_sentrux(readme_path)
 
     print("Push complete")
 
