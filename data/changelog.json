@@ -1,1 +1,98 @@
-[]
+[
+  {
+    "date": "2026-04-30",
+    "change_type": "ADDED",
+    "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
+    "role_name": "AI Reader",
+    "field": null,
+    "detail": "New built-in role added: AI Reader"
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "ADDED",
+    "role_id": "fc8ad4e2-40e4-4724-8317-bcda7503ecbf",
+    "role_name": "Customer Delegated Admin Relationship Administrator",
+    "field": null,
+    "detail": "New built-in role added: Customer Delegated Admin Relationship Administrator"
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
+    "role_name": "Agent ID Administrator",
+    "field": "permissions",
+    "detail": "2 permissions added"
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "adb2368d-a9be-41b5-8667-d96778e081b0",
+    "role_name": "Agent ID Developer",
+    "field": "description",
+    "detail": "description changed: \"Create an agent blueprint and its service principal in a tenant. User will be added as an owner of the agent blueprint and its service principal.\" -> \"Create an agent identity blueprint and its agent identity blueprint principal in a tenant. User will be added as an owner of the created agent identity blueprint and its agent identity blueprint principal.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "e3973bdf-4987-49ae-837a-ba8e231c7286",
+    "role_name": "Azure DevOps Administrator",
+    "field": "description",
+    "detail": "description changed: \"Can manage Azure DevOps policies and settings.\" -> \"Manage Azure DevOps policies and settings.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "892c5842-a9a6-463a-8041-72aa08ca3cf6",
+    "role_name": "Cloud App Security Administrator",
+    "field": "description",
+    "detail": "description changed: \"Can manage all aspects of the Defender for Cloud Apps product.\" -> \"Manage all aspects of the Defender for Cloud Apps product.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "a9ea8996-122f-4c74-9520-8edcd192826c",
+    "role_name": "Fabric Administrator",
+    "field": "description",
+    "detail": "description changed: \"Can manage all aspects of the Fabric and Power BI products.\" -> \"Manage all aspects of the Fabric and Power BI products.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "62e90394-69f5-4237-9190-012177145e10",
+    "role_name": "Global Administrator",
+    "field": "permissions",
+    "detail": "1 permission added"
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "8ac3fc64-6eca-42ea-9e69-59f4c7b60eb2",
+    "role_name": "Hybrid Identity Administrator",
+    "field": "permissions",
+    "detail": "1 permission added"
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "31e939ad-9672-4796-9c2e-873181342d2d",
+    "role_name": "Insights Business Leader",
+    "field": "description",
+    "detail": "description changed: \"Can view and share dashboards and insights via the Microsoft 365 Insights app.\" -> \"View and share dashboards and insights via the Microsoft Viva Insights app.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "744ec460-397e-42ad-a462-8b3f9747a02c",
+    "role_name": "Knowledge Manager",
+    "field": "description",
+    "detail": "description changed: \"Can organize, create, manage, and promote topics and knowledge.\" -> \"Organize, create, manage, and promote topics and knowledge.\""
+  },
+  {
+    "date": "2026-04-30",
+    "change_type": "MODIFIED",
+    "role_id": "11648597-926c-4cf3-9c36-bcebb0ba8dcc",
+    "role_name": "Power Platform Administrator",
+    "field": "description",
+    "detail": "description changed: \"Can create and manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.\" -> \"Manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.\""
+  }
+]

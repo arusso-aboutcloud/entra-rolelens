@@ -22,6 +22,57 @@
     ]
   },
   {
+    "id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
+    "displayName": "AI Reader",
+    "description": "Read all aspects of Microsoft 365 Copilot and AI-related enterprise services in Microsoft 365.",
+    "isBuiltIn": true,
+    "isPrivileged": true,
+    "permissions": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/administrativeUnits/members/read",
+      "microsoft.directory/administrativeUnits/standard/read",
+      "microsoft.directory/agentUsers/lifeCycleInfo/read",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applications/owners/read",
+      "microsoft.directory/applications/policies/read",
+      "microsoft.directory/applications/standard/read",
+      "microsoft.directory/contacts/memberOf/read",
+      "microsoft.directory/contacts/standard/read",
+      "microsoft.directory/contracts/standard/read",
+      "microsoft.directory/domains/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/groups/appRoleAssignments/read",
+      "microsoft.directory/groups/memberOf/read",
+      "microsoft.directory/groups/members/read",
+      "microsoft.directory/groups/owners/read",
+      "microsoft.directory/groups/settings/read",
+      "microsoft.directory/groups/standard/read",
+      "microsoft.directory/groupSettings/standard/read",
+      "microsoft.directory/groupSettingTemplates/standard/read",
+      "microsoft.directory/oAuth2PermissionGrants/standard/read",
+      "microsoft.directory/organization/standard/read",
+      "microsoft.directory/organization/trustedCAsForPasswordlessAuth/read",
+      "microsoft.directory/roleAssignments/standard/read",
+      "microsoft.directory/roleDefinitions/standard/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignments/read",
+      "microsoft.directory/servicePrincipals/memberOf/read",
+      "microsoft.directory/servicePrincipals/oAuth2PermissionGrants/read",
+      "microsoft.directory/servicePrincipals/ownedObjects/read",
+      "microsoft.directory/servicePrincipals/owners/read",
+      "microsoft.directory/servicePrincipals/policies/read",
+      "microsoft.directory/servicePrincipals/standard/read",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/allProperties/read",
+      "microsoft.office365.copilot/allEntities/allProperties/read",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ]
+  },
+  {
     "id": "db506228-d27e-4b7d-95e5-295956d6615f",
     "displayName": "Agent ID Administrator",
     "description": "Manage all aspects of agents in a tenant including identity lifecycle operations for agent blueprints, agent service principals, agent identities, and agentic users.",
@@ -69,6 +120,8 @@
       "microsoft.directory/agentUsers/lifeCycleInfo/read",
       "microsoft.directory/agentUsers/lifeCycleInfo/update",
       "microsoft.directory/agentUsers/manager/update",
+      "microsoft.directory/agentUsers/photo/update",
+      "microsoft.directory/agentUsers/reprocessLicenseAssignment",
       "microsoft.directory/agentUsers/restore",
       "microsoft.directory/agentUsers/revokeSignInSessions",
       "microsoft.directory/agentUsers/sponsors/update",
@@ -90,7 +143,7 @@
   {
     "id": "adb2368d-a9be-41b5-8667-d96778e081b0",
     "displayName": "Agent ID Developer",
-    "description": "Create an agent blueprint and its service principal in a tenant. User will be added as an owner of the agent blueprint and its service principal.",
+    "description": "Create an agent identity blueprint and its agent identity blueprint principal in a tenant. User will be added as an owner of the created agent identity blueprint and its agent identity blueprint principal.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -400,7 +453,7 @@
   {
     "id": "e3973bdf-4987-49ae-837a-ba8e231c7286",
     "displayName": "Azure DevOps Administrator",
-    "description": "Can manage Azure DevOps policies and settings.",
+    "description": "Manage Azure DevOps policies and settings.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -462,7 +515,7 @@
   {
     "id": "892c5842-a9a6-463a-8041-72aa08ca3cf6",
     "displayName": "Cloud App Security Administrator",
-    "description": "Can manage all aspects of the Defender for Cloud Apps product.",
+    "description": "Manage all aspects of the Defender for Cloud Apps product.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -621,6 +674,17 @@
       "microsoft.directory/namedLocations/delete",
       "microsoft.directory/namedLocations/standard/read",
       "microsoft.directory/resourceNamespaces/resourceActions/authenticationContext/update"
+    ]
+  },
+  {
+    "id": "fc8ad4e2-40e4-4724-8317-bcda7503ecbf",
+    "displayName": "Customer Delegated Admin Relationship Administrator",
+    "description": "Manage all aspects of granular delegated admin privileges (GDAP) relationships in a customer tenant.",
+    "isBuiltIn": true,
+    "isPrivileged": false,
+    "permissions": [
+      "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
     ]
   },
   {
@@ -989,7 +1053,7 @@
   {
     "id": "a9ea8996-122f-4c74-9520-8edcd192826c",
     "displayName": "Fabric Administrator",
-    "description": "Can manage all aspects of the Fabric and Power BI products.",
+    "description": "Manage all aspects of the Fabric and Power BI products.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -1017,6 +1081,7 @@
       "microsoft.cloudPC/allEntities/allProperties/allTasks",
       "microsoft.commerce.billing/allEntities/allProperties/allTasks",
       "microsoft.commerce.billing/purchases/standard/read",
+      "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
       "microsoft.directory/accessReviews/allProperties/allTasks",
       "microsoft.directory/accessReviews/definitions/allProperties/allTasks",
       "microsoft.directory/adminConsentRequestPolicy/allProperties/allTasks",
@@ -1518,6 +1583,7 @@
       "microsoft.directory/applications/basic/update",
       "microsoft.directory/applications/create",
       "microsoft.directory/applications/delete",
+      "microsoft.directory/applications/disablement/update",
       "microsoft.directory/applications/notes/update",
       "microsoft.directory/applications/owners/update",
       "microsoft.directory/applications/permissions/update",
@@ -1621,7 +1687,7 @@
   {
     "id": "31e939ad-9672-4796-9c2e-873181342d2d",
     "displayName": "Insights Business Leader",
-    "description": "Can view and share dashboards and insights via the Microsoft 365 Insights app.",
+    "description": "View and share dashboards and insights via the Microsoft Viva Insights app.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -1733,7 +1799,7 @@
   {
     "id": "744ec460-397e-42ad-a462-8b3f9747a02c",
     "displayName": "Knowledge Manager",
-    "description": "Can organize, create, manage, and promote topics and knowledge.",
+    "description": "Organize, create, manage, and promote topics and knowledge.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [
@@ -2119,7 +2185,7 @@
   {
     "id": "11648597-926c-4cf3-9c36-bcebb0ba8dcc",
     "displayName": "Power Platform Administrator",
-    "description": "Can create and manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.",
+    "description": "Manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.",
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [

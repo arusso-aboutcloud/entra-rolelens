@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-29T16:41:12.022945+00:00",
+  "generated_at": "2026-04-30T04:29:41.685413+00:00",
   "role_count": 143,
   "task_count": 237,
-  "shadow_role_count": 13,
+  "shadow_role_count": 11,
   "roles": [
     {
       "id": "62e90394-69f5-4237-9190-012177145e10",
@@ -1453,7 +1453,7 @@
     {
       "id": "a9ea8996-122f-4c74-9520-8edcd192826c",
       "displayName": "Fabric Administrator",
-      "description": "Can manage all aspects of the Fabric and Power BI products.",
+      "description": "Manage all aspects of the Fabric and Power BI products.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -2138,7 +2138,7 @@
     {
       "id": "11648597-926c-4cf3-9c36-bcebb0ba8dcc",
       "displayName": "Power Platform Administrator",
-      "description": "Can create and manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.",
+      "description": "Manage all aspects of Microsoft Dynamics 365, Power Apps and Power Automate.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -2156,7 +2156,7 @@
     {
       "id": "e3973bdf-4987-49ae-837a-ba8e231c7286",
       "displayName": "Azure DevOps Administrator",
-      "description": "Can manage Azure DevOps policies and settings.",
+      "description": "Manage Azure DevOps policies and settings.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -2268,7 +2268,7 @@
     {
       "id": "31e939ad-9672-4796-9c2e-873181342d2d",
       "displayName": "Insights Business Leader",
-      "description": "Can view and share dashboards and insights via the Microsoft 365 Insights app.",
+      "description": "View and share dashboards and insights via the Microsoft Viva Insights app.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -2353,7 +2353,7 @@
     {
       "id": "744ec460-397e-42ad-a462-8b3f9747a02c",
       "displayName": "Knowledge Manager",
-      "description": "Can organize, create, manage, and promote topics and knowledge.",
+      "description": "Organize, create, manage, and promote topics and knowledge.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -2429,7 +2429,7 @@
       "displayName": "AI Reader",
       "description": "Read all aspects of Microsoft 365 Copilot and AI-related enterprise services in Microsoft 365.",
       "isBuiltIn": true,
-      "isPrivileged": false,
+      "isPrivileged": true,
       "permissions": [
         "microsoft.azure.serviceHealth/allEntities/allTasks",
         "microsoft.directory/administrativeUnits/members/read",
@@ -2474,7 +2474,7 @@
         "microsoft.office365.usageReports/allEntities/allProperties/read",
         "microsoft.office365.webPortal/allEntities/standard/read"
       ],
-      "isShadowRole": true
+      "isShadowRole": false
     },
     {
       "id": "8424c6f0-a189-499e-bbd0-26c1753c96d4",
@@ -2571,7 +2571,7 @@
     {
       "id": "892c5842-a9a6-463a-8041-72aa08ca3cf6",
       "displayName": "Cloud App Security Administrator",
-      "description": "Can manage all aspects of the Defender for Cloud Apps product.",
+      "description": "Manage all aspects of the Defender for Cloud Apps product.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -3284,7 +3284,7 @@
     {
       "id": "adb2368d-a9be-41b5-8667-d96778e081b0",
       "displayName": "Agent ID Developer",
-      "description": "Create an agent blueprint and its service principal in a tenant. User will be added as an owner of the agent blueprint and its service principal.",
+      "description": "Create an agent identity blueprint and its agent identity blueprint principal in a tenant. User will be added as an owner of the created agent identity blueprint and its agent identity blueprint principal.",
       "isBuiltIn": true,
       "isPrivileged": false,
       "permissions": [
@@ -3388,7 +3388,7 @@
         "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
         "microsoft.office365.webPortal/allEntities/standard/read"
       ],
-      "isShadowRole": true
+      "isShadowRole": false
     },
     {
       "id": "f42252d9-5400-4d7b-b9ef-cc582dbb8577",
@@ -6017,7 +6017,7 @@
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
       "synthetic": true,
       "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
-      "is_privileged": false,
+      "is_privileged": true,
       "out_of_scope": null
     },
     {
@@ -6028,7 +6028,7 @@
       "source_url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
       "synthetic": true,
       "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
-      "is_privileged": false,
+      "is_privileged": true,
       "out_of_scope": null
     },
     {
