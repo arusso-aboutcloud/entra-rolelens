@@ -98,6 +98,18 @@ def render(metrics: dict) -> str:
       <feGaussianBlur stdDeviation="2.5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <!-- KITT scanner beam gradient: bright core, soft fade at edges -->
+    <linearGradient id="kitt-beam" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%"   stop-color="{ACCENT}" stop-opacity="0"/>
+      <stop offset="25%"  stop-color="{ACCENT}" stop-opacity="0.55"/>
+      <stop offset="50%"  stop-color="#ffffff"  stop-opacity="1"/>
+      <stop offset="75%"  stop-color="{ACCENT}" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="{ACCENT}" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Clip scanner strictly to bar bounds -->
+    <clipPath id="bar-clip">
+      <rect x="{bar_x}" y="164" width="{bar_width}" height="14"/>
+    </clipPath>
   </defs>
 
   <!-- Background + border -->
@@ -119,13 +131,16 @@ def render(metrics: dict) -> str:
   <text x="20" y="152" font-size="11" fill="{DIM}">{delta_str}</text>
 
   <!-- Quality bar (0–10000 scale) -->
-  <rect x="{bar_x}" y="168" width="{bar_width}" height="4" fill="{PANEL}" rx="2"/>
-  <rect x="{bar_x}" y="168" width="{filled_width:.1f}" height="4" fill="url(#qbar)" rx="2"/>
-  <circle cx="{indicator_x:.1f}" cy="170" r="5" fill="{ACCENT}">
-    <animate attributeName="r" values="5;7;5" dur="2.4s" repeatCount="indefinite"/>
-  </circle>
-  <text x="{bar_x}" y="186" font-size="9" fill="{DIM}">0</text>
-  <text x="{bar_x + bar_width - 32}" y="186" font-size="9" fill="{DIM}">10 000</text>
+  <rect x="{bar_x}" y="168" width="{bar_width}" height="6" fill="{PANEL}" rx="3"/>
+  <rect x="{bar_x}" y="168" width="{filled_width:.1f}" height="6" fill="url(#qbar)" rx="3"/>
+  <!-- KITT scanner beam sweeping left↔right across full bar -->
+  <rect x="-60" y="164" width="80" height="14" fill="url(#kitt-beam)" clip-path="url(#bar-clip)">
+    <animate attributeName="x" values="-60;{bar_x + bar_width};-60" dur="2.4s" repeatCount="indefinite" calcMode="linear"/>
+  </rect>
+  <!-- Static score position marker -->
+  <circle cx="{indicator_x:.1f}" cy="171" r="3.5" fill="{ACCENT}"/>
+  <text x="{bar_x}" y="190" font-size="9" fill="{DIM}">0</text>
+  <text x="{bar_x + bar_width - 32}" y="190" font-size="9" fill="{DIM}">10 000</text>
 
   <!-- Metric tiles -->
   <!-- Tile 1: Coupling -->
