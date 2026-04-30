@@ -25,6 +25,11 @@ jobs:
           - worker    # Node.js (package.json + lockfile)
           - pipeline  # Python (requirements.txt)
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v4
 
       - name: Trivy fs scan (${{ matrix.path }})
@@ -48,6 +53,11 @@ jobs:
     name: Config Scan
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v4
 
       - name: Trivy config scan
@@ -73,6 +83,11 @@ jobs:
     name: SBOM
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v4
 
       - name: Generate SBOM (worker)
