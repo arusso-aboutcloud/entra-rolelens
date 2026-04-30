@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <defs>
+    <linearGradient id="qbar" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#1A1D2A"/>
+      <stop offset="0.5" stop-color="#00E5A3" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#00E5A3"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background + border -->
+  <rect width="720" height="360" fill="#07080D" rx="12"/>
+  <rect x="0.5" y="0.5" width="719" height="359" fill="none" stroke="#1A1D2A" stroke-width="1" rx="12"/>
+
+  <!-- Header -->
+  <text x="20" y="28" font-size="11" fill="#6B7280" letter-spacing="1.5">CODE QUALITY&#160;&#183;&#160;ENTRA ROLELENS&#160;&#183;&#160;SENTRUX v0.5.7</text>
+  <circle cx="700" cy="24" r="4" fill="#00E5A3">
+    <animate attributeName="opacity" values="1;0.35;1" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Quality score (large) -->
+  <text x="20" y="76" font-size="11" fill="#6B7280" letter-spacing="1.5">QUALITY SCORE</text>
+  <text x="20" y="132" font-size="60" font-weight="600" fill="#00E5A3" filter="url(#glow)">
+    7005
+    <animate attributeName="opacity" values="0;1" dur="0.7s" fill="freeze"/>
+  </text>
+  <text x="20" y="152" font-size="11" fill="#6B7280">&#9650; +2 from baseline</text>
+
+  <!-- Quality bar (0–10000 scale) -->
+  <rect x="20" y="168" width="680" height="4" fill="#0E1018" rx="2"/>
+  <rect x="20" y="168" width="476.3" height="4" fill="url(#qbar)" rx="2"/>
+  <circle cx="496.3" cy="170" r="5" fill="#00E5A3">
+    <animate attributeName="r" values="5;7;5" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+  <text x="20" y="186" font-size="9" fill="#6B7280">0</text>
+  <text x="668" y="186" font-size="9" fill="#6B7280">10 000</text>
+
+  <!-- Metric tiles -->
+  <!-- Tile 1: Coupling -->
+  <g transform="translate(20,202)">
+    <rect width="160" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">COUPLING</text>
+    <text x="12" y="58" font-size="30" fill="#00E5A3" font-weight="500">0.00</text>
+    <circle cx="144" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Tile 2: Cycles -->
+  <g transform="translate(188,202)">
+    <rect width="160" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">CYCLES</text>
+    <text x="12" y="58" font-size="30" fill="#00E5A3" font-weight="500">0</text>
+    <circle cx="144" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Tile 3: God files -->
+  <g transform="translate(356,202)">
+    <rect width="160" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">GOD FILES</text>
+    <text x="12" y="58" font-size="30" fill="#00E5A3" font-weight="500">0</text>
+    <circle cx="144" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Tile 4: Main sequence distance -->
+  <g transform="translate(524,202)">
+    <rect width="176" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">DISTANCE</text>
+    <text x="12" y="58" font-size="30" fill="#00E5A3" font-weight="500">0.25</text>
+    <text x="12" y="72" font-size="9" fill="#6B7280">main sequence</text>
+    <circle cx="160" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Verdict + timestamp -->
+  <text x="20" y="322" font-size="11" fill="#00E5A3">&#9658; No degradation detected</text>
+  <text x="700" y="322" font-size="9" fill="#6B7280" text-anchor="end">verified 2026-04-30 10:14 UTC</text>
+</svg>
