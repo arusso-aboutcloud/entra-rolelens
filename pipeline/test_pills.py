@@ -52,10 +52,11 @@ EXPECTATIONS: list[tuple[str, str]] = [
 # Remove entries from this set as they are fixed by Week 2 ranking work
 # (BM25 scoring + synonym dict audit + over-reach cleanup).
 KNOWN_FAILURES: set[str] = {
-    "reset password",          # SSPR config hijack via 'password reset' synonym
-    "reset user password",     # External ID User Flow Admin keyword tie
-    "manage groups",           # Identity Governance ranks above Groups Admin
-    "GDAP relationships",      # Synonym chain produces noisy phrase, Reader wins
+    # All resolved in chunk/path-x-synonym-surgery:
+    # "reset password"       RESOLVED — explicit key -> 'reset non admin password'
+    # "reset user password"  RESOLVED — key -> 'reset non admin password'
+    # "manage groups"        RESOLVED — key -> 'group membership management'
+    # "GDAP relationships"   RESOLVED — plural key -> 'gdap relationships partners'
     # "restore deleted users" RESOLVED 2026-04-25 by Chunk 4 stopword guard
 }
 

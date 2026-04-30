@@ -27,8 +27,9 @@ SYNONYMS: dict[str, str] = {
     'passwordless':                 'passwordless authentication',
     'sspr':                         'self service password reset',
     'self-service password':        'self service password reset',
-    'password reset':               'self service password reset',
-    'reset user password':          'reset user account password',
+    'password reset':               'reset user password',
+    'reset password':              'reset non admin password',
+    'reset user password':          'reset non admin password',
     'tap':                          'temporary access pass',
     'temporary access pass':        'temporary access pass',
     'windows hello':                'passwordless authentication',
@@ -114,7 +115,7 @@ SYNONYMS: dict[str, str] = {
     'scoped admin':                 'administrative unit',
     'au':                           'administrative unit',
     'bulk user':                    'bulk create import users',
-    'manage groups':                'manage security groups',
+    'manage groups':                'group membership management',
     'dynamic group':                'dynamic membership group',
     'dynamic membership':           'dynamic membership group',
     'license':                      'license assignment',
@@ -227,6 +228,7 @@ SYNONYMS: dict[str, str] = {
     'recover deleted groups':       'entra backup administrator',
 
     # GDAP and tenant governance
+    'gdap relationships':           'gdap relationships partners',
     'gdap':                         'tenant governance administrator',
     'granular delegated admin':     'tenant governance administrator',
     'csp admin':                    'tenant governance administrator',
