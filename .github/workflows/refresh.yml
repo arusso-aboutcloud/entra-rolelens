@@ -110,6 +110,12 @@ jobs:
         env:
           WORKER_URL: https://rolelens-worker.russo-antonio76.workers.dev
 
+      - name: Synonym expansion regression check
+        continue-on-error: true
+        run: python pipeline/test_synonym_regression.py
+        env:
+          WORKER_URL: https://rolelens-worker.russo-antonio76.workers.dev
+
       # Only fires when test_pills.py exits 1, which now means a NEW
       # regression rather than any failure. Known failures are
       # suppressed via KNOWN_FAILURES in pipeline/test_pills.py.
