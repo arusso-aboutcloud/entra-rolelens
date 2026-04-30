@@ -538,6 +538,33 @@ async function handleRoles(env: Env): Promise<Response> {
   );
 }
 
+async function handleQuality(env: Env): Promise<Response> {
+  const result = await env.DB.prepare(
+    "SELECT key, value FROM sentrux_metrics"
+  ).all();
+
+  const INT_KEYS = new Set([
+    "quality", "baseline",
+    "cycles_current", "cycles_baseline",
+    "god_files_current", "god_files_baseline",
+  ]);
+  const FLOAT_KEYS = new Set([
+    "coupling_current", "coupling_baseline",
+    "main_sequence_distance",
+  ]);
+
+  const metrics: Record<string, unknown> = {};
+  for (const row of result.results ?? []) {
+    const key   = row.key   as string;
+    const value = row.value as string;
+    if (INT_KEYS.has(key))   metrics[key] = parseInt(value, 10);
+    else if (FLOAT_KEYS.has(key)) metrics[key] = parseFloat(value);
+    else metrics[key] = value;
+  }
+
+  return json({ metrics, has_data: Object.keys(metrics).length > 0 });
+}
+
 async function handleStatus(env: Env): Promise<Response> {
   const value = await env.KV.get("pipeline_status");
   if (value === null) {
@@ -584,6 +611,7 @@ export default {
     const url  = new URL(request.url);
     const path = url.pathname;
 
+    if (path === "/api/quality") return handleQuality(env);
     if (path === "/api/status") return handleStatus(env);
     if (path === "/api/roles")  return handleRoles(env);
     if (path === "/api/search") return handleSearch(url, env);
