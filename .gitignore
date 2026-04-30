@@ -13,3 +13,6 @@ _internal/
 sentrux.exe
 .sentrux/quality.json
 .sentrux/gate_stderr.txt
+
+.sentrux/gate_stdout.txt
+sentrux-test

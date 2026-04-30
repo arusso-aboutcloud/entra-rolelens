@@ -62,14 +62,32 @@ jobs:
 
       - name: Sentrux structural quality gate
         run: |
-          curl -L -o sentrux https://github.com/sentrux/sentrux/releases/download/v0.5.7/sentrux-linux-x86_64-gnu
+          set -e
+
+          # Download the correct Linux binary (no -gnu suffix)
+          curl -L -o sentrux https://github.com/sentrux/sentrux/releases/download/v0.5.7/sentrux-linux-x86_64
           chmod +x sentrux
+
+          # Sanity check: real binary is ~36MB; a 9-byte file means we got a 404 page
+          SIZE=$(stat -c%s sentrux)
+          if [ "$SIZE" -lt 1000000 ]; then
+            echo "ERROR: sentrux binary is $SIZE bytes (expected ~36MB) -- aborting Sentrux step"
+            exit 1
+          fi
+
           mkdir -p .sentrux
-          ./sentrux gate . 2> .sentrux/gate_stderr.txt || true
-          QUALITY=$(grep -oP 'Quality:\s+\K\d+' .sentrux/gate_stderr.txt | head -1)
-          QUALITY=${QUALITY:-0}
-          echo "{\"quality\": $QUALITY}" > .sentrux/quality.json
-          echo "Sentrux quality: $QUALITY"
+
+          # Capture stdout (where metrics live) and stderr separately
+          ./sentrux gate . > .sentrux/gate_stdout.txt 2> .sentrux/gate_stderr.txt || true
+
+          # Parse metrics into JSON and generate the dashboard SVG
+          python pipeline/sentrux_parser.py
+          python pipeline/sentrux_dashboard_svg.py
+
+          if [ -f .sentrux/quality.json ]; then
+            echo "Sentrux quality.json written:"
+            cat .sentrux/quality.json
+          fi
         continue-on-error: true
 
       - name: Push to Cloudflare KV and D1
@@ -104,7 +122,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
+          git add data/ assets/quality-dashboard.svg README.md
           git diff --staged --quiet || git commit -m "data: nightly refresh [skip ci]"
           git push origin master
         env:
