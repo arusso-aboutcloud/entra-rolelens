@@ -530,6 +530,59 @@ def update_readme_data_quality(master_path: Path, readme_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Push: Sentrux metrics to D1
+# ---------------------------------------------------------------------------
+
+def push_sentrux_metrics(account_id: str, database_id: str, token: str) -> None:
+    """Push Sentrux quality metrics from .sentrux/quality.json to D1.
+
+    Writes to sentrux_metrics(key TEXT PK, value TEXT). All values stored as
+    strings for uniform type handling; the worker parses them back on read.
+
+    Silently skips if quality.json is missing or contains an error field --
+    Sentrux failures must not break the pipeline.
+    """
+    quality_file = Path(__file__).parent.parent / ".sentrux" / "quality.json"
+
+    if not quality_file.exists():
+        print("  Sentrux quality.json missing — skipping D1 push")
+        return
+
+    try:
+        with open(quality_file, encoding="utf-8") as f:
+            data = json.load(f)
+    except (json.JSONDecodeError, OSError) as exc:
+        print(f"  Sentrux quality.json unreadable ({exc}) — skipping D1 push")
+        return
+
+    if data.get("error") or data.get("quality") is None:
+        print("  Sentrux quality has error or null score — skipping D1 push")
+        return
+
+    rows = {
+        "quality":                  data.get("quality"),
+        "baseline":                 data.get("baseline"),
+        "coupling_current":         data.get("coupling_current"),
+        "coupling_baseline":        data.get("coupling_baseline"),
+        "cycles_current":           data.get("cycles_current"),
+        "cycles_baseline":          data.get("cycles_baseline"),
+        "god_files_current":        data.get("god_files_current"),
+        "god_files_baseline":       data.get("god_files_baseline"),
+        "main_sequence_distance":   data.get("main_sequence_distance"),
+        "verdict":                  data.get("verdict"),
+        "timestamp":                data.get("timestamp"),
+    }
+
+    sql = "INSERT OR REPLACE INTO sentrux_metrics (key, value) VALUES (?, ?)"
+    statements = [
+        {"sql": sql, "params": [k, "" if v is None else str(v)]}
+        for k, v in rows.items()
+    ]
+    d1_run_many(account_id, database_id, token, statements, "sentrux_metrics")
+    print(f"  Sentrux metrics pushed to D1: quality={rows['quality']}")
+
+
+# ---------------------------------------------------------------------------
 # README Sentrux quality -- backed by SVG dashboard
 # ---------------------------------------------------------------------------
 
@@ -577,6 +630,7 @@ def main() -> None:
     push_tasks(account_id, database_id, api_token, master["tasks"], role_index)
     push_task_search(account_id, database_id, api_token)
     push_changelog(account_id, database_id, api_token, changelog)
+    push_sentrux_metrics(account_id, database_id, api_token)
     readme_path = Path(__file__).parent.parent / "README.md"
     update_readme_whats_new(CHANGELOG_PATH, readme_path)
     update_readme_data_quality(MASTER_PATH, readme_path)
