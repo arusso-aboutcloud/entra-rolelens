@@ -97,10 +97,33 @@ def render(worker_high: int, worker_crit: int,
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
   <defs>
+    <!-- Standard glow: used on large score -->
     <filter id="glow">
       <feGaussianBlur stdDeviation="2.5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <!-- Soft ambient glow: used on tile metric numbers -->
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Verdict glow: wider bloom for the status line -->
+    <filter id="glow-verdict">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Security scan beam: sweeps across tile row left→right -->
+    <linearGradient id="scan-beam" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%"   stop-color="{overall_color}" stop-opacity="0"/>
+      <stop offset="40%"  stop-color="{overall_color}" stop-opacity="0.08"/>
+      <stop offset="50%"  stop-color="#ffffff"          stop-opacity="0.18"/>
+      <stop offset="60%"  stop-color="{overall_color}" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="{overall_color}" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Clip scan beam strictly to tile row -->
+    <clipPath id="tiles-clip">
+      <rect x="20" y="166" width="680" height="80"/>
+    </clipPath>
   </defs>
 
   <!-- Background + border -->
@@ -121,15 +144,22 @@ def render(worker_high: int, worker_crit: int,
   </text>
   <text x="20" y="152" font-size="11" fill="{DIM}">across worker (npm) and pipeline (Python)</text>
 
+  <!-- Security scan beam sweeping across tile row -->
+  <rect x="-120" y="166" width="120" height="80" fill="url(#scan-beam)" clip-path="url(#tiles-clip)">
+    <animate attributeName="x" values="-120;720;-120" dur="3.6s" repeatCount="indefinite" calcMode="linear"/>
+  </rect>
+
   <!-- Tile 1: Worker -->
   <g transform="translate(20,166)">
     <rect width="220" height="80" fill="{PANEL}" stroke="{BORDER}" rx="6"/>
     <text x="12" y="22" font-size="10" fill="{DIM}" letter-spacing="1">WORKER &#183; NPM</text>
     <text x="12" y="46" font-size="10" fill="{DIM}">HIGH</text>
-    <text x="12" y="65" font-size="26" fill="{worker_color}" font-weight="500">{w_high_d}</text>
+    <text x="12" y="65" font-size="26" fill="{worker_color}" font-weight="500" filter="url(#glow-soft)">{w_high_d}</text>
     <text x="110" y="46" font-size="10" fill="{DIM}">CRITICAL</text>
-    <text x="110" y="65" font-size="26" fill="{worker_color}" font-weight="500">{w_crit_d}</text>
-    <circle cx="204" cy="20" r="3" fill="{worker_color}"/>
+    <text x="110" y="65" font-size="26" fill="{worker_color}" font-weight="500" filter="url(#glow-soft)">{w_crit_d}</text>
+    <circle cx="204" cy="20" r="3" fill="{worker_color}">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Tile 2: Pipeline -->
@@ -137,10 +167,12 @@ def render(worker_high: int, worker_crit: int,
     <rect width="220" height="80" fill="{PANEL}" stroke="{BORDER}" rx="6"/>
     <text x="12" y="22" font-size="10" fill="{DIM}" letter-spacing="1">PIPELINE &#183; PYTHON</text>
     <text x="12" y="46" font-size="10" fill="{DIM}">HIGH</text>
-    <text x="12" y="65" font-size="26" fill="{pipeline_color}" font-weight="500">{p_high_d}</text>
+    <text x="12" y="65" font-size="26" fill="{pipeline_color}" font-weight="500" filter="url(#glow-soft)">{p_high_d}</text>
     <text x="110" y="46" font-size="10" fill="{DIM}">CRITICAL</text>
-    <text x="110" y="65" font-size="26" fill="{pipeline_color}" font-weight="500">{p_crit_d}</text>
-    <circle cx="204" cy="20" r="3" fill="{pipeline_color}"/>
+    <text x="110" y="65" font-size="26" fill="{pipeline_color}" font-weight="500" filter="url(#glow-soft)">{p_crit_d}</text>
+    <circle cx="204" cy="20" r="3" fill="{pipeline_color}">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Tile 3: Totals -->
@@ -148,14 +180,16 @@ def render(worker_high: int, worker_crit: int,
     <rect width="216" height="80" fill="{PANEL}" stroke="{BORDER}" rx="6"/>
     <text x="12" y="22" font-size="10" fill="{DIM}" letter-spacing="1">ALL COMPONENTS</text>
     <text x="12" y="46" font-size="10" fill="{DIM}">CRITICAL</text>
-    <text x="12" y="65" font-size="26" fill="{overall_color}" font-weight="500">{t_crit_d}</text>
+    <text x="12" y="65" font-size="26" fill="{overall_color}" font-weight="500" filter="url(#glow-soft)">{t_crit_d}</text>
     <text x="110" y="46" font-size="10" fill="{DIM}">HIGH</text>
-    <text x="110" y="65" font-size="26" fill="{overall_color}" font-weight="500">{t_high_d}</text>
-    <circle cx="200" cy="20" r="3" fill="{overall_color}"/>
+    <text x="110" y="65" font-size="26" fill="{overall_color}" font-weight="500" filter="url(#glow-soft)">{t_high_d}</text>
+    <circle cx="200" cy="20" r="3" fill="{overall_color}">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Verdict + timestamp -->
-  <text x="20" y="260" font-size="11" fill="{verdict_color}">&#9658; {verdict}</text>
+  <text x="20" y="260" font-size="11" fill="{verdict_color}" filter="url(#glow-verdict)">&#9658; {verdict}</text>
   <text x="700" y="260" font-size="9" fill="{DIM}" text-anchor="end">scanned {last_scanned}</text>
 </svg>"""
 
