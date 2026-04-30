@@ -16,3 +16,6 @@ sentrux.exe
 
 .sentrux/gate_stdout.txt
 sentrux-test
+
+# Trivy - ephemeral scan JSON (dashboard SVG is committed, raw JSON is not)
+.trivy/

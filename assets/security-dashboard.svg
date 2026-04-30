@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background + border -->
+  <rect width="720" height="280" fill="#07080D" rx="12"/>
+  <rect x="0.5" y="0.5" width="719" height="279" fill="none" stroke="#1A1D2A" stroke-width="1" rx="12"/>
+
+  <!-- Header -->
+  <text x="20" y="28" font-size="11" fill="#6B7280" letter-spacing="1.5">SECURITY SCAN&#160;&#183;&#160;ENTRA ROLELENS&#160;&#183;&#160;TRIVY v0.28.0</text>
+  <circle cx="700" cy="24" r="4" fill="#00E5A3">
+    <animate attributeName="opacity" values="1;0.35;1" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Total findings (large) -->
+  <text x="20" y="76" font-size="11" fill="#6B7280" letter-spacing="1.5">DEPENDENCY VULNERABILITIES (HIGH + CRITICAL)</text>
+  <text x="20" y="132" font-size="60" font-weight="600" fill="#00E5A3" filter="url(#glow)">
+    —
+    <animate attributeName="opacity" values="0;1" dur="0.7s" fill="freeze"/>
+  </text>
+  <text x="20" y="152" font-size="11" fill="#6B7280">across worker (npm) and pipeline (Python)</text>
+
+  <!-- Tile 1: Worker -->
+  <g transform="translate(20,166)">
+    <rect width="220" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">WORKER &#183; NPM</text>
+    <text x="12" y="46" font-size="10" fill="#6B7280">HIGH</text>
+    <text x="12" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <text x="110" y="46" font-size="10" fill="#6B7280">CRITICAL</text>
+    <text x="110" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <circle cx="204" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Tile 2: Pipeline -->
+  <g transform="translate(252,166)">
+    <rect width="220" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">PIPELINE &#183; PYTHON</text>
+    <text x="12" y="46" font-size="10" fill="#6B7280">HIGH</text>
+    <text x="12" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <text x="110" y="46" font-size="10" fill="#6B7280">CRITICAL</text>
+    <text x="110" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <circle cx="204" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Tile 3: Totals -->
+  <g transform="translate(484,166)">
+    <rect width="216" height="80" fill="#0E1018" stroke="#1A1D2A" rx="6"/>
+    <text x="12" y="22" font-size="10" fill="#6B7280" letter-spacing="1">ALL COMPONENTS</text>
+    <text x="12" y="46" font-size="10" fill="#6B7280">CRITICAL</text>
+    <text x="12" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <text x="110" y="46" font-size="10" fill="#6B7280">HIGH</text>
+    <text x="110" y="65" font-size="26" fill="#00E5A3" font-weight="500">0</text>
+    <circle cx="200" cy="20" r="3" fill="#00E5A3"/>
+  </g>
+
+  <!-- Verdict + timestamp -->
+  <text x="20" y="260" font-size="11" fill="#6B7280">&#9658; Pending first scan</text>
+  <text x="700" y="260" font-size="9" fill="#6B7280" text-anchor="end">scanned 2026-04-30 15:11 UTC</text>
+</svg>
