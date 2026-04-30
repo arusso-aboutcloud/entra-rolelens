@@ -1,0 +1,101 @@
+name: Trivy Security Scan
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "0 6 * * 0" # Weekly Sunday 06:00 UTC
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: read
+  security-events: write # For SARIF upload
+
+jobs:
+  # ── Dependency vulnerability scan (filesystem) ──
+  vuln-scan:
+    name: Vuln Scan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - worker    # Node.js (package.json + lockfile)
+          - pipeline  # Python (requirements.txt)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Trivy fs scan (${{ matrix.path }})
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: ${{ matrix.path }}
+          format: sarif
+          output: trivy-vuln-${{ matrix.path }}.sarif
+          severity: HIGH,CRITICAL
+          exit-code: 0 # Report but don't fail
+
+      - name: Upload vuln SARIF (${{ matrix.path }})
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-vuln-${{ matrix.path }}.sarif
+          category: trivy-vuln-${{ matrix.path }}
+
+  # ── Misconfiguration scan ──
+  config-scan:
+    name: Config Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Trivy config scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: config
+          scan-ref: .
+          format: sarif
+          output: trivy-config.sarif
+          severity: HIGH,CRITICAL
+          exit-code: 0
+          # Scan for Dockerfile, K8s, Terraform, CloudFormation misconfigs
+          # wrangler.toml is also checked for misconfigurations
+
+      - name: Upload config SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-config.sarif
+          category: trivy-config
+
+  # ── SBOM generation ──
+  sbom:
+    name: SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate SBOM (worker)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: worker
+          format: cyclonedx
+          output: sbom-worker.json
+
+      - name: Generate SBOM (pipeline)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: pipeline
+          format: cyclonedx
+          output: sbom-pipeline.json
+
+      - name: Upload SBOMs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboms
+          path: |
+            sbom-worker.json
+            sbom-pipeline.json
+          retention-days: 90
