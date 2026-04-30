@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Trivy fs scan (${{ matrix.path }})
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: ${{ matrix.path }}
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Trivy config scan
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: config
           scan-ref: .
@@ -103,7 +103,7 @@ jobs:
         run: mkdir -p .trivy
 
       - name: Scan worker deps (JSON)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: worker
@@ -113,7 +113,7 @@ jobs:
           exit-code: 0
 
       - name: Scan pipeline deps (JSON)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: pipeline
@@ -149,7 +149,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate SBOM (worker)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: worker
@@ -157,7 +157,7 @@ jobs:
           output: sbom-worker.json
 
       - name: Generate SBOM (pipeline)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: pipeline
