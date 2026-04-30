@@ -831,6 +831,44 @@
     .gh-stat { white-space: nowrap; }
     .gh-stat-sep { color: var(--border); user-select: none; }
 
+    /* ── Sentrux quality strip ──────────────────────────────────────── */
+    .sentrux-bar {
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+    }
+    .sentrux-track {
+      position: relative;
+      width: 160px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .sentrux-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--border) 0%, rgba(0,229,163,0.55) 100%);
+      border-radius: 2px;
+    }
+    .sentrux-beam {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 50px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,229,163,0.45) 25%, rgba(255,255,255,0.88) 50%, rgba(0,229,163,0.45) 75%, transparent 100%);
+      animation: kitt 2.4s linear infinite;
+    }
+    @keyframes kitt {
+      from { left: -50px; }
+      to   { left: 160px; }
+    }
+    .sentrux-verdict { white-space: nowrap; font-size: 10px; }
+
     /* ── Diff description + example pills ──────────────────────────── */
     .diff-desc {
       font-size: 17px;
@@ -1001,6 +1039,18 @@
 
       <!-- GitHub stats — CHANGE 6 -->
       <div class="gh-stats-bar" id="gh-stats"></div>
+
+      <!-- Sentrux quality strip -->
+      <div class="sentrux-bar" id="sentrux-bar" style="display:none">
+        <span style="color:var(--dim);user-select:none">◈</span>
+        <span style="color:var(--dim)">Quality</span>
+        <span id="sentrux-score" style="color:var(--muted)">—</span>
+        <div class="sentrux-track">
+          <div class="sentrux-fill" id="sentrux-fill" style="width:0%"></div>
+          <div class="sentrux-beam"></div>
+        </div>
+        <span class="sentrux-verdict" id="sentrux-verdict"></span>
+      </div>
 
       <!-- What's new panel -->
       <div class="whats-new-panel hidden" id="whats-new-panel">
@@ -2031,9 +2081,30 @@
     chevron.classList.toggle('open', !open);
   }
 
+  // ── Sentrux quality strip ─────────────────────────────────────────────
+  async function loadQuality() {
+    try {
+      const res = await fetch(API + '/api/quality');
+      if (!res.ok) return;
+      const { metrics, has_data } = await res.json();
+      if (!has_data) return;
+      const score   = metrics.quality ?? null;
+      const verdict = metrics.verdict || '';
+      if (score === null) return;
+      const pct = Math.min(100, (score / 10000) * 100).toFixed(1);
+      document.getElementById('sentrux-fill').style.width = pct + '%';
+      document.getElementById('sentrux-score').textContent = score.toLocaleString() + ' / 10 000';
+      const vEl = document.getElementById('sentrux-verdict');
+      const ok  = verdict.includes('No degradation');
+      vEl.textContent = ok ? '· no regressions' : '· ' + verdict;
+      vEl.style.color = ok ? 'var(--accent)' : 'var(--warn)';
+      document.getElementById('sentrux-bar').style.display = 'flex';
+    } catch (_) {}
+  }
+
   // ── Boot ─────────────────────────────────────────────────────────────
   (async () => {
-    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats(), loadWhatsNew()]);
+    await Promise.all([loadStatus(), loadRoles(), loadGitHubStats(), loadWhatsNew(), loadQuality()]);
     setInterval(loadStatus, 60000);
   })();
 </script>
