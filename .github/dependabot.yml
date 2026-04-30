@@ -1,0 +1,40 @@
+version: 2
+updates:
+  # Node.js deps (Worker)
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - npm
+
+  # Python deps (Pipeline)
+  - package-ecosystem: pip
+    directory: /pipeline
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - pip
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions
