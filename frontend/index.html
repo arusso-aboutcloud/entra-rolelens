@@ -867,7 +867,6 @@
       from { left: -50px; }
       to   { left: 160px; }
     }
-    .sentrux-verdict { white-space: nowrap; font-size: 10px; }
 
     /* ── Diff description + example pills ──────────────────────────── */
     .diff-desc {
@@ -1049,7 +1048,6 @@
           <div class="sentrux-fill" id="sentrux-fill" style="width:0%"></div>
           <div class="sentrux-beam"></div>
         </div>
-        <span class="sentrux-verdict" id="sentrux-verdict"></span>
       </div>
 
       <!-- What's new panel -->
@@ -2090,16 +2088,11 @@
       if (!res.ok) return;
       const { metrics, has_data } = await res.json();
       if (!has_data) return;
-      const score   = metrics.quality ?? null;
-      const verdict = metrics.verdict || '';
+      const score = metrics.quality ?? null;
       if (score === null) return;
       const pct = Math.min(100, (score / 10000) * 100).toFixed(1);
       document.getElementById('sentrux-fill').style.width = pct + '%';
       document.getElementById('sentrux-score').textContent = score.toLocaleString() + ' / 10 000';
-      const vEl = document.getElementById('sentrux-verdict');
-      const ok  = verdict.includes('No degradation');
-      vEl.textContent = ok ? '· no regressions' : '· ' + verdict;
-      vEl.style.color = ok ? 'var(--accent)' : 'var(--warn)';
       document.getElementById('sentrux-bar').style.display = 'flex';
     } catch (_) {}
   }
