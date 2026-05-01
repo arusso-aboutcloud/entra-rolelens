@@ -55,13 +55,16 @@ The shadow role count is logged in every pipeline run and visible in the pipelin
 > Auto-generated from the nightly pipeline · Last updated by GitHub Actions
 
 <!-- WHATS_NEW_START -->
-- Trivy security scanning added to CI — every push to master and weekly on Sundays, the worker (npm) and pipeline (Python) dependencies are scanned for HIGH and CRITICAL CVEs. Results surface in GitHub Security → Code Scanning. A live animated dashboard in the Security section below is regenerated automatically after each scan. Dependabot enabled for npm, pip, and GitHub Actions dependencies.
-- Nightly structural quality gate via [Sentrux](https://github.com/sentrux/sentrux) — every pipeline run scans the codebase and publishes a live animated dashboard (quality score, coupling, cycles, god files, main-sequence distance) to the Code quality section above. Non-blocking: Sentrux failures never halt the pipeline. Dashboard SVG regenerated and committed automatically each night.
-- Corpus now honestly reflects scope — 30 Azure RBAC tasks tagged `out_of_scope` instead of silently dropped, no more phantom empty results for Connect Health or MFA Server queries
-- Pill integration tests added to the nightly pipeline — 15 documented search expectations validated against the live worker every night, regressions auto-open a GitHub issue only for genuine new regressions (known failures suppressed via `KNOWN_FAILURES` list)
-- Test harness now mirrors the real user path — pill queries routed through the same synonym expansion the frontend uses; `restore deleted users` fixed and verified passing end-to-end
-- Fixed a category of query-hijack bug in the synonym reverse-map — common English words like `users` can no longer silently reroute unrelated queries to the wrong role (stopword guard applied identically in frontend and pipeline)
-- 26 curated tasks explicitly tagged `synthetic: true` in `tasks.json` — clear distinction between Microsoft Learn scraped content and hand-curated coverage for role families the docs don't cover yet (Agent Identity, Tenant Governance, Entra Backup)
+- ✅ **AI Reader** — added (2026-04-30)
+- ✅ **Customer Delegated Admin Relationship Administrator** — added (2026-04-30)
+- 🔄 **Agent ID Administrator** — modified (2026-04-30)
+- 🔄 **Agent ID Developer** — modified (2026-04-30)
+- 🔄 **Azure DevOps Administrator** — modified (2026-04-30)
+- 🔄 **Cloud App Security Administrator** — modified (2026-04-30)
+- 🔄 **Fabric Administrator** — modified (2026-04-30)
+- 🔄 **Global Administrator** — modified (2026-04-30)
+- 🔄 **Hybrid Identity Administrator** — modified (2026-04-30)
+- 🔄 **Insights Business Leader** — modified (2026-04-30)
 <!-- WHATS_NEW_END -->
 
 ---
@@ -237,11 +240,12 @@ entra-rolelens/
 ---
 
 ## Data quality
-<!-- DATA_QUALITY_START -->
-- Indexed a total of **143 roles** to map user tasks precisely.
-- Mapped **246 tasks** to help users identify the required roles efficiently.
-- Detected **13 shadow (unlisted) roles**, ensuring awareness of roles that may not be officially documented.
-<!-- DATA_QUALITY_END -->
+- **143+ built-in roles** - covers all named Entra ID built-in roles including preview roles
+- **237 task mappings** - sourced from Microsoft's official documentation and community contributions
+- **11 unlisted roles** - present in the Graph API but not yet in Microsoft's public documentation
+- **0 partially documented roles** - in roles reference but missing from task mappings
+- **Nightly diff** - every permission change Microsoft makes is logged to the role_changes D1 table
+- **Self-healing pipeline** - validation gate prevents bad data reaching production
 
 ## Contributing
 
