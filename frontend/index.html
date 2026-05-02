@@ -89,6 +89,23 @@
       flex-wrap: wrap;
     }
 
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-logo {
+      height: 72px;
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .header-logo { height: 48px; }
+      .header-brand { gap: 12px; }
+    }
+
     .logo {
       font-family: var(--font-mono);
       font-size: 26px;
@@ -993,9 +1010,12 @@
 <header>
   <div class="container">
     <div class="header-inner">
-      <div>
-        <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
-        <div class="tagline">Minimum privilege · Always current</div>
+      <div class="header-brand">
+        <img src="https://images.aboutcloud.io/logos/rolelens-brand-logo-600.png" alt="Entra RoleLens" class="header-logo" />
+        <div class="header-text">
+          <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
+          <div class="tagline">Minimum privilege · Always current</div>
+        </div>
       </div>
       <div class="header-right">
         <a href="https://aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
@@ -1027,7 +1047,6 @@
 
     <!-- MODE 1: Task → Role -->
     <section class="mode active" id="mode-search">
-      <img src="https://images.aboutcloud.io/logos/rolelens-brand-logo-600.png" alt="Microsoft Entra ID" class="hero-logo" />
       <h1 class="hero-text">Find the minimum role for any Entra task</h1>
       <p class="hero-tagline">The right role. Right now.</p>
 
