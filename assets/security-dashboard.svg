@@ -93,5 +93,5 @@
 
   <!-- Verdict + timestamp -->
   <text x="20" y="260" font-size="11" fill="#00E5A3" filter="url(#glow-verdict)">&#9658; No HIGH or CRITICAL findings</text>
-  <text x="700" y="260" font-size="9" fill="#6B7280" text-anchor="end">scanned 2026-05-02 19:06 UTC</text>
+  <text x="700" y="260" font-size="9" fill="#6B7280" text-anchor="end">scanned 2026-05-02 19:10 UTC</text>
 </svg>
