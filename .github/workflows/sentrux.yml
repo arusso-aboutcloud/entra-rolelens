@@ -52,6 +52,7 @@ jobs:
           # zero-tolerance on cycles and god files.
           SENTRUX_EXIT=0
           ./sentrux gate . > .sentrux/gate_stdout.txt 2> .sentrux/gate_stderr.txt || SENTRUX_EXIT=$?
+          export SENTRUX_EXIT
 
           python pipeline/sentrux_parser.py
 
@@ -62,8 +63,8 @@ jobs:
           cat .sentrux/quality.json
 
           # Check for architectural red flags (zero-tolerance on new cycles/god files)
-          python3 << PYEOF
-          import json, sys
+          python3 << 'PYEOF'
+          import json, os, sys
           with open(".sentrux/quality.json") as f:
               q = json.load(f)
 
@@ -85,11 +86,12 @@ jobs:
               print(f"  ❌ New god files detected: {base_god} -> {cur_god}")
               arch_fail = True
 
-          print(f"  Sentrux exit:    {SENTRUX_EXIT}")
+          sentrux_exit = int(os.environ.get("SENTRUX_EXIT", 0))
+          print(f"  Sentrux exit:    {sentrux_exit}")
           if arch_fail:
               print("  ❌ Architectural regression — block merge")
               sys.exit(1)
-          elif SENTRUX_EXIT != 0:
+          elif sentrux_exit != 0:
               print("  ❌ Sentrux gate failed — block merge")
               sys.exit(1)
           else:
