@@ -45,67 +45,53 @@ jobs:
           fi
 
       - name: Run Sentrux gate
+        id: gate
         run: |
-          ./sentrux gate . > .sentrux/gate_stdout.txt 2> .sentrux/gate_stderr.txt || true
+          # Sentrux gate exits non-zero on regression (uses built-in tolerance).
+          # We trust its verdict for the quality score; we additionally enforce
+          # zero-tolerance on cycles and god files.
+          SENTRUX_EXIT=0
+          ./sentrux gate . > .sentrux/gate_stdout.txt 2> .sentrux/gate_stderr.txt || SENTRUX_EXIT=$?
+
           python pipeline/sentrux_parser.py
+
           echo "Gate output:"
           cat .sentrux/gate_stdout.txt
           echo "---"
           echo "Parsed quality:"
           cat .sentrux/quality.json
 
-      - name: Check for quality regression
-        id: regression
-        run: |
-          python3 << 'PYEOF'
+          # Check for architectural red flags (zero-tolerance on new cycles/god files)
+          python3 << PYEOF
           import json, sys
-
-          # Load parsed quality from this run
           with open(".sentrux/quality.json") as f:
-              current = json.load(f)
+              q = json.load(f)
 
-          # Load baseline from master
-          with open(".sentrux/baseline.json") as f:
-              baseline = json.load(f)
+          cur_cycles = q.get("cycles_current", 0) or 0
+          base_cycles = q.get("cycles_baseline", 0) or 0
+          cur_god = q.get("god_files_current", 0) or 0
+          base_god = q.get("god_files_baseline", 0) or 0
+          verdict = q.get("verdict", "unknown")
 
-          # Compare quality_signal (float 0-1) — higher is better
-          cur_signal = current.get("quality", 0) or 0
-          base_signal = baseline.get("quality_signal", 0) or 0
-
-          # Normalise: parser reports quality as integer (e.g. 7005), baseline as float (e.g. 0.7003)
-          # If quality looks like 1000+, it's the integer form
-          if isinstance(cur_signal, (int, float)) and cur_signal > 1:
-              cur_signal = cur_signal / 10000
-
-          # Check architectural red flags
-          cur_cycles = current.get("cycles_current", 0) or 0
-          base_cycles = current.get("cycles_baseline", 0) or 0
-          cur_god = current.get("god_files_current", 0) or 0
-          base_god = current.get("god_files_baseline", 0) or 0
-
-          print(f"  Quality signal:  {base_signal:.4f} -> {cur_signal:.4f}  (delta: {cur_signal - base_signal:+.4f})")
+          print(f"  Verdict:         {verdict}")
           print(f"  Cycles:          {base_cycles} -> {cur_cycles}")
           print(f"  God files:       {base_god} -> {cur_god}")
 
-          regressions = []
-
-          if cur_signal < base_signal:
-              regressions.append(
-                  f"Quality score dropped: {base_signal:.4f} -> {cur_signal:.4f} "
-                  f"(delta: {cur_signal - base_signal:+.4f})"
-              )
-
+          arch_fail = False
           if cur_cycles > base_cycles and cur_cycles > 0:
-              regressions.append(f"Cycles introduced: {base_cycles} -> {cur_cycles}")
-
+              print(f"  ❌ New cycles detected: {base_cycles} -> {cur_cycles}")
+              arch_fail = True
           if cur_god > base_god and cur_god > 0:
-              regressions.append(f"God files introduced: {base_god} -> {cur_god}")
+              print(f"  ❌ New god files detected: {base_god} -> {cur_god}")
+              arch_fail = True
 
-          if regressions:
-              print("\n  QUALITY REGRESSION DETECTED:")
-              for r in regressions:
-                  print(f"    - {r}")
+          print(f"  Sentrux exit:    {SENTRUX_EXIT}")
+          if arch_fail:
+              print("  ❌ Architectural regression — block merge")
+              sys.exit(1)
+          elif SENTRUX_EXIT != 0:
+              print("  ❌ Sentrux gate failed — block merge")
               sys.exit(1)
           else:
-              print("\n  Quality gate passed  ✓")
+              print("  ✓ Quality gate passed")
           PYEOF
