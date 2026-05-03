@@ -1,0 +1,111 @@
+name: Sentrux Quality Gate
+
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Get baseline from master
+        run: |
+          mkdir -p .sentrux
+          git show origin/master:.sentrux/baseline.json > .sentrux/baseline.json 2>/dev/null || \
+            echo '{"quality_signal": 0, "coupling_score": 0, "cycle_count": 0, "god_file_count": 0}' > .sentrux/baseline.json
+          echo "Baseline loaded:"
+          cat .sentrux/baseline.json
+
+      - name: Download Sentrux
+        run: |
+          curl -L -o sentrux https://github.com/sentrux/sentrux/releases/download/v0.5.7/sentrux-linux-x86_64
+          chmod +x sentrux
+          SIZE=$(stat -c%s sentrux)
+          if [ "$SIZE" -lt 1000000 ]; then
+            echo "ERROR: sentrux binary is $SIZE bytes (expected ~36MB)"
+            exit 1
+          fi
+
+      - name: Run Sentrux gate
+        run: |
+          ./sentrux gate . > .sentrux/gate_stdout.txt 2> .sentrux/gate_stderr.txt || true
+          python pipeline/sentrux_parser.py
+          echo "Gate output:"
+          cat .sentrux/gate_stdout.txt
+          echo "---"
+          echo "Parsed quality:"
+          cat .sentrux/quality.json
+
+      - name: Check for quality regression
+        id: regression
+        run: |
+          python3 << 'PYEOF'
+          import json, sys
+
+          # Load parsed quality from this run
+          with open(".sentrux/quality.json") as f:
+              current = json.load(f)
+
+          # Load baseline from master
+          with open(".sentrux/baseline.json") as f:
+              baseline = json.load(f)
+
+          # Compare quality_signal (float 0-1) — higher is better
+          cur_signal = current.get("quality", 0) or 0
+          base_signal = baseline.get("quality_signal", 0) or 0
+
+          # Normalise: parser reports quality as integer (e.g. 7005), baseline as float (e.g. 0.7003)
+          # If quality looks like 1000+, it's the integer form
+          if isinstance(cur_signal, (int, float)) and cur_signal > 1:
+              cur_signal = cur_signal / 10000
+
+          # Check architectural red flags
+          cur_cycles = current.get("cycles_current", 0) or 0
+          base_cycles = current.get("cycles_baseline", 0) or 0
+          cur_god = current.get("god_files_current", 0) or 0
+          base_god = current.get("god_files_baseline", 0) or 0
+
+          print(f"  Quality signal:  {base_signal:.4f} -> {cur_signal:.4f}  (delta: {cur_signal - base_signal:+.4f})")
+          print(f"  Cycles:          {base_cycles} -> {cur_cycles}")
+          print(f"  God files:       {base_god} -> {cur_god}")
+
+          regressions = []
+
+          if cur_signal < base_signal:
+              regressions.append(
+                  f"Quality score dropped: {base_signal:.4f} -> {cur_signal:.4f} "
+                  f"(delta: {cur_signal - base_signal:+.4f})"
+              )
+
+          if cur_cycles > base_cycles and cur_cycles > 0:
+              regressions.append(f"Cycles introduced: {base_cycles} -> {cur_cycles}")
+
+          if cur_god > base_god and cur_god > 0:
+              regressions.append(f"God files introduced: {base_god} -> {cur_god}")
+
+          if regressions:
+              print("\n  QUALITY REGRESSION DETECTED:")
+              for r in regressions:
+                  print(f"    - {r}")
+              sys.exit(1)
+          else:
+              print("\n  Quality gate passed  ✓")
+          PYEOF
