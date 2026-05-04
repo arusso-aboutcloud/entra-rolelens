@@ -1878,12 +1878,15 @@
         ? `<span class="badge-privileged">⚠ Privileged</span>`
         : '';
       const newBadge = isNewRole(r.role_id) ? NEW_BADGE : '';
-      const bestBadge = (idx === 0 && r.match_type === 'exact')
+      // 'Best match' fires when top score is decisively higher than runner-up.
+      // 1.5x threshold prevents false confidence on close calls. Single-result queries always tag.
+      const isBestMatch = idx === 0
+        && (results.length === 1 || (results[0].score || 0) >= (results[1].score || 0) * 1.5);
+      const bestBadge = isBestMatch
         ? `<span style="background:rgba(0,229,163,0.12);border:1px solid #00E5A3;color:#00E5A3;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Best match</span>`
         : '';
-      const relatedBadge = (idx > 0 && r.match_type === 'partial')
-        ? `<span style="background:rgba(255,255,255,0.04);border:1px solid #2D3F60;color:#8899AA;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Related</span>`
-        : '';
+      // 'Related' badge removed — visual hierarchy already communicates relationship.
+      const relatedBadge = '';
       return `
         <div class="result-card">
           <div class="card-top">
