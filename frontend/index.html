@@ -2098,23 +2098,23 @@
     const btnId     = `copy-btn-${idx}`;
     const roleName  = esc(r.min_role);
     const task      = esc(r.task);
+    const roleId    = r.min_role_id || '';
     return `
       <div class="card-snippet">
         <div class="card-snippet-header">
-          <span class="card-snippet-label">PowerShell — Graph module</span>
+          <span class="card-snippet-label">Graph API request</span>
           <button class="copy-btn" id="${btnId}" onclick="copySnippet('${snippetId}','${btnId}')">Copy</button>
         </div>
         <pre class="card-snippet-code" id="${snippetId}"><span class="snip-comment"># Assign ${roleName} — minimum privilege for: ${task}</span>
+POST https://graph.microsoft.com/v1.0/roleManagement/directory/roleAssignments
+Content-Type: application/json
+<span class="snip-comment"># Authorization: Bearer &lt;access_token&gt;</span>
 
-$role = Get-MgRoleManagementDirectoryRoleDefinition \`
-  -Filter "displayName eq '${roleName}'"
-
-$params = @{
-  RoleDefinitionId = $role.Id
-  PrincipalId      = "&lt;PRINCIPAL_OBJECT_ID&gt;"
-  DirectoryScopeId = "/"
-}
-New-MgRoleManagementDirectoryRoleAssignment @params</pre>
+{
+  "principalId": "&lt;PRINCIPAL_OBJECT_ID&gt;",
+  "roleDefinitionId": "${roleId}",
+  "directoryScopeId": "/"
+}</pre>
       </div>`;
   }
 
