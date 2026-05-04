@@ -308,7 +308,7 @@
       50%       { opacity: 0.45; }
     }
 
-    /* ── Result card ────────────────────────────────────────────────── */
+    /* ── Result card component ─────────────────────────────────────── */
     .result-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1864,6 +1864,36 @@
 
   const NEW_BADGE = `<span style="background:#00E5A3;color:#07080D;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">NEW</span>`;
 
+  function renderResultCard(r, idx, results) {
+    const altText = (r.alt_roles && r.alt_roles.length > 0)
+      ? `<span class="alt-roles">Also: ${r.alt_roles.join(', ')}</span>`
+      : '';
+    const privBadge = r.is_privileged
+      ? `<span class="badge-privileged">⚠ Privileged</span>`
+      : '';
+    const newBadge = isNewRole(r.role_id) ? NEW_BADGE : '';
+    // 'Best match' fires when top score is decisively higher than runner-up.
+    // 1.5x threshold prevents false confidence on close calls. Single-result queries always tag.
+    const isBestMatch = idx === 0
+      && (results.length === 1 || (results[0].score || 0) >= (results[1].score || 0) * 1.5);
+    const bestBadge = isBestMatch
+      ? `<span style="background:rgba(0,229,163,0.12);border:1px solid #00E5A3;color:#00E5A3;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Best match</span>`
+      : '';
+    return `
+      <div class="result-card">
+        <div class="card-top">
+          <span class="badge-area">${esc(r.feature_area)}</span>
+          ${privBadge}
+        </div>
+        <div class="card-task">${esc(r.task)}</div>
+        <div class="card-bottom">
+          <span class="role-pill">${esc(r.min_role)}</span>${newBadge}${bestBadge}
+          ${altText}
+          <a href="${esc(r.source_url)}" target="_blank" rel="noopener" class="source-link">Microsoft Learn ↗</a>
+        </div>
+      </div>`;
+  }
+
   function renderResults(results) {
     if (!results || results.length === 0) {
       setSearchResults(`
@@ -1872,40 +1902,7 @@
         </p>`);
       return;
     }
-
-    const html = results.map((r, idx) => {
-      const altText = (r.alt_roles && r.alt_roles.length > 0)
-        ? `<span class="alt-roles">Also: ${r.alt_roles.join(', ')}</span>`
-        : '';
-      const privBadge = r.is_privileged
-        ? `<span class="badge-privileged">⚠ Privileged</span>`
-        : '';
-      const newBadge = isNewRole(r.role_id) ? NEW_BADGE : '';
-      // 'Best match' fires when top score is decisively higher than runner-up.
-      // 1.5x threshold prevents false confidence on close calls. Single-result queries always tag.
-      const isBestMatch = idx === 0
-        && (results.length === 1 || (results[0].score || 0) >= (results[1].score || 0) * 1.5);
-      const bestBadge = isBestMatch
-        ? `<span style="background:rgba(0,229,163,0.12);border:1px solid #00E5A3;color:#00E5A3;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle">Best match</span>`
-        : '';
-      // 'Related' badge removed — visual hierarchy already communicates relationship.
-      const relatedBadge = '';
-      return `
-        <div class="result-card">
-          <div class="card-top">
-            <span class="badge-area">${esc(r.feature_area)}</span>
-            ${privBadge}
-          </div>
-          <div class="card-task">${esc(r.task)}</div>
-          <div class="card-bottom">
-            <span class="role-pill">${esc(r.min_role)}</span>${newBadge}${bestBadge}${relatedBadge}
-            ${altText}
-            <a href="${esc(r.source_url)}" target="_blank" rel="noopener" class="source-link">Microsoft Learn ↗</a>
-          </div>
-        </div>`;
-    }).join('');
-
-    setSearchResults(html);
+    setSearchResults(results.map((r, idx) => renderResultCard(r, idx, results)).join(''));
   }
 
   function setSearchResults(html) {
