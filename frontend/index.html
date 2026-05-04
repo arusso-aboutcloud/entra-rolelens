@@ -595,30 +595,48 @@
       border-radius: var(--radius-lg);
       margin-bottom: 28px;
       overflow: hidden;
+      container-type: inline-size;
     }
     .whats-new-panel.hidden { display: none; }
 
     .whats-new-header {
       width: 100%;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 14px 20px 12px;
       background: none;
       border: none;
       color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 13px;
       cursor: pointer;
       text-align: left;
-      gap: 8px;
+      gap: 3px;
     }
     .whats-new-header:hover { background: var(--surface2); }
-    .whats-new-chevron { color: var(--muted); transition: transform 0.2s; }
+
+    .wn-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .wn-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .whats-new-chevron { color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
     .whats-new-chevron.open { transform: rotate(180deg); }
 
+    .wn-subtitle {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
     .whats-new-body {
-      padding: 4px 20px 16px;
+      padding: 4px 20px 8px;
       border-top: 1px solid var(--border);
     }
 
@@ -626,15 +644,70 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 0;
+      padding: 9px 0;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
     .whats-new-entry:last-child { border-bottom: none; }
-    .wn-badge { font-size: 14px; flex-shrink: 0; }
-    .wn-name  { font-family: var(--font-mono); font-size: 13px; color: var(--text); flex: 1; }
-    .wn-action { font-family: var(--font-body); font-size: 13px; color: var(--muted); }
-    .wn-date  { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    .wn-fresh-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      visibility: hidden;
+    }
+    .whats-new-entry.wn-fresh .wn-fresh-dot {
+      visibility: visible;
+      box-shadow: 0 0 8px rgba(0,229,163,0.7);
+    }
+    .whats-new-entry.wn-fresh {
+      background: linear-gradient(90deg, rgba(0,229,163,0.06) 0%, transparent 42%);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .whats-new-entry.wn-fresh .wn-fresh-dot {
+        animation: wn-pulse 1.8s ease-in-out infinite;
+      }
+      .whats-new-entry[data-idx] {
+        opacity: 0;
+        transform: translateY(6px);
+        animation: wn-fadein 0.35s ease forwards;
+      }
+      .whats-new-entry[data-idx="0"] { animation-delay: 0.05s; }
+      .whats-new-entry[data-idx="1"] { animation-delay: 0.10s; }
+      .whats-new-entry[data-idx="2"] { animation-delay: 0.15s; }
+      .whats-new-entry[data-idx="3"] { animation-delay: 0.20s; }
+      .whats-new-entry[data-idx="4"] { animation-delay: 0.25s; }
+    }
+    @keyframes wn-pulse {
+      0%, 100% { opacity: 1;    transform: scale(1); }
+      50%       { opacity: 0.35; transform: scale(0.65); }
+    }
+    @keyframes wn-fadein {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .wn-glyph          { font-size: 13px; flex-shrink: 0; width: 16px; text-align: center; color: var(--accent); }
+    .wn-glyph.removed  { color: var(--danger); }
+    .wn-glyph.modified { color: var(--warn); }
+    .wn-name   { font-family: var(--font-mono); font-size: 13px; color: var(--text); flex: 1; }
+    .wn-action { font-family: var(--font-body); font-size: 12px; color: var(--muted); }
+    .wn-date   { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    .wn-show-all { display: flex; justify-content: center; padding: 10px 0 4px; }
+    .wn-show-all-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 16px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .wn-show-all-btn:hover { background: var(--surface2); color: var(--text); }
 
     /* ── Explainer grid ─────────────────────────────────────────────── */
     .explainer-grid {
@@ -1072,10 +1145,13 @@
       <!-- What's new panel -->
       <div class="whats-new-panel hidden" id="whats-new-panel">
         <button class="whats-new-header" id="whats-new-toggle" onclick="toggleWhatsNew()">
-          <span id="whats-new-title">What's new · loading…</span>
-          <svg class="whats-new-chevron" id="whats-new-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="wn-title-row">
+            <span class="wn-title">What's new</span>
+            <svg class="whats-new-chevron open" id="whats-new-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <span class="wn-subtitle" id="whats-new-subtitle">loading…</span>
         </button>
-        <div class="whats-new-body" id="whats-new-body" style="display:none"></div>
+        <div class="whats-new-body" id="whats-new-body"></div>
       </div>
 
       <!-- Explainer cards — CHANGE 3 -->
@@ -1229,6 +1305,8 @@
       <span class="status-item" id="stat-shadow" style="display:none"><b id="stat-shadow-count">—</b> unlisted roles</span>
       <span class="status-item sep">·</span>
       <span class="status-item" id="stat-pipeline">Pipeline loading…</span>
+      <span class="status-item sep" id="stat-wn-sep" style="display:none">·</span>
+      <span class="status-item" id="stat-wn-story" style="display:none"></span>
       <span class="status-item sep">·</span>
       <span class="status-item">Data: Microsoft Graph API · Microsoft Learn · MicrosoftDocs</span>
     </div>
@@ -2055,6 +2133,38 @@
 
   // ── What's New panel ─────────────────────────────────────────────────
   const CHANGELOG_URL = 'https://raw.githubusercontent.com/arusso-aboutcloud/entra-rolelens/master/data/changelog.json';
+  const _WN_GLYPHS      = { ADDED: '✦', REMOVED: '⊘', MODIFIED: '◆' };
+  const _WN_GLYPH_CLASS = { ADDED: 'added', REMOVED: 'removed', MODIFIED: 'modified' };
+  const _WN_PREVIEW     = 5;
+
+  function _wnBuildEntries(items, startIdx, cutoff24h) {
+    return items.map((c, i) => {
+      const type   = c.change_type?.toUpperCase() ?? 'MODIFIED';
+      const glyph  = _WN_GLYPHS[type] ?? '•';
+      const gcls   = _WN_GLYPH_CLASS[type] ?? '';
+      const action = type === 'MODIFIED' ? 'permissions updated' : (c.change_type?.toLowerCase() ?? '');
+      const fresh  = c.date >= cutoff24h ? ' wn-fresh' : '';
+      return `<div class="whats-new-entry${fresh}" data-idx="${startIdx + i}">` +
+        `<span class="wn-fresh-dot"></span>` +
+        `<span class="wn-glyph ${gcls}">${glyph}</span>` +
+        `<span class="wn-name">${esc(c.role_name ?? '')}</span>` +
+        `<span class="wn-action">${esc(action)}</span>` +
+        `<span class="wn-date">${esc(c.date ?? '')}</span>` +
+        `</div>`;
+    }).join('');
+  }
+
+  function _wnShowAllBtn(total) {
+    return `<div class="wn-show-all" id="wn-show-all-row">` +
+      `<button class="wn-show-all-btn" id="wn-show-all-btn" onclick="toggleWnShowAll()">` +
+      `Show all ${total} ↓</button></div>`;
+  }
+
+  function _wnShowLessBtn() {
+    return `<div class="wn-show-all" id="wn-show-all-row">` +
+      `<button class="wn-show-all-btn" id="wn-show-all-btn" onclick="toggleWnShowAll()">` +
+      `Show less ↑</button></div>`;
+  }
 
   async function loadWhatsNew() {
     try {
@@ -2066,36 +2176,70 @@
           _newRoleIds.add(c.role_id);
         }
       });
-      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-      const recent = changelog.filter(c => c.date >= cutoff).slice(0, 20);
+
+      const cutoff   = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      const today    = new Date().toISOString().slice(0, 10);
+      const cutoff24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      const recent   = changelog.filter(c => c.date >= cutoff).slice(0, 50);
       if (!recent.length) return;
 
-      const ICONS = { ADDED: '✅', REMOVED: '❌', MODIFIED: '🔄' };
-      document.getElementById('whats-new-title').textContent =
-        `What's new · ${recent.length} change${recent.length === 1 ? '' : 's'} in the last 30 days`;
+      const todayItems = recent.filter(c => c.date >= today);
+      const subtitle   = `${recent.length} change${recent.length === 1 ? '' : 's'} in the last 30 days` +
+                         (todayItems.length ? ` · ${todayItems.length} today` : '');
+      document.getElementById('whats-new-subtitle').textContent = subtitle;
 
-      document.getElementById('whats-new-body').innerHTML = recent.map(c => {
-        const icon = ICONS[c.change_type?.toUpperCase()] ?? '•';
-        const action = c.change_type?.toLowerCase() === 'modified'
-          ? 'permissions updated'
-          : c.change_type?.toLowerCase() ?? '';
-        return `<div class="whats-new-entry">
-          <span class="wn-badge">${icon}</span>
-          <span class="wn-name">${esc(c.role_name ?? '')}</span>
-          <span class="wn-action">${esc(action)}</span>
-          <span class="wn-date">${esc(c.date ?? '')}</span>
-        </div>`;
-      }).join('');
+      if (todayItems.length) {
+        const first   = todayItems[0];
+        const action  = first.change_type?.toLowerCase() === 'removed' ? 'removed' :
+                        first.change_type?.toLowerCase() === 'modified' ? 'updated' : 'added';
+        const storyEl = document.getElementById('stat-wn-story');
+        const storySep = document.getElementById('stat-wn-sep');
+        if (storyEl) { storyEl.textContent = `today: ${first.role_name ?? ''} ${action}`; storyEl.style.display = ''; }
+        if (storySep) storySep.style.display = '';
+      }
 
-      const panel = document.getElementById('whats-new-panel');
-      panel.classList.remove('hidden');
+      const hasMore = recent.length > _WN_PREVIEW;
+      const body    = document.getElementById('whats-new-body');
+      body.innerHTML = _wnBuildEntries(recent.slice(0, _WN_PREVIEW), 0, cutoff24h) +
+        (hasMore ? _wnShowAllBtn(recent.length) : '');
+      body.dataset.full     = JSON.stringify(recent);
+      body.dataset.cutoff24h = cutoff24h;
+      body.dataset.expanded = '0';
+
+      document.getElementById('whats-new-panel').classList.remove('hidden');
     } catch { /* changelog not critical */ }
+  }
+
+  function toggleWnShowAll() {
+    const body = document.getElementById('whats-new-body');
+    if (!body) return;
+    const all      = JSON.parse(body.dataset.full ?? '[]');
+    const cutoff24h = body.dataset.cutoff24h ?? '';
+    const expanded  = body.dataset.expanded === '1';
+
+    function apply() {
+      if (expanded) {
+        body.innerHTML = _wnBuildEntries(all.slice(0, _WN_PREVIEW), 0, cutoff24h) +
+          (all.length > _WN_PREVIEW ? _wnShowAllBtn(all.length) : '');
+        body.dataset.expanded = '0';
+      } else {
+        body.innerHTML = _wnBuildEntries(all, 0, cutoff24h) + _wnShowLessBtn();
+        body.dataset.expanded = '1';
+      }
+    }
+
+    if (document.startViewTransition) {
+      document.startViewTransition(apply);
+    } else {
+      apply();
+    }
   }
 
   function toggleWhatsNew() {
     const body    = document.getElementById('whats-new-body');
     const chevron = document.getElementById('whats-new-chevron');
-    const open    = body.style.display !== 'none';
+    if (!body || !chevron) return;
+    const open = body.style.display !== 'none';
     body.style.display = open ? 'none' : '';
     chevron.classList.toggle('open', !open);
   }
