@@ -30,7 +30,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Trivy fs scan (${{ matrix.path }})
         uses: aquasecurity/trivy-action@v0.36.0
@@ -58,7 +58,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Trivy config scan
         uses: aquasecurity/trivy-action@v0.36.0
@@ -92,7 +92,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -146,7 +146,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Generate SBOM (worker)
         uses: aquasecurity/trivy-action@v0.36.0
