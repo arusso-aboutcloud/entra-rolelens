@@ -693,6 +693,9 @@
     .wn-glyph.modified { color: var(--warn); }
     .wn-name   { font-family: var(--font-mono); font-size: 13px; color: var(--text); flex: 1; }
     .wn-action { font-family: var(--font-body); font-size: 12px; color: var(--muted); }
+    .whats-new-entry.type-added .wn-action    { color: var(--accent); opacity: 0.85; }
+    .whats-new-entry.type-modified .wn-action { color: var(--warn);   opacity: 0.85; }
+    .whats-new-entry.type-removed .wn-action  { color: var(--danger); opacity: 0.85; }
     .wn-date   { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
 
     .wn-show-all { display: flex; justify-content: center; padding: 10px 0 4px; }
@@ -2147,7 +2150,7 @@
       const gcls   = _WN_GLYPH_CLASS[type] ?? '';
       const action = type === 'MODIFIED' ? 'permissions updated' : (c.change_type?.toLowerCase() ?? '');
       const fresh  = c.date >= cutoff24h ? ' wn-fresh' : '';
-      return `<div class="whats-new-entry${fresh}" data-idx="${startIdx + i}">` +
+      return `<div class="whats-new-entry type-${gcls}${fresh}" data-idx="${startIdx + i}">` +
         `<span class="wn-fresh-dot"></span>` +
         `<span class="wn-glyph ${gcls}">${glyph}</span>` +
         `<span class="wn-name">${esc(c.role_name ?? '')}</span>` +
