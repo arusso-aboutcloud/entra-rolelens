@@ -127,7 +127,7 @@ jobs:
       # ── 5. Call GitHub Copilot via actions/ai-inference ────────────────────
       - name: Generate README sections with GitHub Copilot
         id: ai
-        uses: actions/ai-inference@v1
+        uses: actions/ai-inference@v2
         with:
           model: openai/gpt-4o-mini     # swap to: anthropic/claude-3-5-haiku — same token
           prompt-file: /tmp/prompt.txt
