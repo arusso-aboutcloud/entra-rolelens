@@ -162,6 +162,7 @@ async function runKeywordTier(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
          r.id AS min_role_id, r.display_name AS min_role_name,
+         r.description AS min_role_description,
          r.is_privileged, r.permissions,
          300 AS base_score
        FROM tasks t
@@ -175,6 +176,7 @@ async function runKeywordTier(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
          r.id AS min_role_id, r.display_name AS min_role_name,
+         r.description AS min_role_description,
          r.is_privileged, r.permissions,
          COUNT(DISTINCT ts.keyword) * 20 AS base_score
        FROM task_search ts
@@ -192,6 +194,7 @@ async function runKeywordTier(
       `SELECT t.id, t.task_description, t.feature_area,
          t.alt_role_ids, t.source_url,
          r.id AS min_role_id, r.display_name AS min_role_name,
+         r.description AS min_role_description,
          r.is_privileged, r.permissions,
          SUM(ts.weight) AS base_score
        FROM task_search ts
@@ -249,6 +252,7 @@ async function runBM25Tier(
     SELECT t.id, t.task_description, t.feature_area,
            t.alt_role_ids, t.source_url,
            r.id AS min_role_id, r.display_name AS min_role_name,
+           r.description AS min_role_description,
            r.is_privileged, r.permissions,
            SUM(
              ts.idf *
@@ -293,6 +297,7 @@ async function runLikeTier(
     `SELECT t.id, t.task_description, t.feature_area,
        t.alt_role_ids, t.source_url,
        r.id AS min_role_id, r.display_name AS min_role_name,
+       r.description AS min_role_description,
        r.is_privileged, r.permissions,
        1 AS base_score
      FROM tasks t
@@ -310,24 +315,36 @@ async function runLikeTier(
   return merged;
 }
 
-function applyAffinityAndScore(seen: Map<string, Entry>): unknown[] {
+function applyAffinityAndScore(seen: Map<string, Entry>, srcQuery = ""): unknown[] {
   if (seen.size === 0) return [];
+
+  const srcTokens = srcQuery
+    .toLowerCase()
+    .split(/[\s\p{P}]+/u)
+    .map((w) => w.trim())
+    .filter((w) => w.length >= 2 && !STOP_WORDS.has(w));
+
   const scored = [...seen.values()].map(({ row, matchType }) => {
-    const permCount = safeParseJson(row.permissions as string, []).length;
+    const perms     = safeParseJson(row.permissions as string, [] as string[]);
+    const permCount = perms.length;
     const isPriv    = row.is_privileged === 1;
     const baseScore = (row.base_score as number) ?? 0;
+    const task      = row.task_description as string;
     return {
-      task:             row.task_description,
-      feature_area:     row.feature_area as string,
-      min_role:         row.min_role_name,
-      min_role_id:      row.min_role_id,
-      alt_roles:        safeParseJson(row.alt_role_ids as string, []),
-      source_url:       row.source_url,
-      is_privileged:    isPriv,
-      permission_count: permCount,
-      match_type:       matchType,
-      score:            baseScore * privilegeFactor(permCount, isPriv),
-      _permCount:       permCount,
+      task,
+      feature_area:          row.feature_area as string,
+      min_role:              row.min_role_name,
+      min_role_id:           row.min_role_id,
+      min_role_description:  (row.min_role_description as string) ?? "",
+      alt_roles:             safeParseJson(row.alt_role_ids as string, []),
+      source_url:            row.source_url,
+      is_privileged:         isPriv,
+      permission_count:      permCount,
+      match_type:            matchType,
+      score:                 baseScore * privilegeFactor(permCount, isPriv),
+      match_reasoning:       generateMatchReasoning(srcQuery || task, task, matchType),
+      relevant_permissions:  rankRelevantPermissions(srcTokens, perms),
+      _permCount:            permCount,
     };
   });
 
@@ -423,7 +440,8 @@ async function handleSearchCompare(
 }
 
 async function handleSearch(url: URL, env: Env): Promise<Response> {
-  const q = url.searchParams.get("q")?.trim() ?? "";
+  const q   = url.searchParams.get("q")?.trim()  ?? "";
+  const src = url.searchParams.get("src")?.trim() ?? q; // original query before synonym expansion
   if (!q) return badRequest("Missing or empty query parameter: q");
 
   // Internal A/B endpoint — not part of normal search flow.
@@ -436,17 +454,17 @@ async function handleSearch(url: URL, env: Env): Promise<Response> {
 
   // Tier 1: topic keywords only (precise, avoids "configure" noise)
   const tier1 = await runKeywordTier(env, q, sqKeywords);
-  if (tier1.size > 0) return json(applyAffinityAndScore(tier1));
+  if (tier1.size > 0) return finalizeResults(env, tier1, src);
 
   // Tier 2: all keywords including generic verbs (only if some were stripped)
   if (topicKeywords.length < keywords.length) {
     const tier2 = await runKeywordTier(env, q, keywords);
-    if (tier2.size > 0) return json(applyAffinityAndScore(tier2));
+    if (tier2.size > 0) return finalizeResults(env, tier2, src);
   }
 
   // Tier 3: LIKE fallback on longest topic/overall keyword
   const tier3 = await runLikeTier(env, q, keywords, topicKeywords);
-  if (tier3.size > 0) return json(applyAffinityAndScore(tier3));
+  if (tier3.size > 0) return finalizeResults(env, tier3, src);
 
   return json([]);
 }
@@ -598,6 +616,107 @@ function safeParseJson<T>(value: string | null | undefined, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Enrichment helpers (Phase 2)
+// ---------------------------------------------------------------------------
+
+const PERM_WRITE_VERBS = new Set([
+  "create", "delete", "update", "manage", "assign", "write", "set",
+  "add", "remove", "enable", "disable", "reset", "configure", "allProperties",
+]);
+
+function splitCamelCase(s: string): string[] {
+  return s.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase().split(/[^a-z]+/).filter(Boolean);
+}
+
+function rankRelevantPermissions(queryTokens: string[], permissions: string[]): string[] {
+  if (permissions.length === 0) return [];
+
+  const scored = permissions.map((perm) => {
+    const segments = perm.split("/").slice(1); // drop namespace prefix
+    const permWords = segments.flatMap((seg) => splitCamelCase(seg));
+
+    let score = 0;
+    for (const token of queryTokens) {
+      if (permWords.includes(token))                         score += 10;
+      else if (permWords.some((w) => w.startsWith(token)))  score += 5;
+      else if (permWords.some((w) => w.includes(token)))    score += 2;
+    }
+
+    const lastWord = splitCamelCase(segments[segments.length - 1] ?? "").pop() ?? "";
+    if (PERM_WRITE_VERBS.has(lastWord)) score *= 1.2;
+
+    return { perm, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 5).map((s) => s.perm);
+}
+
+function generateMatchReasoning(
+  srcQuery: string,
+  task: string,
+  matchType: MatchType,
+): string | null {
+  const tokens = srcQuery
+    .toLowerCase()
+    .split(/[\s\p{P}]+/u)
+    .map((w) => w.trim())
+    .filter((w) => w.length >= 2 && !STOP_WORDS.has(w));
+  if (tokens.length === 0) return null;
+
+  const taskWords = new Set(
+    task.toLowerCase().split(/[\s\p{P}]+/u).map((w) => w.trim()).filter(Boolean),
+  );
+  const matched = tokens.filter((t) => taskWords.has(t));
+  if (matched.length === 0) return null;
+
+  return matchType === "exact"
+    ? `matched: ${matched[0]} (exact)${matched.length > 1 ? ", " + matched.slice(1).join(", ") : ""}`
+    : `matched: ${matched.join(", ")}`;
+}
+
+async function enrichAltRoles(env: Env, results: Record<string, unknown>[]): Promise<void> {
+  const altIds = new Set<string>();
+  for (const r of results) {
+    for (const id of (r.alt_roles as string[] ?? [])) altIds.add(id);
+  }
+  if (altIds.size === 0) return;
+
+  const ids = [...altIds];
+  const ph  = ids.map(() => "?").join(",");
+  const rows = await env.DB.prepare(
+    `SELECT id, display_name, description FROM roles WHERE id IN (${ph})`
+  ).bind(...ids).all();
+
+  const roleMap = new Map<string, { role_name: string; description: string }>();
+  for (const row of (rows.results ?? []) as Record<string, unknown>[]) {
+    roleMap.set(row.id as string, {
+      role_name:   row.display_name as string,
+      description: (row.description as string) ?? "",
+    });
+  }
+
+  for (const r of results) {
+    r.alt_roles_enriched = (r.alt_roles as string[] ?? [])
+      .map((id) => {
+        const role = roleMap.get(id);
+        return role ? { role_id: id, ...role } : null;
+      })
+      .filter(Boolean);
+  }
+}
+
+async function finalizeResults(
+  env: Env,
+  seen: Map<string, Entry>,
+  srcQuery: string,
+): Promise<Response> {
+  const results = applyAffinityAndScore(seen, srcQuery) as Record<string, unknown>[];
+  await enrichAltRoles(env, results);
+  return json(results);
 }
 
 // ---------------------------------------------------------------------------
