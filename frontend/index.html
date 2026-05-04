@@ -1821,7 +1821,7 @@
     }
 
     showSkeleton();
-    searchTimer = setTimeout(() => doSearch(expandedQuery), 350);
+    searchTimer = setTimeout(() => doSearch(expandedQuery, q), 350);
   });
 
   // ── Example pill search ──────────────────────────────────────────────
@@ -1832,9 +1832,12 @@
     input.focus();
   }
 
-  async function doSearch(q) {
+  async function doSearch(q, src = q) {
     try {
-      const res = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}`);
+      const url = src !== q
+        ? `${API}/api/search?q=${encodeURIComponent(q)}&src=${encodeURIComponent(src)}`
+        : `${API}/api/search?q=${encodeURIComponent(q)}`;
+      const res = await fetch(url);
       const results = await res.json();
       renderResults(results);
     } catch {
