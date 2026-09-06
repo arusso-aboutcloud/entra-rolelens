@@ -49,7 +49,7 @@ jobs:
           cache-dependency-path: pipeline/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r pipeline/requirements.txt
+        run: pip install --require-hashes -r pipeline/requirements.txt
 
       - name: Fetch roles
         env:
