@@ -42,7 +42,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r pipeline/requirements.txt
+        run: pip install --require-hashes -r pipeline/requirements.txt
 
       - name: Check + patch model
         id: check

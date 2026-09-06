@@ -1,0 +1,11 @@
+# Direct dependencies of the pipeline. requirements.txt is the compiled,
+# hash-pinned lockfile generated from this file -- regenerate it after
+# editing this list:
+#
+#   pip install pip-tools
+#   pip-compile --generate-hashes --output-file=pipeline/requirements.txt pipeline/requirements.in
+#
+requests==2.34.2
+beautifulsoup4==4.15.0
+lxml==6.1.3
+azure-identity==1.25.3
