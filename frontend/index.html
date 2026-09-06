@@ -109,27 +109,35 @@
       gap: 18px;
     }
 
-    .header-logo {
-      height: 72px;
-      width: auto;
+    .header-divider {
+      width: 1px;
+      height: 56px;
+      align-self: center;
       flex-shrink: 0;
+      background: linear-gradient(180deg, transparent, var(--muted) 20%, var(--muted) 80%, transparent);
+      opacity: 0.45;
     }
 
+    .header-text { display: flex; flex-direction: column; gap: 4px; }
+
     @media (max-width: 640px) {
-      .header-logo { height: 48px; }
       .header-brand { gap: 12px; }
+      .header-divider { height: 44px; }
     }
 
     .logo {
-      font-family: var(--font-mono);
-      font-size: 26px;
-      font-weight: 500;
-      letter-spacing: -0.5px;
+      font-family: 'Chakra Petch', var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       text-decoration: none;
       color: var(--text);
     }
     .logo span { color: var(--accent); }
     .logo .entra-part { color: #0078D4; }
+    @media (max-width: 640px) {
+      .logo { font-size: 22px; }
+    }
 
     .header-right {
       display: flex;
@@ -222,18 +230,10 @@
       .ac-ring-ccw { animation: none; transform: rotate(-20deg); }
     }
 
-    .ac-wordmark {
-      font-family: 'Chakra Petch', var(--font-head);
-      font-weight: 700;
-      font-size: 22px;
-      color: #fdfdfd;
-      letter-spacing: 0.01em;
-    }
     @media (max-width: 640px) {
       .ac-chip { width: 44px; height: 44px; border-radius: 12px; }
       .ac-chip img { width: 27px; }
       .ac-ring { border-radius: 15px; }
-      .ac-wordmark { font-size: 20px; }
     }
 
     .tagline {
@@ -241,7 +241,6 @@
       font-size: 13px;
       color: var(--muted);
       letter-spacing: 0.04em;
-      margin-top: 8px;
     }
 
     /* ── Tab toggle (pill switcher) ─────────────────────────────────── */
@@ -1570,21 +1569,20 @@
   <div class="container">
     <div class="header-inner">
       <div class="header-brand">
-        <img src="https://images.aboutcloud.io/logos/rolelens-brand-logo-600.png" alt="Entra RoleLens" class="header-logo" />
+        <a href="https://www.aboutcloud.io" target="_blank" rel="noopener" class="ac-brand" aria-label="aboutcloud.io">
+          <span class="ac-chip">
+            <span class="ac-ring ac-ring-cw" aria-hidden="true"></span>
+            <span class="ac-ring ac-ring-ccw" aria-hidden="true"></span>
+            <img src="assets/logo-icon-dark-theme.png" alt="AboutCloud" />
+          </span>
+        </a>
+        <span class="header-divider" aria-hidden="true"></span>
         <div class="header-text">
           <a href="/" class="logo"><span class="entra-part">Entra</span> <span>RoleLens</span></a>
           <div class="tagline">Minimum privilege · Always current</div>
         </div>
       </div>
       <div class="header-right">
-        <a href="https://www.aboutcloud.io" target="_blank" rel="noopener" class="ac-brand">
-          <span class="ac-chip">
-            <span class="ac-ring ac-ring-cw" aria-hidden="true"></span>
-            <span class="ac-ring ac-ring-ccw" aria-hidden="true"></span>
-            <img src="assets/logo-icon-dark-theme.png" alt="" />
-          </span>
-          <span class="ac-wordmark">aboutcloud.io</span>
-        </a>
         <span class="last-updated" id="last-updated-badge">Loading…</span>
         <a href="https://github.com/arusso-aboutcloud/entra-rolelens" target="_blank" rel="noopener" class="gh-link" aria-label="GitHub">
           <svg viewBox="0 0 24 24" fill="currentColor">
