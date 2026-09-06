@@ -217,6 +217,10 @@
       .ac-ring-cw  { animation: none; transform: rotate(20deg); }
       .ac-ring-ccw { animation: none; transform: rotate(-20deg); }
     }
+    @media (pointer: coarse) {
+      .ac-ring-cw  { animation: none; transform: rotate(20deg); }
+      .ac-ring-ccw { animation: none; transform: rotate(-20deg); }
+    }
 
     .ac-wordmark {
       font-family: 'Chakra Petch', var(--font-head);
@@ -316,6 +320,15 @@
       margin-top: -8px;
       margin-bottom: 24px;
       animation: hero-tagline-glow 3s ease-in-out infinite 0.4s;
+    }
+    /* Continuous text-shadow animations force repaint every frame -- cheap
+       on desktop, measurably not on mid/low-tier mobile GPUs (see the
+       initBgGraph note above for the measured impact). Freeze at the
+       keyframes' own peak (0%/100%) value instead of removing the glow
+       outright, same philosophy as the .ac-ring reduced-motion freeze. */
+    @media (pointer: coarse) {
+      .hero-text    { animation: none; text-shadow: 0 0 8px rgba(226,232,240,0.95), 0 0 22px rgba(226,232,240,0.65), 0 0 50px rgba(226,232,240,0.3); }
+      .hero-tagline { animation: none; text-shadow: 0 0 8px rgba(47,158,245,0.9), 0 0 22px rgba(47,158,245,0.55), 0 0 50px rgba(47,158,245,0.25); }
     }
 
     /* ── Search input ───────────────────────────────────────────────── */
@@ -854,6 +867,9 @@
       flex-shrink: 0;
       animation: syncpulse 2s ease-in-out infinite;
     }
+    @media (pointer: coarse) {
+      .sync-dot { animation: none; }
+    }
     .sync-dot.stale {
       background: var(--warn);
       box-shadow: 0 0 8px var(--warn);
@@ -907,6 +923,9 @@
       letter-spacing: 0.02em;
       color: var(--accent);
       animation: wn-title-glow 3s ease-in-out infinite;
+    }
+    @media (pointer: coarse) {
+      .wn-title { animation: none; text-shadow: 0 0 3px rgba(47,158,245,0.9), 0 0 9px rgba(47,158,245,0.55), 0 0 20px rgba(47,158,245,0.25); }
     }
     .whats-new-chevron { color: var(--muted); transition: transform 0.2s; flex-shrink: 0; width: 18px; height: 18px; }
     .whats-new-chevron.open { transform: rotate(180deg); }
@@ -1121,6 +1140,12 @@
       .whats-new-entry[data-idx="3"] { animation-delay: 0.20s; }
       .whats-new-entry[data-idx="4"] { animation-delay: 0.25s; }
     }
+    /* Must come after the block above so it wins the cascade on touch
+       devices, which usually have prefers-reduced-motion: no-preference
+       too (both conditions can be simultaneously true). */
+    @media (pointer: coarse) {
+      .whats-new-entry.wn-fresh .wn-fresh-dot { animation: none; }
+    }
     @keyframes wn-pulse {
       0%, 100% { opacity: 1;    transform: scale(1); }
       50%       { opacity: 0.35; transform: scale(0.65); }
@@ -1146,6 +1171,9 @@
       flex-shrink: 0;
       white-space: nowrap;
       animation: wn-new-badge-glow 3s ease-in-out infinite;
+    }
+    @media (pointer: coarse) {
+      .wn-new-badge { animation: none; text-shadow: 0 0 3px rgba(0,229,163,0.95), 0 0 9px rgba(0,229,163,0.65), 0 0 20px rgba(0,229,163,0.3); }
     }
     .wn-name   { font-family: var(--font-mono); font-size: 16.5px; font-weight: 500; color: var(--text); flex: 1; }
     .wn-action { font-family: var(--font-body); font-size: 14.5px; color: var(--muted); }
@@ -1282,6 +1310,9 @@
       margin-top: 22px;
       margin-bottom: 12px;
       animation: pills-label-glow 3s ease-in-out infinite;
+    }
+    @media (pointer: coarse) {
+      .pills-label { animation: none; text-shadow: 0 0 3px rgba(226,232,240,0.95), 0 0 9px rgba(226,232,240,0.65), 0 0 20px rgba(226,232,240,0.3); }
     }
     .pills-label.hidden { display: none; }
     .pills-label::before { content: '⚡'; font-size: 13px; }
@@ -1835,6 +1866,13 @@
   function initBgGraph() {
     try {
       if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+      // Touch-primary devices (phones/tablets) skip the full-viewport WebGL
+      // shader entirely -- measured on a throttled mobile CPU profile, this
+      // continuous per-pixel shader alone pegged the main thread near 100%
+      // even at total idle (~25fps just sitting there). The dot-grid CSS
+      // background (body::before) already exists as the no-WebGL fallback,
+      // so this reuses that exact path rather than adding a new one.
+      if (window.matchMedia('(pointer: coarse)').matches) return;
       const canvas = document.getElementById('bg-graph');
       if (!canvas) return;
       const glOpts = { alpha: true, antialias: true, premultipliedAlpha: true };
