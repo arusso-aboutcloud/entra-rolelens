@@ -127,16 +127,32 @@
 
     .logo {
       font-family: 'Chakra Petch', var(--font-head);
-      font-size: 28px;
+      font-size: 36px;
       font-weight: 700;
       letter-spacing: -0.01em;
       text-decoration: none;
       color: var(--text);
     }
-    .logo span { color: var(--accent); }
-    .logo .entra-part { color: #0078D4; }
+    .logo span { color: var(--accent); animation: logo-glow-accent 3s ease-in-out infinite; }
+    .logo .entra-part { color: #0078D4; animation: logo-glow-entra 3s ease-in-out infinite 0.4s; }
+    @keyframes logo-glow-entra {
+      0%, 100% { text-shadow: 0 0 6px rgba(0,120,212,0.9), 0 0 16px rgba(0,120,212,0.5), 0 0 34px rgba(0,120,212,0.25); }
+      50%       { text-shadow: 0 0 3px rgba(0,120,212,0.4), 0 0 8px rgba(0,120,212,0.2),  0 0 16px rgba(0,120,212,0.08); }
+    }
+    @keyframes logo-glow-accent {
+      0%, 100% { text-shadow: 0 0 6px rgba(47,158,245,0.9), 0 0 16px rgba(47,158,245,0.5), 0 0 34px rgba(47,158,245,0.25); }
+      50%       { text-shadow: 0 0 3px rgba(47,158,245,0.4), 0 0 8px rgba(47,158,245,0.2),  0 0 16px rgba(47,158,245,0.08); }
+    }
+    /* Same mobile-perf gating already established for every other glow this
+       session: freeze at the peak text-shadow instead of animating, since
+       continuous text-shadow forces repaint every frame and pegged the
+       main thread on touch devices (see the perf fix commit). */
+    @media (pointer: coarse) {
+      .logo span            { animation: none; text-shadow: 0 0 6px rgba(47,158,245,0.9), 0 0 16px rgba(47,158,245,0.5), 0 0 34px rgba(47,158,245,0.25); }
+      .logo .entra-part     { animation: none; text-shadow: 0 0 6px rgba(0,120,212,0.9), 0 0 16px rgba(0,120,212,0.5), 0 0 34px rgba(0,120,212,0.25); }
+    }
     @media (max-width: 640px) {
-      .logo { font-size: 22px; }
+      .logo { font-size: 27px; }
     }
 
     .header-right {
@@ -237,10 +253,13 @@
     }
 
     .tagline {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.04em;
+      font-family: 'Chakra Petch', var(--font-head);
+      font-size: 14px;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.01em;
+      opacity: 0.9;
     }
 
     /* ── Tab toggle (pill switcher) ─────────────────────────────────── */
