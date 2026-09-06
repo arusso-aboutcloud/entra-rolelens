@@ -7,9 +7,11 @@ Fetches all Entra ID built-in role definitions from:
 """
 
 import json
+import random
 import re
 import sys
 import os
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -32,21 +34,42 @@ GRAPH_RAW_PATH = DATA_DIR / "roles_graph_raw.json"
 PRIVILEGED_MARKER = "privileged-label.png"
 MAX_WORKERS = 8
 
+# raw.githubusercontent.com occasionally resets connections under the burst of
+# concurrent per-role requests this script fires (MAX_WORKERS=8 x 136 roles).
+# One role hitting that isn't a real failure -- retry it a couple of times
+# before giving up, same pattern as push_to_cloudflare.py's with_retry().
+RETRY_ATTEMPTS = 3
+RETRY_BASE_DELAY = 1.0  # seconds; doubles each attempt, plus jitter
+RETRYABLE_STATUS = {429, 500, 502, 503, 504}
+
 
 class FetchError(Exception):
     pass
 
 
 def get(url: str) -> str:
-    try:
-        resp = requests.get(url, timeout=30, headers={"Accept": "text/plain"})
-    except requests.RequestException as exc:
-        raise FetchError(f"Network error fetching {url}: {exc}") from exc
-    if resp.status_code == 404:
-        return ""
-    if not resp.ok:
-        raise FetchError(f"HTTP {resp.status_code} fetching {url}")
-    return resp.text
+    last_exc: Exception | None = None
+    for attempt in range(1, RETRY_ATTEMPTS + 1):
+        try:
+            resp = requests.get(url, timeout=30, headers={"Accept": "text/plain"})
+        except requests.RequestException as exc:
+            last_exc = FetchError(f"Network error fetching {url}: {exc}")
+            last_exc.__cause__ = exc
+        else:
+            if resp.status_code == 404:
+                return ""
+            if resp.ok:
+                return resp.text
+            last_exc = FetchError(f"HTTP {resp.status_code} fetching {url}")
+            if resp.status_code not in RETRYABLE_STATUS:
+                raise last_exc
+        if attempt == RETRY_ATTEMPTS:
+            raise last_exc
+        delay = RETRY_BASE_DELAY * (2 ** (attempt - 1)) + random.uniform(0, 0.5)
+        print(f"    transient error fetching {url} ({last_exc}), retrying in "
+              f"{delay:.1f}s (attempt {attempt}/{RETRY_ATTEMPTS})", file=sys.stderr)
+        time.sleep(delay)
+    raise last_exc  # pragma: no cover — loop always returns or raises above
 
 
 def fetch_graph_roles():
