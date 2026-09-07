@@ -3253,6 +3253,17 @@ Content-Type: application/json
   // description/rename show a word-level diff; an isPrivileged flip explains the
   // before/after and why it matters. Historical permission entries (counts only,
   // no names) return '' and stay non-expandable.
+  // Shared official-docs link for any MODIFIED entry (ADDED has its own via
+  // the lazy-loaded /api/role content; REMOVED has no living page to link to).
+  // Uses the entry's CURRENT role_name -- for a rename, diff_roles.py already
+  // stores the new displayName there, which is also what the docs page's own
+  // anchor slug will have moved to.
+  function _wnDocLink(c) {
+    return c.role_name
+      ? `<a class="wn-doclink" href="${esc(_roleDocsUrl(c.role_name))}" target="_blank" rel="noopener">Microsoft Learn: official role documentation ↗</a>`
+      : '';
+  }
+
   function _wnDetailInner(c) {
     // New role: lazy-load its description + permission list from /api/role on
     // expand (same endpoint as role detail — always current, no per-role code).
@@ -3267,13 +3278,10 @@ Content-Type: application/json
       return `<div class="wn-lazy" data-role="${esc(c.role_id)}"${scenarioAttr}${factsAttr}></div>`;
     }
     if (c.field === 'permissions') {
-      const doclink = c.role_name
-        ? `<a class="wn-doclink" href="${esc(_roleDocsUrl(c.role_name))}" target="_blank" rel="noopener">Microsoft Learn: official role documentation ↗</a>`
-        : '';
       return _wnDocsStatus(c) +
              _wnPermSection(c.added_permissions, 'added', '+', 'Added') +
              _wnPermSection(c.removed_permissions, 'removed', '−', 'Removed') +
-             doclink;
+             _wnDocLink(c);
     }
     if (c.field === 'description' || c.field === 'displayName') {
       let oldV = c.old, newV = c.new;
@@ -3282,7 +3290,7 @@ Content-Type: application/json
         if (m) { oldV = _unquote(m[1]); newV = _unquote(m[2]); }
       }
       if (oldV === undefined && newV === undefined) return '';
-      return `<div class="wn-worddiff">${_wnDiffWords(String(oldV ?? ''), String(newV ?? ''))}</div>`;
+      return `<div class="wn-worddiff">${_wnDiffWords(String(oldV ?? ''), String(newV ?? ''))}</div>` + _wnDocLink(c);
     }
     if (c.field === 'isPrivileged') {
       let now = c.new, was = c.old;
@@ -3300,7 +3308,7 @@ Content-Type: application/json
       return `<div class="wn-privnote">` +
         `<div class="wn-priv-row"><span class="wn-priv-tag">Was</span><span class="wn-priv-from">${esc(fromTxt)}</span></div>` +
         `<div class="wn-priv-row"><span class="wn-priv-tag">Now</span><span class="wn-priv-to${toCls}">${esc(toTxt)}</span></div>` +
-        `<div class="wn-priv-why">${esc(why)}</div></div>`;
+        `<div class="wn-priv-why">${esc(why)}</div></div>` + _wnDocLink(c);
     }
     return '';
   }
