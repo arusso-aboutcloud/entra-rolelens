@@ -589,19 +589,26 @@ def push_changelog(account_id: str, database_id: str, token: str,
 # README What's New
 # ---------------------------------------------------------------------------
 
-# Same tokens as the live site's CSS custom properties (frontend/index.html:
-# --added, --danger, --warn, --muted) -- GitHub strips <style>/animations
-# from README rendering entirely, so there's no way to reproduce the site's
-# actual glow effect here. Shields.io badges in the exact same hex colors
-# are the closest honest equivalent: real color parity, no motion.
-_WN_COLOR_ADDED  = "00E5A3"
-_WN_COLOR_DANGER = "F87171"
-_WN_COLOR_WARN   = "FBBF24"
-_WN_COLOR_MUTED  = "8C9AC0"
+# Same color FAMILY as the live site's CSS custom properties (frontend/
+# index.html: --added, --danger, --warn, --muted) -- but NOT the exact same
+# hex. Shields.io badges always render white text over the given background
+# (confirmed: its SVG output hardcodes fill="#fff", no way to override via
+# the API), and the site's own token values are bright/pastel shades chosen
+# to glow against a near-black page -- white-on-#00E5A3 is a 1.65:1 contrast
+# ratio, badly under WCAG AA's 4.5:1 minimum for text. These are darker
+# shades of the same hue that keep white legible (4.8-5.4:1, verified) while
+# still reading as unmistakably the same green/red/amber/gray.
+_WN_COLOR_ADDED  = "007A53"  # was --added #00E5A3
+_WN_COLOR_DANGER = "DC2626"  # was --danger #F87171
+_WN_COLOR_WARN   = "9A6700"  # was --warn #FBBF24
+_WN_COLOR_MUTED  = "5B6B8C"  # was --muted #8C9AC0
 
 
 def _wn_badge(label: str, color: str) -> str:
-    return f"![{label}](https://img.shields.io/badge/-{_urlquote(label)}-{color}?style=flat-square)"
+    # for-the-badge: bold uppercase text at 28px vs flat-square's 20px --
+    # matches the live site's own "New" badge treatment (also bold+uppercase)
+    # and fixes it actually being legible at README text sizes.
+    return f"![{label}](https://img.shields.io/badge/-{_urlquote(label)}-{color}?style=for-the-badge)"
 
 
 def _wn_readme_badge(change: dict) -> str:
