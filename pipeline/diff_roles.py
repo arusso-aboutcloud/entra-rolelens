@@ -133,6 +133,23 @@ def compute_changes(old_roles: dict, new_roles: dict) -> list[dict]:
                 entry["added_permissions"] = added
             if removed:
                 entry["removed_permissions"] = removed
+
+            # This "date" is when RoleLens detected the change, NOT when
+            # Microsoft actually granted it live -- neither the Graph API nor
+            # the docs expose that. What we CAN verify: whether the specific
+            # added permissions are actually listed on Microsoft's own docs
+            # page right now, and if so, that page's own ms.date (its last
+            # reviewed date, not necessarily this permission's date either --
+            # a page can be touched for unrelated reasons and still miss a
+            # live grant, so this is only trusted when the exact permission
+            # string is present in that page's current content).
+            docs_perms = set(new_role.get("permissionsInDocs", []))
+            undocumented = sorted(set(added) - docs_perms) if added else []
+            if added and undocumented != added:
+                # At least one added permission IS in the current docs.
+                entry["docs_reviewed_date"] = new_role.get("docsReviewedDate")
+            if undocumented:
+                entry["undocumented_permissions"] = undocumented
             changes.append(entry)
 
     return changes
