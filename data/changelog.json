@@ -479,5 +479,224 @@
       "au_scopable": false,
       "configured_via": "Microsoft Entra admin center (Roles & admins) or Microsoft Graph"
     }
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "62e90394-69f5-4237-9190-012177145e10",
+    "role_name": "Global Administrator",
+    "field": "permissions",
+    "detail": "11 permissions added",
+    "added_permissions": [
+      "microsoft.directory/agentIdentities/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/read",
+      "microsoft.directory/bulkJobs/standard/read",
+      "microsoft.directory/lockbox/requests/update",
+      "microsoft.directory/servicePrincipals/managePermissionGrantsForAll.microsoft-company-admin",
+      "microsoft.directory/tenantGovernance/policyTemplates/allProperties/update",
+      "microsoft.directory/tenantGovernance/policyTemplates/create",
+      "microsoft.directory/tenantGovernance/relationships/create",
+      "microsoft.directory/tenantGovernance/requests/allProperties/update",
+      "microsoft.directory/tenantGovernance/requests/create"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3",
+    "role_name": "Application Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/servicePrincipals/managePermissionGrantsForAll.microsoft-application-admin"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "cf1c38e5-3621-4004-a7cb-879624dced7c",
+    "role_name": "Application Developer",
+    "field": "permissions",
+    "detail": "15 permissions added",
+    "added_permissions": [
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/credentials/update",
+      "microsoft.directory/applications/delete",
+      "microsoft.directory/applications/disablement/update",
+      "microsoft.directory/applications/extensionProperties/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/applications/verification/update",
+      "microsoft.directory/deletedItems.applications/delete"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "5d6b6bb7-de71-4623-b4af-96380a352509",
+    "role_name": "Security Reader",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/bulkJobs/standard/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "194ae4cb-b126-40b2-bd5b-6091b380977d",
+    "role_name": "Security Administrator",
+    "field": "permissions",
+    "detail": "5 permissions added",
+    "added_permissions": [
+      "microsoft.directory/bulkJobs/standard/read",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/password/update"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "e8611ab8-c189-46e8-94e1-60213ab1f814",
+    "role_name": "Privileged Role Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/servicePrincipals/managePermissionGrantsForAll.microsoft-company-admin"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "158c047a-c907-4556-b7ef-446551a6b5f7",
+    "role_name": "Cloud Application Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/servicePrincipals/managePermissionGrantsForAll.microsoft-application-admin"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "5f2222b1-57c3-48ba-8ad5-d4759f1fde6f",
+    "role_name": "Security Operator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/bulkJobs/standard/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
+    "role_name": "Global Reader",
+    "field": "permissions",
+    "detail": "4 permissions added",
+    "added_permissions": [
+      "microsoft.directory/agentIdentities/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/read",
+      "microsoft.directory/bulkJobs/standard/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "0964bb5e-9bdb-4d7b-ac29-58e794862a40",
+    "role_name": "Search Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.office365.usageReports/allEntities/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "8835291a-918c-4fd7-a9ce-faa49f0cf7d9",
+    "role_name": "Search Editor",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.office365.usageReports/allEntities/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
+    "role_name": "AI Reader",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.office365.usageReports/allEntities/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "0b00bede-4072-4d22-b441-e7df02a1ef63",
+    "role_name": "Authentication Extensibility Password Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/onPasswordUpdateCustomAuthenticationExtension/allProperties/allTasks"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "db506228-d27e-4b7d-95e5-295956d6615f",
+    "role_name": "Agent ID Administrator",
+    "field": "permissions",
+    "detail": "2 permissions added",
+    "added_permissions": [
+      "microsoft.directory/agentIdentities/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "1981f584-96e9-4a6f-95b0-f522373f8fae",
+    "role_name": "Tenant Governance Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/signInReports/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "e0a4caa6-fe82-443f-b92f-d87341d17b2e",
+    "role_name": "Tenant Governance Reader",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/signInReports/allProperties/read"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "change_type": "MODIFIED",
+    "role_id": "b8e31d83-1534-480f-9b10-0338ded51b7e",
+    "role_name": "Tenant Governance Relationship Administrator",
+    "field": "permissions",
+    "detail": "1 permission added",
+    "added_permissions": [
+      "microsoft.directory/signInReports/allProperties/read"
+    ]
   }
 ]

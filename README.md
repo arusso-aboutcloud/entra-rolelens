@@ -69,7 +69,16 @@ This keeps the one remaining manual step — seeding a task for a role Microsoft
 > Auto-generated from the nightly pipeline · Last updated by GitHub Actions
 
 <!-- WHATS_NEW_START -->
-- ✅ **Entra SOC Identity Responder** — added (2026-09-04)
+- 🔄 **Global Administrator** — modified (2026-09-07)
+- 🔄 **Application Administrator** — modified (2026-09-07)
+- 🔄 **Application Developer** — modified (2026-09-07)
+- 🔄 **Security Reader** — modified (2026-09-07)
+- 🔄 **Security Administrator** — modified (2026-09-07)
+- 🔄 **Privileged Role Administrator** — modified (2026-09-07)
+- 🔄 **Cloud Application Administrator** — modified (2026-09-07)
+- 🔄 **Security Operator** — modified (2026-09-07)
+- 🔄 **Global Reader** — modified (2026-09-07)
+- 🔄 **Search Administrator** — modified (2026-09-07)
 <!-- WHATS_NEW_END -->
 
 ---
