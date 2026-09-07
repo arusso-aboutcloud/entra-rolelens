@@ -30,6 +30,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import quote as _urlquote
 
 import requests
 
@@ -588,6 +589,55 @@ def push_changelog(account_id: str, database_id: str, token: str,
 # README What's New
 # ---------------------------------------------------------------------------
 
+# Same tokens as the live site's CSS custom properties (frontend/index.html:
+# --added, --danger, --warn, --muted) -- GitHub strips <style>/animations
+# from README rendering entirely, so there's no way to reproduce the site's
+# actual glow effect here. Shields.io badges in the exact same hex colors
+# are the closest honest equivalent: real color parity, no motion.
+_WN_COLOR_ADDED  = "00E5A3"
+_WN_COLOR_DANGER = "F87171"
+_WN_COLOR_WARN   = "FBBF24"
+_WN_COLOR_MUTED  = "8C9AC0"
+
+
+def _wn_badge(label: str, color: str) -> str:
+    return f"![{label}](https://img.shields.io/badge/-{_urlquote(label)}-{color}?style=flat-square)"
+
+
+def _wn_readme_badge(change: dict) -> str:
+    """Mirrors the live "What's new" panel's per-type badge logic
+    (frontend/index.html _wnBuildEntries/_wnActionHtml) so the README and the
+    app agree on what color a given change gets, even though the README can
+    only show static color, not the glow/pulse the live panel animates."""
+    ctype = change.get("change_type", "").upper()
+    if ctype == "ADDED":
+        return _wn_badge("New", _WN_COLOR_ADDED)
+    if ctype == "REMOVED":
+        return _wn_badge("Role removed", _WN_COLOR_DANGER)
+
+    field = change.get("field")
+    if field == "permissions":
+        added   = len(change.get("added_permissions", []))
+        removed = len(change.get("removed_permissions", []))
+        # Mixed add+remove in one entry: "added" wins the badge, same
+        # least-privilege-safe tie-break the frontend uses -- the precise
+        # split is still in the bullet text itself either way.
+        if added:
+            return _wn_badge("Permission added", _WN_COLOR_ADDED)
+        if removed:
+            return _wn_badge("Permission removed", _WN_COLOR_DANGER)
+        return _wn_badge("Permissions changed", _WN_COLOR_WARN)
+    if field == "displayName":
+        return _wn_badge("Renamed", _WN_COLOR_WARN)
+    if field == "description":
+        return _wn_badge("Description updated", _WN_COLOR_WARN)
+    if field == "isPrivileged":
+        now_priv = change.get("new") is True
+        return _wn_badge("Now privileged", _WN_COLOR_WARN) if now_priv \
+            else _wn_badge("No longer privileged", _WN_COLOR_MUTED)
+    return _wn_badge("Updated", _WN_COLOR_MUTED)
+
+
 def update_readme_whats_new(changelog_path: Path, readme_path: Path) -> None:
     if not changelog_path.exists():
         return
@@ -611,15 +661,22 @@ def update_readme_whats_new(changelog_path: Path, readme_path: Path) -> None:
     if not recent:
         return
 
+    # Cap generous enough to cover a real multi-role batch (e.g. the 17-role
+    # docs-vs-live reconciliation backfill from 2026-09-07) without silently
+    # dropping entries the way the old cap of 10 did -- confirmed live: only
+    # 10 of that day's 17 changes ever made it into the README. Anything
+    # beyond the cap is surfaced explicitly (a line + link), never just cut.
+    WN_README_CAP = 30
+    shown, overflow = recent[:WN_README_CAP], recent[WN_README_CAP:]
+
     lines = [""]
-    for change in recent[:10]:
-        emoji = {"ADDED": "✅", "REMOVED": "❌", "MODIFIED": "🔄"}.get(
-            change.get("change_type", "").upper(), "•"
-        )
+    for change in shown:
+        badge = _wn_readme_badge(change)
+        lines.append(f"- {badge} **{change['role_name']}** ({change['date']})")
+    if overflow:
         lines.append(
-            f"- {emoji} **{change['role_name']}** — "
-            f"{change['change_type'].lower()} "
-            f"({change['date']})"
+            f"- …and {len(overflow)} more change{'s' if len(overflow) != 1 else ''} — "
+            f"see the full [What's new](https://entrarolelens.aboutcloud.io/) on the live site"
         )
     lines.append("")
 
