@@ -3210,6 +3210,16 @@ Content-Type: application/json
   function _wnDocsStatus(c) {
     const added = c.added_permissions || [];
     if (!added.length) return '';
+    // Entries from before this feature shipped have neither field at all --
+    // that MUST read as "we don't know," never as "0 undocumented" (which
+    // would falsely claim full confirmation). Only render a status once
+    // diff_roles.py has actually recorded one: docs_reviewed_date is present
+    // whenever at least one added permission is confirmed, and
+    // undocumented_permissions is present whenever at least one isn't -- so
+    // an entry with neither key at all means the check was never run, not
+    // that everything checked out clean.
+    const hasStatus = ('docs_reviewed_date' in c) || ('undocumented_permissions' in c);
+    if (!hasStatus) return '';
     const undocumented = c.undocumented_permissions || [];
     const reviewed = c.docs_reviewed_date
       ? ` (Microsoft's docs page last reviewed ${esc(c.docs_reviewed_date)})` : '';
