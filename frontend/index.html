@@ -1200,23 +1200,45 @@
     .wn-glyph          { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; color: var(--added); }
     .wn-glyph.removed  { color: var(--danger); }
     .wn-glyph.modified { color: var(--warn); }
-    @keyframes wn-new-badge-glow {
+
+    /* Glowing text badges that stand in for the glyph on the rows that most
+       need a glance-level signal: a brand-new role ("New") and a permission
+       grant/revoke on an existing one ("Permission added"/"Permission
+       removed"). Same treatment, different color per direction. */
+    @keyframes wn-glow-green {
       0%, 100% { text-shadow: 0 0 3px rgba(0,229,163,0.95), 0 0 9px rgba(0,229,163,0.65), 0 0 20px rgba(0,229,163,0.3); }
       50%       { text-shadow: 0 0 2px rgba(0,229,163,0.45), 0 0 5px rgba(0,229,163,0.2),  0 0 10px rgba(0,229,163,0.08); }
     }
-    .wn-new-badge {
+    @keyframes wn-glow-red {
+      0%, 100% { text-shadow: 0 0 3px rgba(248,113,113,0.95), 0 0 9px rgba(248,113,113,0.65), 0 0 20px rgba(248,113,113,0.3); }
+      50%       { text-shadow: 0 0 2px rgba(248,113,113,0.45), 0 0 5px rgba(248,113,113,0.2),  0 0 10px rgba(248,113,113,0.08); }
+    }
+    .wn-glow-badge {
       font-family: 'Chakra Petch', var(--font-head);
       font-size: 15px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--added);
       flex-shrink: 0;
       white-space: nowrap;
-      animation: wn-new-badge-glow 3s ease-in-out infinite;
     }
+    .wn-glow-badge.add { color: var(--added);  animation: wn-glow-green 3s ease-in-out infinite; }
+    .wn-glow-badge.rem { color: var(--danger); animation: wn-glow-red   3s ease-in-out infinite; }
     @media (pointer: coarse) {
-      .wn-new-badge { animation: none; text-shadow: 0 0 3px rgba(0,229,163,0.95), 0 0 9px rgba(0,229,163,0.65), 0 0 20px rgba(0,229,163,0.3); }
+      .wn-glow-badge.add { animation: none; text-shadow: 0 0 3px rgba(0,229,163,0.95), 0 0 9px rgba(0,229,163,0.65), 0 0 20px rgba(0,229,163,0.3); }
+      .wn-glow-badge.rem { animation: none; text-shadow: 0 0 3px rgba(248,113,113,0.95), 0 0 9px rgba(248,113,113,0.65), 0 0 20px rgba(248,113,113,0.3); }
+    }
+    /* Narrow rows: .whats-new-entry never wrapped (default flex nowrap), so a
+       long role name + a multi-word badge/action/date group had nowhere to
+       go but overflow past the viewport edge, clipping text -- confirmed via
+       screenshot with "Tenant Governance Relationship Administrator" +
+       "Permission added". Let the row wrap into two lines instead: name (+
+       its glyph/badge) on the first, action/date/chevron dropping to a
+       second line as a group once they no longer fit alongside it. */
+    @media (max-width: 640px) {
+      .whats-new-entry { flex-wrap: wrap; row-gap: 4px; }
+      .wn-name { min-width: 130px; }
+      .wn-glow-badge { font-size: 13px; white-space: normal; text-align: right; line-height: 1.25; max-width: 40%; }
     }
     .wn-name   { font-family: var(--font-mono); font-size: 16.5px; font-weight: 500; color: var(--text); flex: 1; }
     .wn-action { font-family: var(--font-body); font-size: 14.5px; color: var(--muted); }
@@ -3136,6 +3158,19 @@ Content-Type: application/json
     return { added: added || 0, removed: removed || 0 };
   }
 
+  // Glyph-slot badge for a permission change, same glowing treatment as the
+  // "New" badge on an added role. A change is almost always purely additive
+  // or purely a revocation in practice; on the rare row with both, "added"
+  // wins the glow (matches the pipeline's own least-privilege-safe bias of
+  // never understating what a role grants) -- the precise +N/−N split is
+  // still shown via the count badges in the action text either way.
+  function _wnPermGlowBadge(c) {
+    const { added, removed } = _wnCounts(c);
+    if (added)   return `<span class="wn-glow-badge add">Permission added</span>`;
+    if (removed) return `<span class="wn-glow-badge rem">Permission removed</span>`;
+    return `<span class="wn-glyph ${_WN_GLYPH_CLASS.MODIFIED}">${_WN_GLYPHS.MODIFIED}</span>`;
+  }
+
   // Summary-row label. Permission changes carry +N/−N badges; a privileged
   // flip is a single badge, not "false → true".
   function _wnActionHtml(c) {
@@ -3328,8 +3363,10 @@ Content-Type: application/json
       const titleAttr = tparts.length ? ` title="${tparts.join(' · ')}"` : '';
       const handlers  = exp ? ' role="button" tabindex="0" aria-expanded="false" onclick="_wnToggle(this)" onkeydown="_wnKey(event,this)"' : '';
       const glyphHtml = type === 'ADDED'
-        ? `<span class="wn-new-badge">New</span>`
-        : `<span class="wn-glyph ${gcls}">${glyph}</span>`;
+        ? `<span class="wn-glow-badge add">New</span>`
+        : (type === 'MODIFIED' && c.field === 'permissions')
+          ? _wnPermGlowBadge(c)
+          : `<span class="wn-glyph ${gcls}">${glyph}</span>`;
       return `<div class="wn-item${exp ? ' wn-expandable' : ''}">` +
         `<div class="whats-new-entry type-${gcls}${fresh}" data-idx="${startIdx + i}"${handlers}${titleAttr}>` +
           `<span class="wn-fresh-dot"${isFresh ? ' title="changed in the last 24h"' : ''}></span>` +
