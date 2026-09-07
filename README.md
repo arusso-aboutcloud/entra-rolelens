@@ -4,15 +4,15 @@
 
 # Entra RoleLens
 
-[![Live](https://img.shields.io/website?url=https%3A%2F%2Fentrarolelens.aboutcloud.io&label=live&style=flat-square&color=00E5A3)](https://entrarolelens.aboutcloud.io)
-[![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=nightly%20pipeline&style=flat-square&branch=master&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
-[![Last commit](https://img.shields.io/github/last-commit/arusso-aboutcloud/entra-rolelens/master?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/commits/master)
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fentrarolelens.aboutcloud.io&label=live&style=flat-square&color=007A53)](https://entrarolelens.aboutcloud.io)
+[![Pipeline](https://img.shields.io/github/actions/workflow/status/arusso-aboutcloud/entra-rolelens/refresh.yml?label=nightly%20pipeline&style=flat-square&branch=master&color=007A53)](https://github.com/arusso-aboutcloud/entra-rolelens/actions)
+[![Last commit](https://img.shields.io/github/last-commit/arusso-aboutcloud/entra-rolelens/master?style=flat-square&color=007A53)](https://github.com/arusso-aboutcloud/entra-rolelens/commits/master)
 [![License](https://img.shields.io/badge/license-MIT-38BDF8?style=flat-square)](LICENSE)
 [![Roles](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=role_count&label=roles&color=0078D4&logo=microsoft&style=flat-square)](https://entrarolelens.aboutcloud.io)
 [![Tasks](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=task_count&label=tasks&color=0078D4&logo=microsoft&style=flat-square)](https://entrarolelens.aboutcloud.io)
 [![Unlisted roles](https://img.shields.io/badge/dynamic/json?url=https://rolelens-worker.russo-antonio76.workers.dev/api/status&query=shadow_role_count&label=unlisted%20roles&color=E5A300&style=flat-square)](https://entrarolelens.aboutcloud.io)
-[![Stars](https://img.shields.io/github/stars/arusso-aboutcloud/entra-rolelens?style=flat-square&color=00E5A3)](https://github.com/arusso-aboutcloud/entra-rolelens/stargazers)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-00E5A3?style=flat-square)](CONTRIBUTING.md)
+[![Stars](https://img.shields.io/github/stars/arusso-aboutcloud/entra-rolelens?style=flat-square&color=007A53)](https://github.com/arusso-aboutcloud/entra-rolelens/stargazers)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-007A53?style=flat-square)](CONTRIBUTING.md)
 
 [![LinkedIn](https://img.shields.io/badge/Connect%20on%20LinkedIn-Antonio%20Russo-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/antonio-russo-9295731b/)
 
