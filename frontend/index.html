@@ -1138,6 +1138,17 @@
     .wn-doclink { display: inline-block; margin-top: 7px; font-size: 15.5px; color: var(--accent); }
     .wn-doclink:hover { text-decoration: underline; }
 
+    /* Permission-change entries: whether Microsoft's own docs actually list
+       the added permissions yet, since the docs can lag (or never catch up
+       with) a live Graph API grant -- see diff_roles.py's undocumented_permissions. */
+    .wn-docs-note {
+      font-size: 14px; line-height: 1.55; margin: 2px 0 11px; padding: 8px 12px;
+      border-radius: 6px; max-width: 60ch;
+    }
+    .wn-docs-note.confirmed { color: var(--added); background: rgba(0, 229, 163, 0.08); }
+    .wn-docs-note.pending   { color: var(--warn);  background: rgba(251, 191, 36, 0.08); }
+    .wn-docs-note.partial   { color: var(--warn);  background: rgba(251, 191, 36, 0.08); }
+
     /* Deterministic role facts (pipeline-computed, never AI-generated). */
     .wn-facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 13px 0 6px; }
     .wn-fact-configured { font-size: 14.5px; color: var(--muted); margin-bottom: 11px; }
@@ -3190,6 +3201,27 @@ Content-Type: application/json
     return s;
   }
 
+  // Whether Microsoft's own docs page currently lists the added permissions.
+  // Neither the Graph API nor the docs expose *when* a role's permissions
+  // actually changed live -- only that they did (via the Graph API right now)
+  // and whether the docs happen to reflect it. Rather than showing a single
+  // "date" that reads as "this changed on X" (it doesn't -- it's the date
+  // RoleLens detected it), this makes the real, verifiable status explicit.
+  function _wnDocsStatus(c) {
+    const added = c.added_permissions || [];
+    if (!added.length) return '';
+    const undocumented = c.undocumented_permissions || [];
+    const reviewed = c.docs_reviewed_date
+      ? ` (Microsoft's docs page last reviewed ${esc(c.docs_reviewed_date)})` : '';
+    if (undocumented.length === 0) {
+      return `<div class="wn-docs-note confirmed">✓ Confirmed in Microsoft's official docs${reviewed}.</div>`;
+    }
+    if (undocumented.length === added.length) {
+      return `<div class="wn-docs-note pending">Not yet reflected in Microsoft's public docs — detected via the live Microsoft Graph API. The exact date this was granted isn't published anywhere.</div>`;
+    }
+    return `<div class="wn-docs-note partial">${undocumented.length} of ${added.length} added permission${added.length === 1 ? '' : 's'} not yet reflected in Microsoft's public docs${reviewed}.</div>`;
+  }
+
   // One permission section (Added / Removed) with a header + count, capping at
   // _WN_PERM_CAP rows with a "+N more" toggle for the remainder.
   function _wnPermSection(perms, cls, sign, title) {
@@ -3225,8 +3257,13 @@ Content-Type: application/json
       return `<div class="wn-lazy" data-role="${esc(c.role_id)}"${scenarioAttr}${factsAttr}></div>`;
     }
     if (c.field === 'permissions') {
-      return _wnPermSection(c.added_permissions, 'added', '+', 'Added') +
-             _wnPermSection(c.removed_permissions, 'removed', '−', 'Removed');
+      const doclink = c.role_name
+        ? `<a class="wn-doclink" href="${esc(_roleDocsUrl(c.role_name))}" target="_blank" rel="noopener">Microsoft Learn: official role documentation ↗</a>`
+        : '';
+      return _wnDocsStatus(c) +
+             _wnPermSection(c.added_permissions, 'added', '+', 'Added') +
+             _wnPermSection(c.removed_permissions, 'removed', '−', 'Removed') +
+             doclink;
     }
     if (c.field === 'description' || c.field === 'displayName') {
       let oldV = c.old, newV = c.new;
@@ -3425,10 +3462,14 @@ Content-Type: application/json
       const cutoff24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
       // Newest first: the changelog is stored oldest→newest (append log), so
       // sort descending by date so the most recent changes sit at the top and
-      // are visible without expanding.
+      // are visible without expanding. Entries sharing the same date (e.g. a
+      // batch caught by one pipeline run) get a deterministic alphabetical
+      // tie-break instead of falling back to whatever order the backend
+      // happened to emit them in.
       const recent   = changelog
         .filter(c => c.date >= cutoff)
-        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .sort((a, b) => (b.date || '').localeCompare(a.date || '') ||
+                         (a.role_name || '').localeCompare(b.role_name || ''))
         .slice(0, 50);
       if (!recent.length) return;
 

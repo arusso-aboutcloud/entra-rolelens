@@ -110,6 +110,12 @@ def build_merged_roles(
                 "isPrivileged": docs_role.get("isPrivileged", False),
                 "permissions":  permissions,
                 "isShadowRole": False,
+                # Kept separately (not just derivable from the union above) so
+                # diff_roles.py can tell exactly which of a change's added
+                # permissions Microsoft's docs actually list vs. grants that
+                # are live-only and undocumented -- see diff_roles.py.
+                "permissionsInDocs": sorted(set(docs_role.get("permissions", []))),
+                "docsReviewedDate":  docs_role.get("docsReviewedDate"),
             })
         else:
             # Shadow role — present in API, absent from docs (Graph is all we have)

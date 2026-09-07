@@ -155,20 +155,38 @@ def parse_permissions(md: str) -> list[str]:
     return [m.group(1) for m in perm_re.finditer(md)]
 
 
-def fetch_permissions(slug: str) -> list[str]:
+_MS_DATE_RE = re.compile(r"^ms\.date:\s*(\d{2})/(\d{2})/(\d{4})\s*$", re.MULTILINE)
+
+
+def parse_docs_reviewed_date(md: str) -> str | None:
+    """Microsoft's include-file YAML frontmatter carries an ms.date field --
+    the date that specific docs page was last reviewed/touched. NOT the same
+    as when a role's permissions actually changed (a page can be reviewed for
+    unrelated reasons and still miss a live permission change entirely -- see
+    diff_roles.py's docs-vs-live reconciliation), but it's a real, verifiable
+    signal worth surfacing rather than inventing a change date Microsoft never
+    published."""
+    m = _MS_DATE_RE.search(md)
+    if not m:
+        return None
+    mm, dd, yyyy = m.groups()
+    return f"{yyyy}-{mm}-{dd}"
+
+
+def fetch_permissions(slug: str) -> tuple[list[str], str | None]:
     url = INCLUDE_URL.format(slug=slug)
     md = get(url)
     if not md:
         print(f"  WARN: no include file for '{slug}' — permissions will be empty",
               file=sys.stderr)
-        return []
-    return parse_permissions(md)
+        return [], None
+    return parse_permissions(md), parse_docs_reviewed_date(md)
 
 
 def enrich_role(role: dict) -> dict:
     slug = role.pop("_slug")
-    permissions = fetch_permissions(slug)
-    return {**role, "permissions": permissions}
+    permissions, docs_reviewed_date = fetch_permissions(slug)
+    return {**role, "permissions": permissions, "docsReviewedDate": docs_reviewed_date}
 
 
 def main() -> None:
