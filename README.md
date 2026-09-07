@@ -249,7 +249,7 @@ entra-rolelens/
 │   ├── master.json                # Merged dataset pushed to KV
 │   ├── changelog.json             # Role changes detected this run + AI scenarios
 │   ├── coverage.json              # Task-coverage report (new roles needing a task)
-│   └── previous_roles.json        # Yesterday's snapshot for diffing
+│   └── previous_master.json       # Yesterday's enriched (master.json) snapshot for diffing
 └── assets/
     ├── app-architecture.svg       # Application architecture — components + data flow
     ├── ai-automation-engine.svg   # AI scenario generation + model-deprecation watchdog

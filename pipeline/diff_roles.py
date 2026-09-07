@@ -1,21 +1,31 @@
 """
 diff_roles.py
 
-Compares today's data/roles.json against data/previous_roles.json to detect
-added, removed, and modified built-in roles.
+Compares today's data/master.json roles against data/previous_master.json to
+detect added, removed, and modified built-in roles.
+
+Diffs against master.json (the enriched, union-of-Graph-API-and-docs role
+list that push_to_cloudflare.py actually pushes live) rather than the raw
+docs-scraped roles.json. Microsoft's live Graph API sometimes grants a role
+new permissions well before their public docs pages catch up (or without any
+docs update at all) -- diffing the docs-only snapshot silently missed those
+changes entirely, even though the live site already reflected them correctly
+via enrich.py's Graph+docs union. See the "Application Developer" incident
+(2026-09-07): a live change from 3 to 18 permissions was already correctly
+served by the site but never appeared in "What's new" because the old baseline
+was frozen on the stale docs-only permission count.
 
 Writes data/changelog.json (appending new entries to any existing ones).
-Copies today's roles.json to previous_roles.json for tomorrow's run.
+Writes today's master.json roles to previous_master.json for tomorrow's run.
 """
 
 import json
-import shutil
 import sys
 from datetime import date
 from pathlib import Path
 
-ROLES_PATH = Path(__file__).parent.parent / "data" / "roles.json"
-PREV_ROLES_PATH = Path(__file__).parent.parent / "data" / "previous_roles.json"
+MASTER_PATH = Path(__file__).parent.parent / "data" / "master.json"
+PREV_MASTER_PATH = Path(__file__).parent.parent / "data" / "previous_master.json"
 CHANGELOG_PATH = Path(__file__).parent.parent / "data" / "changelog.json"
 
 TODAY = date.today().isoformat()
@@ -24,6 +34,15 @@ TODAY = date.today().isoformat()
 def load_json(path: Path) -> object:
     with path.open(encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def load_master_roles(path: Path) -> list[dict]:
+    """previous_master.json stores a flat role list; master.json wraps roles
+    in {"roles": [...], "tasks": [...], ...} -- unwrap it if present."""
+    data = load_json(path)
+    if isinstance(data, dict):
+        return data.get("roles", [])
+    return data
 
 
 def roles_by_id(roles: list[dict]) -> dict[str, dict]:
@@ -125,15 +144,20 @@ def load_existing_changelog() -> list[dict]:
     return []
 
 
+def write_previous_master(roles: list[dict]) -> None:
+    with PREV_MASTER_PATH.open("w", encoding="utf-8") as fh:
+        json.dump(roles, fh, indent=2, ensure_ascii=False)
+
+
 def main() -> None:
-    if not ROLES_PATH.exists():
-        print(f"ERROR: {ROLES_PATH} not found -- run fetch_roles.py first", file=sys.stderr)
+    if not MASTER_PATH.exists():
+        print(f"ERROR: {MASTER_PATH} not found -- run enrich.py first", file=sys.stderr)
         sys.exit(1)
 
-    today_roles = load_json(ROLES_PATH)
+    today_roles = load_master_roles(MASTER_PATH)
 
-    if not PREV_ROLES_PATH.exists():
-        shutil.copy(ROLES_PATH, PREV_ROLES_PATH)
+    if not PREV_MASTER_PATH.exists():
+        write_previous_master(today_roles)
         existing = load_existing_changelog()
         with CHANGELOG_PATH.open("w", encoding="utf-8") as fh:
             json.dump(existing, fh, indent=2, ensure_ascii=False)
@@ -141,7 +165,7 @@ def main() -> None:
         print("Diff complete -- 0 added, 0 removed, 0 modified")
         return
 
-    prev_roles = load_json(PREV_ROLES_PATH)
+    prev_roles = load_master_roles(PREV_MASTER_PATH)
     old_by_id = roles_by_id(prev_roles)
     new_by_id = roles_by_id(today_roles)
 
@@ -153,7 +177,7 @@ def main() -> None:
     with CHANGELOG_PATH.open("w", encoding="utf-8") as fh:
         json.dump(combined, fh, indent=2, ensure_ascii=False)
 
-    shutil.copy(ROLES_PATH, PREV_ROLES_PATH)
+    write_previous_master(today_roles)
 
     added = sum(1 for c in new_changes if c["change_type"] == "ADDED")
     removed = sum(1 for c in new_changes if c["change_type"] == "REMOVED")

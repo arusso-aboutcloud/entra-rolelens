@@ -60,6 +60,15 @@ jobs:
       - name: Scrape task-to-role mappings
         run: python pipeline/scrape_tasks.py
 
+      - name: Enrich
+        run: python pipeline/enrich.py
+
+      # Diffs data/master.json (the enriched, union-of-Graph-API-and-docs role
+      # list -- the same data push_to_cloudflare.py pushes live), not the raw
+      # docs-scraped roles.json. Must run after Enrich so master.json exists.
+      # Microsoft's live Graph API sometimes grants a role new permissions
+      # before their public docs pages catch up -- diffing docs-only silently
+      # missed those changes even though the live site already had them.
       - name: Diff roles
         run: python pipeline/diff_roles.py
 
@@ -69,9 +78,6 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Enrich
-        run: python pipeline/enrich.py
 
       - name: Validate
         run: python pipeline/validate.py

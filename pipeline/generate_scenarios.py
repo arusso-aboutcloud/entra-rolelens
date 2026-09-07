@@ -28,7 +28,11 @@ import requests
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 CHANGELOG_PATH = DATA_DIR / "changelog.json"
-ROLES_PATH = DATA_DIR / "roles.json"
+# master.json (enriched, union of live Graph API + docs) rather than the
+# docs-only roles.json -- keeps role_facts/scenarios based on the same
+# authoritative permission set diff_roles.py now diffs and push_to_cloudflare.py
+# pushes live, instead of the docs snapshot that can lag Microsoft's live grants.
+MASTER_PATH = DATA_DIR / "master.json"
 
 CF_BASE = "https://api.cloudflare.com/client/v4"
 MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -127,15 +131,16 @@ def generate_scenario(role: dict, facts: dict, account_id: str, token: str) -> s
 
 
 def main() -> None:
-    if not CHANGELOG_PATH.exists() or not ROLES_PATH.exists():
-        print("No changelog.json/roles.json yet -- skipping scenario generation")
+    if not CHANGELOG_PATH.exists() or not MASTER_PATH.exists():
+        print("No changelog.json/master.json yet -- skipping scenario generation")
         return
 
     account_id = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
     token = os.environ.get("CLOUDFLARE_API_TOKEN")
 
     changelog = json.loads(CHANGELOG_PATH.read_text(encoding="utf-8"))
-    roles_by_id = {r["id"]: r for r in json.loads(ROLES_PATH.read_text(encoding="utf-8"))}
+    master = json.loads(MASTER_PATH.read_text(encoding="utf-8"))
+    roles_by_id = {r["id"]: r for r in master.get("roles", master)}
 
     changed = False
     generated = 0
