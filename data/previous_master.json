@@ -269,7 +269,261 @@
       "microsoft.windows.defenderAdvancedThreatProtection/allEntities/allTasks",
       "microsoft.windows.updatesDeployments/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.agentRegistry/allEntities/allProperties/allTasks",
+      "microsoft.azure.advancedThreatProtection/allEntities/allTasks",
+      "microsoft.azure.informationProtection/allEntities/allTasks",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/allEntities/allProperties/allTasks",
+      "microsoft.cloudPC/allEntities/allProperties/allTasks",
+      "microsoft.commerce.billing/allEntities/allProperties/allTasks",
+      "microsoft.commerce.billing/purchases/standard/read",
+      "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
+      "microsoft.directory/accessReviews/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions/allProperties/allTasks",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/allTasks",
+      "microsoft.directory/administrativeUnits/allProperties/allTasks",
+      "microsoft.directory/agentIdentities/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentities/authentication/update",
+      "microsoft.directory/agentIdentities/basic/update",
+      "microsoft.directory/agentIdentities/create",
+      "microsoft.directory/agentIdentities/delete",
+      "microsoft.directory/agentIdentities/disable",
+      "microsoft.directory/agentIdentities/enable",
+      "microsoft.directory/agentIdentities/owners/update",
+      "microsoft.directory/agentIdentities/tag/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/authentication/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/basic/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/create",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/delete",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/disable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/enable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/owners/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/tag/update",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/update",
+      "microsoft.directory/agentIdentityBlueprints/appRoles/update",
+      "microsoft.directory/agentIdentityBlueprints/audience/update",
+      "microsoft.directory/agentIdentityBlueprints/authentication/update",
+      "microsoft.directory/agentIdentityBlueprints/basic/update",
+      "microsoft.directory/agentIdentityBlueprints/create",
+      "microsoft.directory/agentIdentityBlueprints/credentials/update",
+      "microsoft.directory/agentIdentityBlueprints/delete",
+      "microsoft.directory/agentIdentityBlueprints/owners/update",
+      "microsoft.directory/agentIdentityBlueprints/permissions/update",
+      "microsoft.directory/agentIdentityBlueprints/tag/update",
+      "microsoft.directory/appConsent/appConsentRequests/allProperties/read",
+      "microsoft.directory/applicationTemplates/instantiate",
+      "microsoft.directory/applications/allProperties/allTasks",
+      "microsoft.directory/applications/disablement/update",
+      "microsoft.directory/applications/synchronization/standard/read",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/allProperties/allTasks",
+      "microsoft.directory/backup/preview/cancel",
+      "microsoft.directory/backup/preview/create",
+      "microsoft.directory/backup/recovery/cancel",
+      "microsoft.directory/backup/recovery/create",
+      "microsoft.directory/backup/standard/read",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/bulkJobs/basic/update",
+      "microsoft.directory/bulkJobs/create",
+      "microsoft.directory/cloudAppSecurity/allProperties/allTasks",
+      "microsoft.directory/conditionalAccessPolicies/allProperties/allTasks",
+      "microsoft.directory/connectorGroups/allProperties/read",
+      "microsoft.directory/connectorGroups/allProperties/update",
+      "microsoft.directory/connectorGroups/create",
+      "microsoft.directory/connectorGroups/delete",
+      "microsoft.directory/connectors/allProperties/read",
+      "microsoft.directory/connectors/create",
+      "microsoft.directory/contacts/allProperties/allTasks",
+      "microsoft.directory/contracts/allProperties/allTasks",
+      "microsoft.directory/crossTenantAccessPolicy/allowedCloudEndpoints/update",
+      "microsoft.directory/crossTenantAccessPolicy/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/b2bCollaboration/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/b2bDirectConnect/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/default/tenantRestrictions/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/b2bCollaboration/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/b2bDirectConnect/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/delete",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/resetToDefaultSettings",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/resetToDefaultSettings",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/tenantRestrictions/update",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/customAuthenticationExtensions/allProperties/allTasks",
+      "microsoft.directory/deletedItems/delete",
+      "microsoft.directory/deletedItems/restore",
+      "microsoft.directory/deviceLocalCredentials/password/read",
+      "microsoft.directory/deviceManagementPolicies/basic/update",
+      "microsoft.directory/deviceManagementPolicies/standard/read",
+      "microsoft.directory/deviceRegistrationPolicy/basic/update",
+      "microsoft.directory/deviceRegistrationPolicy/standard/read",
+      "microsoft.directory/deviceTemplates/owners/read",
+      "microsoft.directory/deviceTemplates/owners/update",
+      "microsoft.directory/devices/allProperties/allTasks",
+      "microsoft.directory/devices/permissions/update",
+      "microsoft.directory/directoryRoleTemplates/allProperties/allTasks",
+      "microsoft.directory/directoryRoles/allProperties/allTasks",
+      "microsoft.directory/domains/allProperties/allTasks",
+      "microsoft.directory/domains/federationConfiguration/basic/update",
+      "microsoft.directory/domains/federationConfiguration/create",
+      "microsoft.directory/domains/federationConfiguration/delete",
+      "microsoft.directory/domains/federationConfiguration/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/allTasks",
+      "microsoft.directory/externalUserProfiles/basic/update",
+      "microsoft.directory/externalUserProfiles/delete",
+      "microsoft.directory/externalUserProfiles/standard/read",
+      "microsoft.directory/groupSettingTemplates/allProperties/allTasks",
+      "microsoft.directory/groupSettings/allProperties/allTasks",
+      "microsoft.directory/groups/allProperties/allTasks",
+      "microsoft.directory/groupsAssignableToRoles/allProperties/update",
+      "microsoft.directory/groupsAssignableToRoles/assignLicense",
+      "microsoft.directory/groupsAssignableToRoles/create",
+      "microsoft.directory/groupsAssignableToRoles/delete",
+      "microsoft.directory/groupsAssignableToRoles/reprocessLicenseAssignment",
+      "microsoft.directory/groupsAssignableToRoles/restore",
+      "microsoft.directory/hybridAuthenticationPolicy/allProperties/allTasks",
+      "microsoft.directory/identityProtection/allProperties/allTasks",
+      "microsoft.directory/lifecycleWorkflows/workflows/allProperties/allTasks",
+      "microsoft.directory/loginOrganizationBranding/allProperties/allTasks",
+      "microsoft.directory/multiTenantOrganization/basic/update",
+      "microsoft.directory/multiTenantOrganization/create",
+      "microsoft.directory/multiTenantOrganization/joinRequest/organizationDetails/update",
+      "microsoft.directory/multiTenantOrganization/joinRequest/standard/read",
+      "microsoft.directory/multiTenantOrganization/standard/read",
+      "microsoft.directory/multiTenantOrganization/tenants/create",
+      "microsoft.directory/multiTenantOrganization/tenants/delete",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/read",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/update",
+      "microsoft.directory/multiTenantOrganization/tenants/standard/read",
+      "microsoft.directory/namedLocations/basic/update",
+      "microsoft.directory/namedLocations/create",
+      "microsoft.directory/namedLocations/delete",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/onPremisesSynchronization/basic/update",
+      "microsoft.directory/onPremisesSynchronization/standard/read",
+      "microsoft.directory/organization/allProperties/allTasks",
+      "microsoft.directory/passwordHashSync/allProperties/allTasks",
+      "microsoft.directory/pendingExternalUserProfiles/basic/update",
+      "microsoft.directory/pendingExternalUserProfiles/create",
+      "microsoft.directory/pendingExternalUserProfiles/delete",
+      "microsoft.directory/pendingExternalUserProfiles/standard/read",
+      "microsoft.directory/permissionGrantPolicies/basic/update",
+      "microsoft.directory/permissionGrantPolicies/create",
+      "microsoft.directory/permissionGrantPolicies/delete",
+      "microsoft.directory/permissionGrantPolicies/standard/read",
+      "microsoft.directory/policies/allProperties/allTasks",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/resourceNamespaces/resourceActions/authenticationContext/update",
+      "microsoft.directory/roleAssignments/allProperties/allTasks",
+      "microsoft.directory/roleDefinitions/allProperties/allTasks",
+      "microsoft.directory/scopedRoleMemberships/allProperties/allTasks",
+      "microsoft.directory/serviceAction/activateService",
+      "microsoft.directory/serviceAction/disableDirectoryFeature",
+      "microsoft.directory/serviceAction/enableDirectoryFeature",
+      "microsoft.directory/serviceAction/getAvailableExtentionProperties",
+      "microsoft.directory/servicePrincipalCreationPolicies/basic/update",
+      "microsoft.directory/servicePrincipalCreationPolicies/create",
+      "microsoft.directory/servicePrincipalCreationPolicies/delete",
+      "microsoft.directory/servicePrincipalCreationPolicies/standard/read",
+      "microsoft.directory/servicePrincipals/allProperties/allTasks",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization/standard/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.directory/subscribedSkus/allProperties/allTasks",
+      "microsoft.directory/tenantManagement/tenants/create",
+      "microsoft.directory/users/allProperties/allTasks",
+      "microsoft.directory/users/authenticationMethods/basic/update",
+      "microsoft.directory/users/authenticationMethods/create",
+      "microsoft.directory/users/authenticationMethods/delete",
+      "microsoft.directory/users/authenticationMethods/standard/read",
+      "microsoft.directory/users/convertExternalToInternalMemberUser",
+      "microsoft.directory/verifiableCredentials/configuration/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/allProperties/update",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/allProperties/update",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/cards/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/cards/revoke",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/create",
+      "microsoft.directory/verifiableCredentials/configuration/create",
+      "microsoft.directory/verifiableCredentials/configuration/delete",
+      "microsoft.dynamics365/allEntities/allTasks",
+      "microsoft.edge/allEntities/allProperties/allTasks",
+      "microsoft.flow/allEntities/allTasks",
+      "microsoft.graph.dataConnect/allEntities/allProperties/allTasks",
+      "microsoft.hardware.support/shippingAddress/allProperties/allTasks",
+      "microsoft.hardware.support/shippingStatus/allProperties/read",
+      "microsoft.hardware.support/warrantyClaims/allProperties/allTasks",
+      "microsoft.healthPlatform/allEntities/allProperties/allTasks",
+      "microsoft.insights/allEntities/allProperties/allTasks",
+      "microsoft.intune/allEntities/allTasks",
+      "microsoft.microsoft365.organizationalData/allEntities/allProperties/allTasks",
+      "microsoft.networkAccess/allEntities/allProperties/allTasks",
+      "microsoft.networkAccess/trafficLogs/standard/read",
+      "microsoft.office365.complianceManager/allEntities/allTasks",
+      "microsoft.office365.copilot/allEntities/allProperties/allTasks",
+      "microsoft.office365.desktopAnalytics/allEntities/allTasks",
+      "microsoft.office365.exchange/allEntities/basic/allTasks",
+      "microsoft.office365.fileStorageContainers/allEntities/allProperties/allTasks",
+      "microsoft.office365.knowledge/contentUnderstanding/allProperties/allTasks",
+      "microsoft.office365.knowledge/contentUnderstanding/analytics/allProperties/read",
+      "microsoft.office365.knowledge/knowledgeNetwork/allProperties/allTasks",
+      "microsoft.office365.knowledge/knowledgeNetwork/topicVisibility/allProperties/allTasks",
+      "microsoft.office365.knowledge/learningSources/allProperties/allTasks",
+      "microsoft.office365.lockbox/allEntities/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.messageCenter/securityMessages/read",
+      "microsoft.office365.migrations/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/allEntities/allProperties/allTasks",
+      "microsoft.office365.search/content/manage",
+      "microsoft.office365.securityComplianceCenter/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.sharePoint/allEntities/allTasks",
+      "microsoft.office365.sharePointAdvancedManagement/allEntities/allProperties/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.userCommunication/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.office365.yammer/allEntities/allProperties/allTasks",
+      "microsoft.people/users/photo/read",
+      "microsoft.people/users/photo/update",
+      "microsoft.peopleAdmin/organization/allProperties/read",
+      "microsoft.peopleAdmin/organization/allProperties/update",
+      "microsoft.permissionsManagement/allEntities/allProperties/allTasks",
+      "microsoft.powerApps.powerBI/allEntities/allTasks",
+      "microsoft.powerApps/allEntities/allTasks",
+      "microsoft.teams/allEntities/allProperties/allTasks",
+      "microsoft.virtualVisits/allEntities/allProperties/allTasks",
+      "microsoft.viva.glint/allEntities/allProperties/allTasks",
+      "microsoft.viva.goals/allEntities/allProperties/allTasks",
+      "microsoft.viva.pulse/allEntities/allProperties/allTasks",
+      "microsoft.windows.defenderAdvancedThreatProtection/allEntities/allTasks",
+      "microsoft.windows.updatesDeployments/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-07-01"
   },
   {
     "id": "10dae51f-b6af-4016-8d66-8c2a99b929b3",
@@ -402,7 +656,27 @@
       "microsoft.directory/users/sponsors/read",
       "microsoft.directory/users/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/users/appRoleAssignments/read",
+      "microsoft.directory/users/deviceForResourceAccount/read",
+      "microsoft.directory/users/directReports/read",
+      "microsoft.directory/users/inviteGuest",
+      "microsoft.directory/users/invitedBy/read",
+      "microsoft.directory/users/licenseDetails/read",
+      "microsoft.directory/users/manager/read",
+      "microsoft.directory/users/memberOf/read",
+      "microsoft.directory/users/oAuth2PermissionGrants/read",
+      "microsoft.directory/users/ownedDevices/read",
+      "microsoft.directory/users/ownedObjects/read",
+      "microsoft.directory/users/photo/read",
+      "microsoft.directory/users/registeredDevices/read",
+      "microsoft.directory/users/scopedRoleMemberOf/read",
+      "microsoft.directory/users/sponsorOf/read",
+      "microsoft.directory/users/sponsors/read",
+      "microsoft.directory/users/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "fe930be7-5e62-47db-91af-98c3a49a38b1",
@@ -468,7 +742,66 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/accessReviews/definitions.applications/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.directoryRoles/allProperties/read",
+      "microsoft.directory/accessReviews/definitions.entitlementManagement/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.groups/allProperties/read",
+      "microsoft.directory/accessReviews/definitions.groups/allProperties/update",
+      "microsoft.directory/accessReviews/definitions.groups/create",
+      "microsoft.directory/accessReviews/definitions.groups/delete",
+      "microsoft.directory/contacts/basic/update",
+      "microsoft.directory/contacts/create",
+      "microsoft.directory/contacts/delete",
+      "microsoft.directory/deletedItems.groups/restore",
+      "microsoft.directory/deletedItems.users/restore",
+      "microsoft.directory/entitlementManagement/allProperties/allTasks",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups/assignLicense",
+      "microsoft.directory/groups/basic/update",
+      "microsoft.directory/groups/classification/update",
+      "microsoft.directory/groups/create",
+      "microsoft.directory/groups/delete",
+      "microsoft.directory/groups/dynamicMembershipRule/update",
+      "microsoft.directory/groups/groupType/update",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/groups/onPremWriteBack/update",
+      "microsoft.directory/groups/owners/update",
+      "microsoft.directory/groups/reprocessLicenseAssignment",
+      "microsoft.directory/groups/restore",
+      "microsoft.directory/groups/settings/update",
+      "microsoft.directory/groups/visibility/update",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/onPremisesSynchronization/standard/read",
+      "microsoft.directory/policies/standard/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/users/assignLicense",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/convertExternalToInternalMemberUser",
+      "microsoft.directory/users/create",
+      "microsoft.directory/users/delete",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/inviteGuest",
+      "microsoft.directory/users/lifeCycleInfo/read",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/password/update",
+      "microsoft.directory/users/photo/update",
+      "microsoft.directory/users/reprocessLicenseAssignment",
+      "microsoft.directory/users/restore",
+      "microsoft.directory/users/sponsors/update",
+      "microsoft.directory/users/usageLocation/update",
+      "microsoft.directory/users/userPrincipalName/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "729827e3-9c14-49f7-bb1b-9608f156bbb8",
@@ -487,7 +820,19 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/deviceLocalCredentials/standard/read",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/password/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "f023fd81-a637-4b56-95fd-791ac0226033",
@@ -503,7 +848,16 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "b0f54661-2d74-4c50-afa3-1ec803f12efe",
@@ -520,7 +874,17 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.commerce.billing/allEntities/allProperties/allTasks",
+      "microsoft.directory/organization/basic/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "a0b1b346-4d3e-4e8b-98f8-753987be4970",
@@ -752,7 +1116,50 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/credentials/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/contacts/basic/update",
+      "microsoft.directory/contacts/create",
+      "microsoft.directory/contacts/delete",
+      "microsoft.directory/deletedItems.groups/restore",
+      "microsoft.directory/deletedItems.users/restore",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups/create",
+      "microsoft.directory/groups/delete",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/groups/owners/update",
+      "microsoft.directory/groups/restore",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/users/assignLicense",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/create",
+      "microsoft.directory/users/delete",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/password/update",
+      "microsoft.directory/users/photo/update",
+      "microsoft.directory/users/restore",
+      "microsoft.directory/users/userPrincipalName/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e00e864a-17c5-4a4b-9c06-f5b95a8d5bd8",
@@ -808,7 +1215,56 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/credentials/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/contacts/basic/update",
+      "microsoft.directory/contacts/create",
+      "microsoft.directory/contacts/delete",
+      "microsoft.directory/deletedItems.groups/restore",
+      "microsoft.directory/deletedItems.users/restore",
+      "microsoft.directory/domains/allProperties/allTasks",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups/create",
+      "microsoft.directory/groups/delete",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/groups/owners/update",
+      "microsoft.directory/groups/restore",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/organization/basic/update",
+      "microsoft.directory/roleAssignments/allProperties/allTasks",
+      "microsoft.directory/roleDefinitions/allProperties/allTasks",
+      "microsoft.directory/scopedRoleMemberships/allProperties/allTasks",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/assignLicense",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/create",
+      "microsoft.directory/users/delete",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/password/update",
+      "microsoft.directory/users/photo/update",
+      "microsoft.directory/users/restore",
+      "microsoft.directory/users/userPrincipalName/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "88d8e3e3-8f55-4a1e-953a-9b9898b8876b",
@@ -873,7 +1329,65 @@
       "microsoft.directory/users/sponsors/read",
       "microsoft.directory/users/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/administrativeUnits/members/read",
+      "microsoft.directory/administrativeUnits/standard/read",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applications/owners/read",
+      "microsoft.directory/applications/policies/read",
+      "microsoft.directory/applications/standard/read",
+      "microsoft.directory/contacts/memberOf/read",
+      "microsoft.directory/contacts/standard/read",
+      "microsoft.directory/contracts/standard/read",
+      "microsoft.directory/devices/memberOf/read",
+      "microsoft.directory/devices/registeredOwners/read",
+      "microsoft.directory/devices/registeredUsers/read",
+      "microsoft.directory/devices/standard/read",
+      "microsoft.directory/directoryRoles/eligibleMembers/read",
+      "microsoft.directory/directoryRoles/members/read",
+      "microsoft.directory/directoryRoles/standard/read",
+      "microsoft.directory/domains/standard/read",
+      "microsoft.directory/groupSettingTemplates/standard/read",
+      "microsoft.directory/groupSettings/standard/read",
+      "microsoft.directory/groups/appRoleAssignments/read",
+      "microsoft.directory/groups/memberOf/read",
+      "microsoft.directory/groups/members/read",
+      "microsoft.directory/groups/owners/read",
+      "microsoft.directory/groups/settings/read",
+      "microsoft.directory/groups/standard/read",
+      "microsoft.directory/oAuth2PermissionGrants/standard/read",
+      "microsoft.directory/organization/standard/read",
+      "microsoft.directory/organization/trustedCAsForPasswordlessAuth/read",
+      "microsoft.directory/roleAssignments/standard/read",
+      "microsoft.directory/roleDefinitions/standard/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignments/read",
+      "microsoft.directory/servicePrincipals/memberOf/read",
+      "microsoft.directory/servicePrincipals/oAuth2PermissionGrants/read",
+      "microsoft.directory/servicePrincipals/ownedObjects/read",
+      "microsoft.directory/servicePrincipals/owners/read",
+      "microsoft.directory/servicePrincipals/policies/read",
+      "microsoft.directory/servicePrincipals/standard/read",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/appRoleAssignments/read",
+      "microsoft.directory/users/deviceForResourceAccount/read",
+      "microsoft.directory/users/directReports/read",
+      "microsoft.directory/users/invitedBy/read",
+      "microsoft.directory/users/licenseDetails/read",
+      "microsoft.directory/users/manager/read",
+      "microsoft.directory/users/memberOf/read",
+      "microsoft.directory/users/oAuth2PermissionGrants/read",
+      "microsoft.directory/users/ownedDevices/read",
+      "microsoft.directory/users/ownedObjects/read",
+      "microsoft.directory/users/photo/read",
+      "microsoft.directory/users/registeredDevices/read",
+      "microsoft.directory/users/scopedRoleMemberOf/read",
+      "microsoft.directory/users/sponsorOf/read",
+      "microsoft.directory/users/sponsors/read",
+      "microsoft.directory/users/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "9360feb5-f418-4baa-8175-e2a00bac4301",
@@ -925,7 +1439,52 @@
       "microsoft.directory/users/sponsors/update",
       "microsoft.directory/users/userPrincipalName/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/applications/extensionProperties/update",
+      "microsoft.directory/contacts/create",
+      "microsoft.directory/groupSettings/basic/update",
+      "microsoft.directory/groupSettings/create",
+      "microsoft.directory/groupSettings/delete",
+      "microsoft.directory/groups/assignLicense",
+      "microsoft.directory/groups/assignedLabels/update",
+      "microsoft.directory/groups/basic/update",
+      "microsoft.directory/groups/classification/update",
+      "microsoft.directory/groups/create",
+      "microsoft.directory/groups/dynamicMembershipRule/update",
+      "microsoft.directory/groups/groupType/update",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/groups/onPremWriteBack/update",
+      "microsoft.directory/groups/owners/update",
+      "microsoft.directory/groups/reprocessLicenseAssignment",
+      "microsoft.directory/groups/settings/update",
+      "microsoft.directory/groups/visibility/update",
+      "microsoft.directory/oAuth2PermissionGrants/basic/update",
+      "microsoft.directory/oAuth2PermissionGrants/create",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronizationCredentials/manage",
+      "microsoft.directory/servicePrincipals/synchronizationJobs/manage",
+      "microsoft.directory/servicePrincipals/synchronizationSchema/manage",
+      "microsoft.directory/users/assignLicense",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/create",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/inviteGuest",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/photo/update",
+      "microsoft.directory/users/reprocessLicenseAssignment",
+      "microsoft.directory/users/sponsors/update",
+      "microsoft.directory/users/userPrincipalName/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "29232cdf-9323-42fd-ade2-1d097af3e4de",
@@ -960,7 +1519,35 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/exchangeProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/exchangeRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/restorePoints/userMailboxes/allProperties/allTasks",
+      "microsoft.backup/userMailboxProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/userMailboxRestoreArtifacts/allProperties/allTasks",
+      "microsoft.directory/contacts/allProperties/read",
+      "microsoft.directory/contacts/memberOf/read",
+      "microsoft.directory/contacts/standard/read",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups.unified/basic/update",
+      "microsoft.directory/groups.unified/create",
+      "microsoft.directory/groups.unified/delete",
+      "microsoft.directory/groups.unified/members/update",
+      "microsoft.directory/groups.unified/owners/update",
+      "microsoft.directory/groups.unified/restore",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/onPremisesSynchronization/standard/read",
+      "microsoft.office365.exchange/allEntities/basic/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "f28a1f50-f6e7-4571-818b-6a12f2af6b6c",
@@ -997,7 +1584,37 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/oneDriveForBusinessProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/oneDriveForBusinessRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/restorePoints/sites/allProperties/allTasks",
+      "microsoft.backup/restorePoints/userDrives/allProperties/allTasks",
+      "microsoft.backup/sharePointProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/sharePointRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/siteProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/siteRestoreArtifacts/allProperties/allTasks",
+      "microsoft.backup/userDriveProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/userDriveRestoreArtifacts/allProperties/allTasks",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups.unified/basic/update",
+      "microsoft.directory/groups.unified/create",
+      "microsoft.directory/groups.unified/delete",
+      "microsoft.directory/groups.unified/members/update",
+      "microsoft.directory/groups.unified/owners/update",
+      "microsoft.directory/groups.unified/restore",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.office365.migrations/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.sharePoint/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "75941009-915a-4869-abe7-691bff18279e",
@@ -1014,7 +1631,17 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "d405c6df-0af8-4e3b-95e4-4d06e542189e",
@@ -1035,7 +1662,12 @@
       "microsoft.directory/groupSettingTemplates/standard/read",
       "microsoft.directory/groupSettings/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/groupSettingTemplates/standard/read",
+      "microsoft.directory/groupSettings/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "9c094953-4995-41c8-84c8-3ebb9b32c93f",
@@ -1070,7 +1702,17 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.office365.complianceManager/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-03-24"
   },
   {
     "id": "d29b2b05-8046-44ba-8758-1e26182fcf32",
@@ -1081,7 +1723,11 @@
     "permissions": [
       "microsoft.directory/onPremisesSynchronization/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/onPremisesSynchronization/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "2b499bcd-da44-4968-8aec-78e1674fa64d",
@@ -1184,7 +1830,82 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/allTasks",
+      "microsoft.directory/appConsent/appConsentRequests/allProperties/read",
+      "microsoft.directory/applicationPolicies/basic/update",
+      "microsoft.directory/applicationPolicies/create",
+      "microsoft.directory/applicationPolicies/delete",
+      "microsoft.directory/applicationPolicies/owners/read",
+      "microsoft.directory/applicationPolicies/owners/update",
+      "microsoft.directory/applicationPolicies/policyAppliedTo/read",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applicationTemplates/instantiate",
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/applicationProxy/read",
+      "microsoft.directory/applications/applicationProxy/update",
+      "microsoft.directory/applications/applicationProxyAuthentication/update",
+      "microsoft.directory/applications/applicationProxySslCertificate/update",
+      "microsoft.directory/applications/applicationProxyUrlSettings/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/create",
+      "microsoft.directory/applications/credentials/update",
+      "microsoft.directory/applications/delete",
+      "microsoft.directory/applications/disablement/update",
+      "microsoft.directory/applications/extensionProperties/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/synchronization/standard/read",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/applications/verification/update",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/connectorGroups/allProperties/read",
+      "microsoft.directory/connectorGroups/allProperties/update",
+      "microsoft.directory/connectorGroups/create",
+      "microsoft.directory/connectorGroups/delete",
+      "microsoft.directory/connectors/allProperties/read",
+      "microsoft.directory/connectors/create",
+      "microsoft.directory/customAuthenticationExtensions/allProperties/allTasks",
+      "microsoft.directory/deletedItems.applications/delete",
+      "microsoft.directory/deletedItems.applications/restore",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/servicePrincipals/audience/update",
+      "microsoft.directory/servicePrincipals/authentication/update",
+      "microsoft.directory/servicePrincipals/basic/update",
+      "microsoft.directory/servicePrincipals/create",
+      "microsoft.directory/servicePrincipals/credentials/update",
+      "microsoft.directory/servicePrincipals/delete",
+      "microsoft.directory/servicePrincipals/disable",
+      "microsoft.directory/servicePrincipals/enable",
+      "microsoft.directory/servicePrincipals/getPasswordSingleSignOnCredentials",
+      "microsoft.directory/servicePrincipals/managePasswordSingleSignOnCredentials",
+      "microsoft.directory/servicePrincipals/notes/update",
+      "microsoft.directory/servicePrincipals/owners/update",
+      "microsoft.directory/servicePrincipals/permissions/update",
+      "microsoft.directory/servicePrincipals/policies/update",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization/standard/read",
+      "microsoft.directory/servicePrincipals/synchronizationCredentials/manage",
+      "microsoft.directory/servicePrincipals/synchronizationJobs/manage",
+      "microsoft.directory/servicePrincipals/synchronizationSchema/manage",
+      "microsoft.directory/servicePrincipals/tag/update",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "cf1c38e5-3621-4004-a7cb-879624dced7c",
@@ -1212,7 +1933,13 @@
       "microsoft.directory/oAuth2PermissionGrants/createAsOwner",
       "microsoft.directory/servicePrincipals/createAsOwner"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/applications/createAsOwner",
+      "microsoft.directory/oAuth2PermissionGrants/createAsOwner",
+      "microsoft.directory/servicePrincipals/createAsOwner"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "5d6b6bb7-de71-4623-b4af-96380a352509",
@@ -1256,7 +1983,43 @@
       "microsoft.office365.serviceHealth/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.agentRegistry/allEntities/allProperties/read",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/accessReviews/definitions/allProperties/read",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/conditionalAccessPolicies/owners/read",
+      "microsoft.directory/conditionalAccessPolicies/policyAppliedTo/read",
+      "microsoft.directory/conditionalAccessPolicies/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/standard/read",
+      "microsoft.directory/deviceLocalCredentials/standard/read",
+      "microsoft.directory/domains/federationConfiguration/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/identityProtection/allProperties/read",
+      "microsoft.directory/multiTenantOrganization/joinRequest/standard/read",
+      "microsoft.directory/multiTenantOrganization/standard/read",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/read",
+      "microsoft.directory/multiTenantOrganization/tenants/standard/read",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/policies/owners/read",
+      "microsoft.directory/policies/policyAppliedTo/read",
+      "microsoft.directory/policies/standard/read",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.networkAccess/allEntities/allProperties/read",
+      "microsoft.office365.protectionCenter/allEntities/standard/read",
+      "microsoft.office365.protectionCenter/attackSimulator/payload/allProperties/read",
+      "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read",
+      "microsoft.office365.protectionCenter/attackSimulator/simulation/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "194ae4cb-b126-40b2-bd5b-6091b380977d",
@@ -1352,7 +2115,91 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.agentRegistry/allEntities/allProperties/read",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/conditionalAccessPolicies/basic/update",
+      "microsoft.directory/conditionalAccessPolicies/create",
+      "microsoft.directory/conditionalAccessPolicies/delete",
+      "microsoft.directory/conditionalAccessPolicies/owners/read",
+      "microsoft.directory/conditionalAccessPolicies/owners/update",
+      "microsoft.directory/conditionalAccessPolicies/policyAppliedTo/read",
+      "microsoft.directory/conditionalAccessPolicies/standard/read",
+      "microsoft.directory/conditionalAccessPolicies/tenantDefault/update",
+      "microsoft.directory/crossTenantAccessPolicy/allowedCloudEndpoints/update",
+      "microsoft.directory/crossTenantAccessPolicy/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/b2bCollaboration/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/b2bDirectConnect/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/default/tenantRestrictions/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/b2bCollaboration/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/b2bDirectConnect/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/delete",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/resetToDefaultSettings",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/resetToDefaultSettings",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/tenantRestrictions/update",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/deviceLocalCredentials/standard/read",
+      "microsoft.directory/domains/federation/update",
+      "microsoft.directory/domains/federationConfiguration/basic/update",
+      "microsoft.directory/domains/federationConfiguration/create",
+      "microsoft.directory/domains/federationConfiguration/delete",
+      "microsoft.directory/domains/federationConfiguration/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/identityProtection/allProperties/read",
+      "microsoft.directory/identityProtection/allProperties/update",
+      "microsoft.directory/multiTenantOrganization/basic/update",
+      "microsoft.directory/multiTenantOrganization/create",
+      "microsoft.directory/multiTenantOrganization/joinRequest/organizationDetails/update",
+      "microsoft.directory/multiTenantOrganization/joinRequest/standard/read",
+      "microsoft.directory/multiTenantOrganization/standard/read",
+      "microsoft.directory/multiTenantOrganization/tenants/create",
+      "microsoft.directory/multiTenantOrganization/tenants/delete",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/read",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/update",
+      "microsoft.directory/multiTenantOrganization/tenants/standard/read",
+      "microsoft.directory/namedLocations/basic/update",
+      "microsoft.directory/namedLocations/create",
+      "microsoft.directory/namedLocations/delete",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/policies/basic/update",
+      "microsoft.directory/policies/create",
+      "microsoft.directory/policies/delete",
+      "microsoft.directory/policies/owners/update",
+      "microsoft.directory/policies/tenantDefault/update",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/resourceNamespaces/resourceActions/authenticationContext/update",
+      "microsoft.directory/servicePrincipals/policies/update",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.networkAccess/allEntities/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/allEntities/basic/update",
+      "microsoft.office365.protectionCenter/allEntities/standard/read",
+      "microsoft.office365.protectionCenter/attackSimulator/payload/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read",
+      "microsoft.office365.protectionCenter/attackSimulator/simulation/allProperties/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e8611ab8-c189-46e8-94e1-60213ab1f814",
@@ -1390,7 +2237,37 @@
       "microsoft.directory/servicePrincipals/permissions/update",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/accessReviews/definitions.applications/allProperties/read",
+      "microsoft.directory/accessReviews/definitions.directoryRoles/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.groups/allProperties/read",
+      "microsoft.directory/accessReviews/definitions.groupsAssignableToRoles/allProperties/update",
+      "microsoft.directory/accessReviews/definitions.groupsAssignableToRoles/create",
+      "microsoft.directory/accessReviews/definitions.groupsAssignableToRoles/delete",
+      "microsoft.directory/administrativeUnits/allProperties/allTasks",
+      "microsoft.directory/authorizationPolicy/allProperties/allTasks",
+      "microsoft.directory/directoryRoles/allProperties/allTasks",
+      "microsoft.directory/groupsAssignableToRoles/allProperties/update",
+      "microsoft.directory/groupsAssignableToRoles/assignLicense",
+      "microsoft.directory/groupsAssignableToRoles/create",
+      "microsoft.directory/groupsAssignableToRoles/delete",
+      "microsoft.directory/groupsAssignableToRoles/reprocessLicenseAssignment",
+      "microsoft.directory/groupsAssignableToRoles/restore",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/permissionGrantPolicies/allProperties/read",
+      "microsoft.directory/permissionGrantPolicies/allProperties/update",
+      "microsoft.directory/permissionGrantPolicies/create",
+      "microsoft.directory/permissionGrantPolicies/delete",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/allTasks",
+      "microsoft.directory/roleAssignments/allProperties/allTasks",
+      "microsoft.directory/roleDefinitions/allProperties/allTasks",
+      "microsoft.directory/scopedRoleMemberships/allProperties/allTasks",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/servicePrincipals/permissions/update",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "3a2c62db-5318-420d-8d74-23affee5d9d5",
@@ -1438,7 +2315,48 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.cloudPC/allEntities/allProperties/allTasks",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/contacts/basic/update",
+      "microsoft.directory/contacts/create",
+      "microsoft.directory/contacts/delete",
+      "microsoft.directory/deletedItems.devices/delete",
+      "microsoft.directory/deletedItems.devices/restore",
+      "microsoft.directory/deviceLocalCredentials/password/read",
+      "microsoft.directory/deviceManagementPolicies/standard/read",
+      "microsoft.directory/deviceRegistrationPolicy/standard/read",
+      "microsoft.directory/devices/basic/update",
+      "microsoft.directory/devices/create",
+      "microsoft.directory/devices/delete",
+      "microsoft.directory/devices/disable",
+      "microsoft.directory/devices/enable",
+      "microsoft.directory/devices/extensionAttributeSet1/update",
+      "microsoft.directory/devices/extensionAttributeSet2/update",
+      "microsoft.directory/devices/extensionAttributeSet3/update",
+      "microsoft.directory/devices/registeredOwners/update",
+      "microsoft.directory/devices/registeredUsers/update",
+      "microsoft.directory/groups.security/assignedLabels/update",
+      "microsoft.directory/groups.security/basic/update",
+      "microsoft.directory/groups.security/classification/update",
+      "microsoft.directory/groups.security/create",
+      "microsoft.directory/groups.security/delete",
+      "microsoft.directory/groups.security/dynamicMembershipRule/update",
+      "microsoft.directory/groups.security/members/update",
+      "microsoft.directory/groups.security/owners/update",
+      "microsoft.directory/groups.security/visibility/update",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/photo/update",
+      "microsoft.intune/allEntities/allTasks",
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/read",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "158c047a-c907-4556-b7ef-446551a6b5f7",
@@ -1509,7 +2427,70 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/allTasks",
+      "microsoft.directory/appConsent/appConsentRequests/allProperties/read",
+      "microsoft.directory/applicationPolicies/basic/update",
+      "microsoft.directory/applicationPolicies/create",
+      "microsoft.directory/applicationPolicies/delete",
+      "microsoft.directory/applicationPolicies/owners/read",
+      "microsoft.directory/applicationPolicies/owners/update",
+      "microsoft.directory/applicationPolicies/policyAppliedTo/read",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applicationTemplates/instantiate",
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/create",
+      "microsoft.directory/applications/credentials/update",
+      "microsoft.directory/applications/delete",
+      "microsoft.directory/applications/disablement/update",
+      "microsoft.directory/applications/extensionProperties/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/synchronization/standard/read",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/applications/verification/update",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/deletedItems.applications/delete",
+      "microsoft.directory/deletedItems.applications/restore",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/allTasks",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/servicePrincipals/audience/update",
+      "microsoft.directory/servicePrincipals/authentication/update",
+      "microsoft.directory/servicePrincipals/basic/update",
+      "microsoft.directory/servicePrincipals/create",
+      "microsoft.directory/servicePrincipals/credentials/update",
+      "microsoft.directory/servicePrincipals/delete",
+      "microsoft.directory/servicePrincipals/disable",
+      "microsoft.directory/servicePrincipals/enable",
+      "microsoft.directory/servicePrincipals/getPasswordSingleSignOnCredentials",
+      "microsoft.directory/servicePrincipals/managePasswordSingleSignOnCredentials",
+      "microsoft.directory/servicePrincipals/notes/update",
+      "microsoft.directory/servicePrincipals/owners/update",
+      "microsoft.directory/servicePrincipals/permissions/update",
+      "microsoft.directory/servicePrincipals/policies/update",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization/standard/read",
+      "microsoft.directory/servicePrincipals/synchronizationCredentials/manage",
+      "microsoft.directory/servicePrincipals/synchronizationJobs/manage",
+      "microsoft.directory/servicePrincipals/synchronizationSchema/manage",
+      "microsoft.directory/servicePrincipals/tag/update",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "5c4f9dcd-47dc-4cf7-8c9a-9e4207cbfc91",
@@ -1521,7 +2502,12 @@
       "microsoft.office365.lockbox/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.lockbox/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "44367163-eba1-44c3-98af-f5787879f96a",
@@ -1537,7 +2523,16 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.dynamics365/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "a9ea8996-122f-4c74-9520-8edcd192826c",
@@ -1553,7 +2548,16 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.powerApps.powerBI/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.powerApps.powerBI/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "b1be1c3e-b65d-4f19-8427-f6fa0d97feb9",
@@ -1576,7 +2580,23 @@
       "microsoft.directory/namedLocations/standard/read",
       "microsoft.directory/resourceNamespaces/resourceActions/authenticationContext/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/conditionalAccessPolicies/basic/update",
+      "microsoft.directory/conditionalAccessPolicies/create",
+      "microsoft.directory/conditionalAccessPolicies/delete",
+      "microsoft.directory/conditionalAccessPolicies/owners/read",
+      "microsoft.directory/conditionalAccessPolicies/owners/update",
+      "microsoft.directory/conditionalAccessPolicies/policyAppliedTo/read",
+      "microsoft.directory/conditionalAccessPolicies/standard/read",
+      "microsoft.directory/conditionalAccessPolicies/tenantDefault/update",
+      "microsoft.directory/namedLocations/basic/update",
+      "microsoft.directory/namedLocations/create",
+      "microsoft.directory/namedLocations/delete",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/resourceNamespaces/resourceActions/authenticationContext/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "4a5d8f65-41da-4de4-8968-e035b65339cf",
@@ -1593,7 +2613,17 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "790c1fb9-7f7d-4f88-86a1-ef1f95c05c1b",
@@ -1605,7 +2635,12 @@
       "microsoft.office365.messageCenter/messages/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "7495fdc4-34c4-4d15-a289-98788ce399fd",
@@ -1622,7 +2657,17 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.informationProtection/allEntities/allTasks",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "38a96431-2bdf-4b4c-8b6e-5d3d8abac1a4",
@@ -1636,7 +2681,14 @@
       "microsoft.directory/authorizationPolicy/standard/read",
       "microsoft.office365.desktopAnalytics/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.desktopAnalytics/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "4d6ac14f-3453-41d0-bef9-a3e0c569773a",
@@ -1655,7 +2707,19 @@
       "microsoft.office365.serviceHealth/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/groups/assignLicense",
+      "microsoft.directory/groups/reprocessLicenseAssignment",
+      "microsoft.directory/users/assignLicense",
+      "microsoft.directory/users/reprocessLicenseAssignment",
+      "microsoft.directory/users/usageLocation/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "7698a772-787b-4ac8-901f-60d6b08affd2",
@@ -1684,7 +2748,29 @@
       "microsoft.directory/signInReports/allProperties/read",
       "microsoft.office365.serviceHealth/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/deletedItems.devices/delete",
+      "microsoft.directory/deletedItems.devices/restore",
+      "microsoft.directory/deviceLocalCredentials/password/read",
+      "microsoft.directory/deviceManagementPolicies/basic/update",
+      "microsoft.directory/deviceManagementPolicies/standard/read",
+      "microsoft.directory/deviceRegistrationPolicy/basic/update",
+      "microsoft.directory/deviceRegistrationPolicy/standard/read",
+      "microsoft.directory/deviceTemplates/owners/read",
+      "microsoft.directory/deviceTemplates/owners/update",
+      "microsoft.directory/devices/delete",
+      "microsoft.directory/devices/disable",
+      "microsoft.directory/devices/enable",
+      "microsoft.directory/devices/permissions/update",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "c4e39bd9-1100-46d3-8c65-fb160da0071f",
@@ -1713,7 +2799,29 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/deletedItems.users/restore",
+      "microsoft.directory/users/authenticationMethods/basic/update",
+      "microsoft.directory/users/authenticationMethods/create",
+      "microsoft.directory/users/authenticationMethods/delete",
+      "microsoft.directory/users/authenticationMethods/standard/restrictedRead",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/delete",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/password/update",
+      "microsoft.directory/users/restore",
+      "microsoft.directory/users/userPrincipalName/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "7be44c8a-adaf-4e2a-84d6-ab2649e08a13",
@@ -1743,7 +2851,30 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/deletedItems.users/restore",
+      "microsoft.directory/users/authenticationMethods/basic/update",
+      "microsoft.directory/users/authenticationMethods/create",
+      "microsoft.directory/users/authenticationMethods/delete",
+      "microsoft.directory/users/authenticationMethods/standard/read",
+      "microsoft.directory/users/authorizationInfo/update",
+      "microsoft.directory/users/basic/update",
+      "microsoft.directory/users/delete",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/manager/update",
+      "microsoft.directory/users/password/update",
+      "microsoft.directory/users/restore",
+      "microsoft.directory/users/userPrincipalName/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "baf37b3a-610e-45da-9e62-d9d1e5e8914b",
@@ -1764,7 +2895,21 @@
       "microsoft.teams/meetings/allProperties/allTasks",
       "microsoft.teams/voice/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/callQuality/allProperties/read",
+      "microsoft.teams/meetings/allProperties/allTasks",
+      "microsoft.teams/voice/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "f70938a0-fc10-4177-9e90-2178f8765737",
@@ -1780,7 +2925,16 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/callQuality/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/callQuality/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "fcf91098-03e3-41a9-b5ba-6f0ec8188a12",
@@ -1796,7 +2950,16 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/callQuality/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/callQuality/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "69091246-20e8-4a56-aa4d-066075b2a7a8",
@@ -1839,7 +3002,43 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/allowedCloudEndpoints/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/crossCloudMeetings/update",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/externalUserProfiles/basic/update",
+      "microsoft.directory/externalUserProfiles/delete",
+      "microsoft.directory/externalUserProfiles/standard/read",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups.unified/basic/update",
+      "microsoft.directory/groups.unified/create",
+      "microsoft.directory/groups.unified/delete",
+      "microsoft.directory/groups.unified/members/update",
+      "microsoft.directory/groups.unified/owners/update",
+      "microsoft.directory/groups.unified/restore",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/pendingExternalUserProfiles/basic/update",
+      "microsoft.directory/pendingExternalUserProfiles/create",
+      "microsoft.directory/pendingExternalUserProfiles/delete",
+      "microsoft.directory/pendingExternalUserProfiles/standard/read",
+      "microsoft.directory/permissionGrantPolicies/standard/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "eb1f4a8d-243a-41f0-9fbd-c7cdf6c5ef7c",
@@ -1855,7 +3054,16 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.insights/allEntities/allProperties/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "ac16e43d-7b2d-40e0-ac05-243ff356ab5b",
@@ -1868,7 +3076,13 @@
       "microsoft.office365.messageCenter/securityMessages/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.messageCenter/securityMessages/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "6e591065-9bad-43ed-90f3-e9424366d2f0",
@@ -1879,7 +3093,11 @@
     "permissions": [
       "microsoft.directory/b2cUserFlow/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/b2cUserFlow/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "0f971eea-41eb-4569-a71e-57bb8a3eff1e",
@@ -1890,7 +3108,11 @@
     "permissions": [
       "microsoft.directory/b2cUserAttribute/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/b2cUserAttribute/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "aaf43236-0c0d-4d5f-883a-6955382ac081",
@@ -1901,7 +3123,11 @@
     "permissions": [
       "microsoft.directory/b2cTrustFrameworkKeySet/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/b2cTrustFrameworkKeySet/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "3edaf663-341e-4475-9f94-5c398ef6c070",
@@ -1912,7 +3138,11 @@
     "permissions": [
       "microsoft.directory/b2cTrustFrameworkPolicy/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/b2cTrustFrameworkPolicy/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "be2f45a1-457d-42af-a067-6ec1fa63bc45",
@@ -1924,7 +3154,12 @@
       "microsoft.directory/domains/federation/update",
       "microsoft.directory/identityProviders/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/domains/federation/update",
+      "microsoft.directory/identityProviders/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e6d1a23a-da11-4be4-9570-befc86d067a7",
@@ -1943,7 +3178,19 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.informationProtection/allEntities/allTasks",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/cloudAppSecurity/allProperties/allTasks",
+      "microsoft.office365.complianceManager/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "5f2222b1-57c3-48ba-8ad5-d4759f1fde6f",
@@ -1971,7 +3218,27 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.windows.defenderAdvancedThreatProtection/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.advancedThreatProtection/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/cloudAppSecurity/allProperties/allTasks",
+      "microsoft.directory/identityProtection/allProperties/allTasks",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/password/update",
+      "microsoft.intune/allEntities/read",
+      "microsoft.office365.securityComplianceCenter/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.windows.defenderAdvancedThreatProtection/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "74ef975b-6605-40af-a5d2-b9539d836353",
@@ -1985,7 +3252,14 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
@@ -2098,7 +3372,109 @@
       "microsoft.viva.pulse/allEntities/allProperties/read",
       "microsoft.windows.updatesDeployments/allEntities/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.agentRegistry/allEntities/allProperties/read",
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.backup/allEntities/allProperties/read",
+      "microsoft.cloudPC/allEntities/allProperties/read",
+      "microsoft.commerce.billing/allEntities/allProperties/read",
+      "microsoft.commerce.billing/purchases/standard/read",
+      "microsoft.directory/accessReviews/allProperties/read",
+      "microsoft.directory/accessReviews/definitions/allProperties/read",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/read",
+      "microsoft.directory/administrativeUnits/allProperties/read",
+      "microsoft.directory/appConsent/appConsentRequests/allProperties/read",
+      "microsoft.directory/applications/allProperties/read",
+      "microsoft.directory/applications/synchronization/standard/read",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.directory/bitlockerKeys/key/read",
+      "microsoft.directory/cloudAppSecurity/allProperties/read",
+      "microsoft.directory/conditionalAccessPolicies/allProperties/read",
+      "microsoft.directory/connectorGroups/allProperties/read",
+      "microsoft.directory/connectors/allProperties/read",
+      "microsoft.directory/contacts/allProperties/read",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/identitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationIdentitySynchronization/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/templates/multiTenantOrganizationPartnerConfiguration/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/customAuthenticationExtensions/allProperties/read",
+      "microsoft.directory/deviceLocalCredentials/standard/read",
+      "microsoft.directory/deviceManagementPolicies/standard/read",
+      "microsoft.directory/deviceRegistrationPolicy/standard/read",
+      "microsoft.directory/devices/allProperties/read",
+      "microsoft.directory/directoryRoleTemplates/allProperties/read",
+      "microsoft.directory/directoryRoles/allProperties/read",
+      "microsoft.directory/domains/allProperties/read",
+      "microsoft.directory/domains/federationConfiguration/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/externalUserProfiles/standard/read",
+      "microsoft.directory/groupSettingTemplates/allProperties/read",
+      "microsoft.directory/groupSettings/allProperties/read",
+      "microsoft.directory/groups/allProperties/read",
+      "microsoft.directory/identityProtection/allProperties/read",
+      "microsoft.directory/lifecycleWorkflows/workflows/allProperties/read",
+      "microsoft.directory/loginOrganizationBranding/allProperties/read",
+      "microsoft.directory/multiTenantOrganization/joinRequest/standard/read",
+      "microsoft.directory/multiTenantOrganization/standard/read",
+      "microsoft.directory/multiTenantOrganization/tenants/organizationDetails/read",
+      "microsoft.directory/multiTenantOrganization/tenants/standard/read",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/oAuth2PermissionGrants/allProperties/read",
+      "microsoft.directory/onPremisesSynchronization/standard/read",
+      "microsoft.directory/organization/allProperties/read",
+      "microsoft.directory/pendingExternalUserProfiles/standard/read",
+      "microsoft.directory/permissionGrantPolicies/standard/read",
+      "microsoft.directory/policies/allProperties/read",
+      "microsoft.directory/privilegedIdentityManagement/allProperties/read",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/roleAssignments/allProperties/read",
+      "microsoft.directory/roleDefinitions/allProperties/read",
+      "microsoft.directory/scopedRoleMemberships/allProperties/read",
+      "microsoft.directory/serviceAction/getAvailableExtentionProperties",
+      "microsoft.directory/servicePrincipalCreationPolicies/standard/read",
+      "microsoft.directory/servicePrincipals/allProperties/read",
+      "microsoft.directory/servicePrincipals/synchronization/standard/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.directory/subscribedSkus/allProperties/read",
+      "microsoft.directory/users/allProperties/read",
+      "microsoft.directory/users/authenticationMethods/standard/restrictedRead",
+      "microsoft.directory/verifiableCredentials/configuration/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/cards/allProperties/read",
+      "microsoft.edge/allEntities/allProperties/read",
+      "microsoft.graph.dataConnect/allEntities/allProperties/read",
+      "microsoft.hardware.support/shippingAddress/allProperties/read",
+      "microsoft.hardware.support/shippingStatus/allProperties/read",
+      "microsoft.hardware.support/warrantyClaims/allProperties/read",
+      "microsoft.healthPlatform/allEntities/allProperties/read",
+      "microsoft.insights/allEntities/allProperties/read",
+      "microsoft.microsoft365.organizationalData/allEntities/allProperties/read",
+      "microsoft.networkAccess/allEntities/allProperties/read",
+      "microsoft.office365.copilot/allEntities/allProperties/read",
+      "microsoft.office365.fileStorageContainers/allEntities/allProperties/read",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.messageCenter/securityMessages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/read",
+      "microsoft.office365.protectionCenter/allEntities/allProperties/read",
+      "microsoft.office365.securityComplianceCenter/allEntities/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.office365.yammer/allEntities/allProperties/read",
+      "microsoft.permissionsManagement/allEntities/allProperties/read",
+      "microsoft.teams/allEntities/allProperties/read",
+      "microsoft.virtualVisits/allEntities/allProperties/read",
+      "microsoft.viva.glint/allEntities/allProperties/read",
+      "microsoft.viva.goals/allEntities/allProperties/read",
+      "microsoft.viva.pulse/allEntities/allProperties/read",
+      "microsoft.windows.updatesDeployments/allEntities/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-03-24"
   },
   {
     "id": "0964bb5e-9bdb-4d7b-ac29-58e794862a40",
@@ -2114,7 +3490,15 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.search/content/manage",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "8835291a-918c-4fd7-a9ce-faa49f0cf7d9",
@@ -2128,7 +3512,13 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.search/content/manage",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "966707d0-3269-4727-9be2-8c3a10f19b9d",
@@ -2140,7 +3530,12 @@
       "microsoft.directory/users/password/update",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/users/password/update",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "644ef478-e28f-4e28-b9dc-3fdde9aa0b1f",
@@ -2151,7 +3546,11 @@
     "permissions": [
       "microsoft.azure.print/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.print/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e8cef6f1-e4bd-4ea8-bc07-4b8d950f4477",
@@ -2166,7 +3565,15 @@
       "microsoft.azure.print/printers/register",
       "microsoft.azure.print/printers/unregister"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.print/connectors/allProperties/read",
+      "microsoft.azure.print/printers/allProperties/read",
+      "microsoft.azure.print/printers/basic/update",
+      "microsoft.azure.print/printers/register",
+      "microsoft.azure.print/printers/unregister"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
@@ -2195,7 +3602,29 @@
       "microsoft.directory/verifiableCredentials/configuration/create",
       "microsoft.directory/verifiableCredentials/configuration/delete"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/organization/strongAuthentication/allTasks",
+      "microsoft.directory/userCredentialPolicies/basic/update",
+      "microsoft.directory/userCredentialPolicies/create",
+      "microsoft.directory/userCredentialPolicies/delete",
+      "microsoft.directory/userCredentialPolicies/owners/read",
+      "microsoft.directory/userCredentialPolicies/owners/update",
+      "microsoft.directory/userCredentialPolicies/policyAppliedTo/read",
+      "microsoft.directory/userCredentialPolicies/standard/read",
+      "microsoft.directory/userCredentialPolicies/tenantDefault/update",
+      "microsoft.directory/verifiableCredentials/configuration/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/allProperties/update",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/allProperties/update",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/cards/allProperties/read",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/cards/revoke",
+      "microsoft.directory/verifiableCredentials/configuration/contracts/create",
+      "microsoft.directory/verifiableCredentials/configuration/create",
+      "microsoft.directory/verifiableCredentials/configuration/delete"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
@@ -2231,7 +3660,36 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/bulkJobs.groups/basic/update",
+      "microsoft.directory/bulkJobs.groups/create",
+      "microsoft.directory/bulkJobs.groups/standard/read",
+      "microsoft.directory/deletedItems.groups/delete",
+      "microsoft.directory/deletedItems.groups/restore",
+      "microsoft.directory/groups/assignLicense",
+      "microsoft.directory/groups/assignedLabels/update",
+      "microsoft.directory/groups/basic/update",
+      "microsoft.directory/groups/classification/update",
+      "microsoft.directory/groups/create",
+      "microsoft.directory/groups/delete",
+      "microsoft.directory/groups/dynamicMembershipRule/update",
+      "microsoft.directory/groups/groupType/update",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/groups/onPremWriteBack/update",
+      "microsoft.directory/groups/owners/update",
+      "microsoft.directory/groups/reprocessLicenseAssignment",
+      "microsoft.directory/groups/restore",
+      "microsoft.directory/groups/settings/update",
+      "microsoft.directory/groups/visibility/update",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "11648597-926c-4cf3-9c36-bcebb0ba8dcc",
@@ -2249,7 +3707,18 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.powerApps/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.dynamics365/allEntities/allTasks",
+      "microsoft.flow/allEntities/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.powerApps/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e3973bdf-4987-49ae-837a-ba8e231c7286",
@@ -2260,7 +3729,11 @@
     "permissions": [
       "microsoft.azure.devOps/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.devOps/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "8ac3fc64-6eca-42ea-9e69-59f4c7b60eb2",
@@ -2331,7 +3804,71 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/applicationTemplates/instantiate",
+      "microsoft.directory/applications/appRoles/update",
+      "microsoft.directory/applications/audience/update",
+      "microsoft.directory/applications/authentication/update",
+      "microsoft.directory/applications/basic/update",
+      "microsoft.directory/applications/create",
+      "microsoft.directory/applications/delete",
+      "microsoft.directory/applications/disablement/update",
+      "microsoft.directory/applications/notes/update",
+      "microsoft.directory/applications/owners/update",
+      "microsoft.directory/applications/permissions/update",
+      "microsoft.directory/applications/policies/update",
+      "microsoft.directory/applications/synchronization/standard/read",
+      "microsoft.directory/applications/tag/update",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/cloudProvisioning/allProperties/allTasks",
+      "microsoft.directory/deletedItems.applications/delete",
+      "microsoft.directory/deletedItems.applications/restore",
+      "microsoft.directory/domains/allProperties/read",
+      "microsoft.directory/domains/federation/update",
+      "microsoft.directory/domains/federationConfiguration/basic/update",
+      "microsoft.directory/domains/federationConfiguration/create",
+      "microsoft.directory/domains/federationConfiguration/delete",
+      "microsoft.directory/domains/federationConfiguration/standard/read",
+      "microsoft.directory/hybridAuthenticationPolicy/allProperties/allTasks",
+      "microsoft.directory/onPremisesSynchronization/basic/update",
+      "microsoft.directory/onPremisesSynchronization/standard/read",
+      "microsoft.directory/organization/dirSync/update",
+      "microsoft.directory/passwordHashSync/allProperties/allTasks",
+      "microsoft.directory/provisioningLogs/allProperties/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/servicePrincipals/audience/update",
+      "microsoft.directory/servicePrincipals/authentication/update",
+      "microsoft.directory/servicePrincipals/basic/update",
+      "microsoft.directory/servicePrincipals/create",
+      "microsoft.directory/servicePrincipals/delete",
+      "microsoft.directory/servicePrincipals/disable",
+      "microsoft.directory/servicePrincipals/enable",
+      "microsoft.directory/servicePrincipals/notes/update",
+      "microsoft.directory/servicePrincipals/owners/update",
+      "microsoft.directory/servicePrincipals/permissions/update",
+      "microsoft.directory/servicePrincipals/policies/update",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToCloudTenant/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/credentials/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/jobs/manage",
+      "microsoft.directory/servicePrincipals/synchronization.cloudTenantToExternalSystem/schema/manage",
+      "microsoft.directory/servicePrincipals/synchronization/standard/read",
+      "microsoft.directory/servicePrincipals/synchronizationCredentials/manage",
+      "microsoft.directory/servicePrincipals/synchronizationJobs/manage",
+      "microsoft.directory/servicePrincipals/synchronizationSchema/manage",
+      "microsoft.directory/servicePrincipals/tag/update",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.directory/users/authorizationInfo/update",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "2b745bdf-0803-4d80-aa65-822c4493daac",
@@ -2348,7 +3885,17 @@
       "microsoft.office365.userCommunication/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.userCommunication/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "d37c8bed-0711-4417-ba38-b4abe66ce4c2",
@@ -2361,7 +3908,13 @@
       "microsoft.office365.network/performance/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.network/locations/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "31e939ad-9672-4796-9c2e-873181342d2d",
@@ -2373,7 +3926,12 @@
       "microsoft.insights/programs/allProperties/update",
       "microsoft.insights/reports/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.insights/programs/allProperties/update",
+      "microsoft.insights/reports/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "3d762c5a-1b6c-493f-843e-55a3b42923d4",
@@ -2385,7 +3943,12 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/devices/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/devices/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "c430b396-e693-46cc-96f3-db01bf8bb62a",
@@ -2398,7 +3961,13 @@
       "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read",
       "microsoft.office365.protectionCenter/attackSimulator/simulation/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.protectionCenter/attackSimulator/payload/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read",
+      "microsoft.office365.protectionCenter/attackSimulator/simulation/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "9c6df0f2-1e7c-4dc3-b195-66dfbd24aa8f",
@@ -2410,7 +3979,12 @@
       "microsoft.office365.protectionCenter/attackSimulator/payload/allProperties/allTasks",
       "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.protectionCenter/attackSimulator/payload/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/attackSimulator/reports/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "75934031-6c7e-415a-99d7-48dbd49e875e",
@@ -2423,7 +3997,13 @@
       "microsoft.office365.usageReports/allEntities/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.usageReports/allEntities/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "b5a8dcf3-09d5-43a9-a639-8e29ef291470",
@@ -2446,7 +4026,23 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/groups.security/basic/update",
+      "microsoft.directory/groups.security/create",
+      "microsoft.directory/groups.security/createAsOwner",
+      "microsoft.directory/groups.security/delete",
+      "microsoft.directory/groups.security/members/update",
+      "microsoft.directory/groups.security/owners/update",
+      "microsoft.office365.knowledge/contentUnderstanding/allProperties/allTasks",
+      "microsoft.office365.knowledge/knowledgeNetwork/allProperties/allTasks",
+      "microsoft.office365.knowledge/learningSources/allProperties/allTasks",
+      "microsoft.office365.protectionCenter/sensitivityLabels/allProperties/read",
+      "microsoft.office365.sharePoint/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "744ec460-397e-42ad-a462-8b3f9747a02c",
@@ -2467,7 +4063,21 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/groups.security/basic/update",
+      "microsoft.directory/groups.security/create",
+      "microsoft.directory/groups.security/createAsOwner",
+      "microsoft.directory/groups.security/delete",
+      "microsoft.directory/groups.security/members/update",
+      "microsoft.directory/groups.security/owners/update",
+      "microsoft.office365.knowledge/contentUnderstanding/analytics/allProperties/read",
+      "microsoft.office365.knowledge/knowledgeNetwork/topicVisibility/allProperties/allTasks",
+      "microsoft.office365.sharePoint/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "8329153b-31d0-4727-b945-745eb3bc5f31",
@@ -2480,7 +4090,13 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/domains/allProperties/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "d2562ede-74db-457e-a7b6-544e236ebb61",
@@ -2560,7 +4176,80 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/allTasks",
+      "microsoft.directory/agentIdentities/allProperties/read",
+      "microsoft.directory/agentIdentities/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentities/authentication/update",
+      "microsoft.directory/agentIdentities/basic/update",
+      "microsoft.directory/agentIdentities/create",
+      "microsoft.directory/agentIdentities/delete",
+      "microsoft.directory/agentIdentities/disable",
+      "microsoft.directory/agentIdentities/enable",
+      "microsoft.directory/agentIdentities/owners/update",
+      "microsoft.directory/agentIdentities/tag/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/authentication/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/basic/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/create",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/delete",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/disable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/enable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/owners/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/tag/update",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/update",
+      "microsoft.directory/agentIdentityBlueprints/appRoles/update",
+      "microsoft.directory/agentIdentityBlueprints/audience/update",
+      "microsoft.directory/agentIdentityBlueprints/authentication/update",
+      "microsoft.directory/agentIdentityBlueprints/basic/update",
+      "microsoft.directory/agentIdentityBlueprints/create",
+      "microsoft.directory/agentIdentityBlueprints/credentials/update",
+      "microsoft.directory/agentIdentityBlueprints/delete",
+      "microsoft.directory/agentIdentityBlueprints/owners/update",
+      "microsoft.directory/agentIdentityBlueprints/permissions/update",
+      "microsoft.directory/agentIdentityBlueprints/tag/update",
+      "microsoft.directory/agentIdentityBlueprints/verification/update",
+      "microsoft.directory/agentUsers/assignLicense",
+      "microsoft.directory/agentUsers/basic/update",
+      "microsoft.directory/agentUsers/create",
+      "microsoft.directory/agentUsers/delete",
+      "microsoft.directory/agentUsers/disable",
+      "microsoft.directory/agentUsers/enable",
+      "microsoft.directory/agentUsers/invalidateAllRefreshTokens",
+      "microsoft.directory/agentUsers/lifeCycleInfo/read",
+      "microsoft.directory/agentUsers/lifeCycleInfo/update",
+      "microsoft.directory/agentUsers/manager/update",
+      "microsoft.directory/agentUsers/photo/update",
+      "microsoft.directory/agentUsers/reprocessLicenseAssignment",
+      "microsoft.directory/agentUsers/restore",
+      "microsoft.directory/agentUsers/revokeSignInSessions",
+      "microsoft.directory/agentUsers/sponsors/update",
+      "microsoft.directory/agentUsers/usageLocation/update",
+      "microsoft.directory/agentUsers/userPrincipalName/update",
+      "microsoft.directory/deletedItems.agentIdentities/delete",
+      "microsoft.directory/deletedItems.agentIdentities/restore",
+      "microsoft.directory/deletedItems.agentIdentityBlueprintPrincipals/delete",
+      "microsoft.directory/deletedItems.agentIdentityBlueprintPrincipals/restore",
+      "microsoft.directory/deletedItems.agentIdentityBlueprints/delete",
+      "microsoft.directory/deletedItems.agentIdentityBlueprints/restore",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/allProperties/read",
+      "microsoft.office365.copilot/allEntities/allProperties/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.search/content/manage",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "1fe13547-53f6-408d-ac04-7f8eed167b38",
@@ -2616,7 +4305,55 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/adminConsentRequestPolicy/allProperties/read",
+      "microsoft.directory/administrativeUnits/members/read",
+      "microsoft.directory/administrativeUnits/standard/read",
+      "microsoft.directory/agentIdentities/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/read",
+      "microsoft.directory/agentUsers/lifeCycleInfo/read",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applications/owners/read",
+      "microsoft.directory/applications/policies/read",
+      "microsoft.directory/applications/standard/read",
+      "microsoft.directory/contacts/memberOf/read",
+      "microsoft.directory/contacts/standard/read",
+      "microsoft.directory/contracts/standard/read",
+      "microsoft.directory/domains/standard/read",
+      "microsoft.directory/entitlementManagement/allProperties/read",
+      "microsoft.directory/groupSettingTemplates/standard/read",
+      "microsoft.directory/groupSettings/standard/read",
+      "microsoft.directory/groups/appRoleAssignments/read",
+      "microsoft.directory/groups/memberOf/read",
+      "microsoft.directory/groups/members/read",
+      "microsoft.directory/groups/owners/read",
+      "microsoft.directory/groups/settings/read",
+      "microsoft.directory/groups/standard/read",
+      "microsoft.directory/oAuth2PermissionGrants/standard/read",
+      "microsoft.directory/organization/standard/read",
+      "microsoft.directory/organization/trustedCAsForPasswordlessAuth/read",
+      "microsoft.directory/roleAssignments/standard/read",
+      "microsoft.directory/roleDefinitions/standard/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/read",
+      "microsoft.directory/servicePrincipals/appRoleAssignments/read",
+      "microsoft.directory/servicePrincipals/memberOf/read",
+      "microsoft.directory/servicePrincipals/oAuth2PermissionGrants/read",
+      "microsoft.directory/servicePrincipals/ownedObjects/read",
+      "microsoft.directory/servicePrincipals/owners/read",
+      "microsoft.directory/servicePrincipals/policies/read",
+      "microsoft.directory/servicePrincipals/standard/read",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/allProperties/read",
+      "microsoft.office365.copilot/allEntities/allProperties/read",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "8424c6f0-a189-499e-bbd0-26c1753c96d4",
@@ -2628,7 +4365,12 @@
       "microsoft.directory/attributeSets/allProperties/allTasks",
       "microsoft.directory/customSecurityAttributeDefinitions/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/attributeSets/allProperties/allTasks",
+      "microsoft.directory/customSecurityAttributeDefinitions/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "58a13ea3-c632-46ae-9ee0-9c0d43cd7f3d",
@@ -2648,7 +4390,20 @@
       "microsoft.directory/users/customSecurityAttributes/read",
       "microsoft.directory/users/customSecurityAttributes/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/attributeSets/allProperties/read",
+      "microsoft.directory/azureManagedIdentities/customSecurityAttributes/read",
+      "microsoft.directory/azureManagedIdentities/customSecurityAttributes/update",
+      "microsoft.directory/customSecurityAttributeDefinitions/allProperties/read",
+      "microsoft.directory/devices/customSecurityAttributes/read",
+      "microsoft.directory/devices/customSecurityAttributes/update",
+      "microsoft.directory/servicePrincipals/customSecurityAttributes/read",
+      "microsoft.directory/servicePrincipals/customSecurityAttributes/update",
+      "microsoft.directory/users/customSecurityAttributes/read",
+      "microsoft.directory/users/customSecurityAttributes/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "1d336d2c-4ae8-42ef-9711-b3604ce3fc2c",
@@ -2660,7 +4415,12 @@
       "microsoft.directory/attributeSets/allProperties/read",
       "microsoft.directory/customSecurityAttributeDefinitions/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/attributeSets/allProperties/read",
+      "microsoft.directory/customSecurityAttributeDefinitions/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "ffd52fa5-98dc-465c-991d-fc073eb59f8f",
@@ -2676,7 +4436,16 @@
       "microsoft.directory/servicePrincipals/customSecurityAttributes/read",
       "microsoft.directory/users/customSecurityAttributes/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/attributeSets/allProperties/read",
+      "microsoft.directory/azureManagedIdentities/customSecurityAttributes/read",
+      "microsoft.directory/customSecurityAttributeDefinitions/allProperties/read",
+      "microsoft.directory/devices/customSecurityAttributes/read",
+      "microsoft.directory/servicePrincipals/customSecurityAttributes/read",
+      "microsoft.directory/users/customSecurityAttributes/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "31392ffb-586c-42d1-9346-e59415a2cc4e",
@@ -2688,7 +4457,12 @@
       "microsoft.office365.exchange/migration/allProperties/allTasks",
       "microsoft.office365.exchange/recipients/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.exchange/migration/allProperties/allTasks",
+      "microsoft.office365.exchange/recipients/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "45d8d3c5-c802-45c6-b32a-1d70b5e1e86e",
@@ -2708,7 +4482,20 @@
       "microsoft.directory/groups/members/update",
       "microsoft.directory/servicePrincipals/appRoleAssignedTo/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/accessReviews/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.applications/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.entitlementManagement/allProperties/allTasks",
+      "microsoft.directory/accessReviews/definitions.groups/allProperties/read",
+      "microsoft.directory/accessReviews/definitions.groups/allProperties/update",
+      "microsoft.directory/accessReviews/definitions.groups/create",
+      "microsoft.directory/accessReviews/definitions.groups/delete",
+      "microsoft.directory/entitlementManagement/allProperties/allTasks",
+      "microsoft.directory/groups/members/update",
+      "microsoft.directory/servicePrincipals/appRoleAssignedTo/update"
+    ],
+    "docsReviewedDate": "2026-05-21"
   },
   {
     "id": "892c5842-a9a6-463a-8041-72aa08ca3cf6",
@@ -2720,7 +4507,12 @@
       "microsoft.directory/cloudAppSecurity/allProperties/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/cloudAppSecurity/allProperties/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "32696413-001a-46ae-978c-ce0f6b3620d2",
@@ -2731,7 +4523,11 @@
     "permissions": [
       "microsoft.windows.updatesDeployments/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.windows.updatesDeployments/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "11451d60-acb2-45eb-a7d6-43d0f0125c13",
@@ -2769,7 +4565,38 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.cloudPC/allEntities/allProperties/allTasks",
+      "microsoft.directory/deletedItems.devices/delete",
+      "microsoft.directory/deletedItems.devices/restore",
+      "microsoft.directory/deviceManagementPolicies/standard/read",
+      "microsoft.directory/deviceRegistrationPolicy/standard/read",
+      "microsoft.directory/devices/basic/update",
+      "microsoft.directory/devices/create",
+      "microsoft.directory/devices/delete",
+      "microsoft.directory/devices/disable",
+      "microsoft.directory/devices/enable",
+      "microsoft.directory/devices/extensionAttributeSet1/update",
+      "microsoft.directory/devices/extensionAttributeSet2/update",
+      "microsoft.directory/devices/extensionAttributeSet3/update",
+      "microsoft.directory/devices/registeredOwners/update",
+      "microsoft.directory/devices/registeredUsers/update",
+      "microsoft.directory/groups.security/assignedLabels/update",
+      "microsoft.directory/groups.security/basic/update",
+      "microsoft.directory/groups.security/classification/update",
+      "microsoft.directory/groups.security/create",
+      "microsoft.directory/groups.security/delete",
+      "microsoft.directory/groups.security/dynamicMembershipRule/update",
+      "microsoft.directory/groups.security/members/update",
+      "microsoft.directory/groups.security/owners/update",
+      "microsoft.directory/groups.security/visibility/update",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "3f1acade-1e04-4fbc-9b69-f0302cd84aef",
@@ -2782,7 +4609,13 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.edge/allEntities/allProperties/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "810a2642-a034-447f-a5e8-41beaa378541",
@@ -2807,7 +4640,25 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.office365.yammer/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups.unified/basic/update",
+      "microsoft.directory/groups.unified/create",
+      "microsoft.directory/groups.unified/delete",
+      "microsoft.directory/groups.unified/members/update",
+      "microsoft.directory/groups.unified/owners/update",
+      "microsoft.directory/groups.unified/restore",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.office365.yammer/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "25a516ed-2fa0-40ea-a2d0-12923a21473a",
@@ -2818,7 +4669,11 @@
     "permissions": [
       "microsoft.directory/customAuthenticationExtensions/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/customAuthenticationExtensions/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e300d9e7-4a2b-4295-9eff-f1c78b36cc98",
@@ -2830,7 +4685,12 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.virtualVisits/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.virtualVisits/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "25df335f-86eb-4119-b717-0ff02de207e9",
@@ -2843,7 +4703,13 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.insights/queries/allProperties/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "1501b917-7653-4ff9-a4b5-203eaf33784f",
@@ -2859,7 +4725,16 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.hardware.support/shippingAddress/allProperties/allTasks",
+      "microsoft.hardware.support/shippingStatus/allProperties/read",
+      "microsoft.hardware.support/warrantyClaims/allProperties/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "281fe777-fb20-4fbb-b7a3-ccebce5b0d96",
@@ -2875,7 +4750,16 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.hardware.support/shippingAddress/allProperties/read",
+      "microsoft.hardware.support/shippingStatus/allProperties/read",
+      "microsoft.hardware.support/warrantyClaims/allProperties/read",
+      "microsoft.hardware.support/warrantyClaims/createAsOwner",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "112ca1a2-15ad-4102-995e-45b0bc479a6a",
@@ -2886,7 +4770,11 @@
     "permissions": [
       "microsoft.directory/tenantManagement/tenants/create"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/tenantManagement/tenants/create"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "59d46f88-662b-457b-bceb-5c3809e5908f",
@@ -2899,7 +4787,13 @@
       "microsoft.directory/organization/strongAuthentication/read",
       "microsoft.directory/users/lifeCycleInfo/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/lifecycleWorkflows/workflows/allProperties/allTasks",
+      "microsoft.directory/organization/strongAuthentication/read",
+      "microsoft.directory/users/lifeCycleInfo/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "92b086b3-e367-4ef2-b869-1de128fb986e",
@@ -2912,7 +4806,13 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.viva.goals/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.viva.goals/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "27460883-1df1-4691-b032-3b79643e5e63",
@@ -2929,7 +4829,17 @@
       "microsoft.office365.usageReports/allEntities/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.commerce.billing/purchases/standard/read",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "af78dc32-cf4d-46f9-ba4e-4428526346b5",
@@ -2940,7 +4850,11 @@
     "permissions": [
       "microsoft.permissionsManagement/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.permissionsManagement/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "507f53e4-4e52-4077-abd3-d2e1558b6ea2",
@@ -2953,7 +4867,13 @@
       "microsoft.office365.usageReports/allEntities/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/allTasks",
+      "microsoft.office365.usageReports/allEntities/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "ac434307-12b9-4fa1-a708-88bf58caabc1",
@@ -2983,7 +4903,30 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/applicationPolicies/standard/read",
+      "microsoft.directory/applications/applicationProxy/read",
+      "microsoft.directory/applications/owners/read",
+      "microsoft.directory/applications/policies/read",
+      "microsoft.directory/applications/standard/read",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/conditionalAccessPolicies/standard/read",
+      "microsoft.directory/connectorGroups/allProperties/read",
+      "microsoft.directory/connectors/allProperties/read",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/namedLocations/standard/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.networkAccess/allEntities/allProperties/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "87761b17-1ed2-4af3-9acd-92a150038160",
@@ -2999,7 +4942,16 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.viva.pulse/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.viva.pulse/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "dd13091a-6207-4fc0-82ba-3641e056ab95",
@@ -3016,7 +4968,17 @@
       "microsoft.directory/pendingExternalUserProfiles/delete",
       "microsoft.directory/pendingExternalUserProfiles/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/externalUserProfiles/basic/update",
+      "microsoft.directory/externalUserProfiles/delete",
+      "microsoft.directory/externalUserProfiles/standard/read",
+      "microsoft.directory/pendingExternalUserProfiles/basic/update",
+      "microsoft.directory/pendingExternalUserProfiles/create",
+      "microsoft.directory/pendingExternalUserProfiles/delete",
+      "microsoft.directory/pendingExternalUserProfiles/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "5b784334-f94b-471a-a387-e7219fc49ca2",
@@ -3028,7 +4990,12 @@
       "microsoft.azure.customSecurityAttributeDiagnosticSettings/allEntities/allProperties/allTasks",
       "microsoft.directory/customSecurityAttributeAuditLogs/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.customSecurityAttributeDiagnosticSettings/allEntities/allProperties/allTasks",
+      "microsoft.directory/customSecurityAttributeAuditLogs/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "9c99539d-8186-4804-835f-fd51ef9e2dcd",
@@ -3039,7 +5006,11 @@
     "permissions": [
       "microsoft.directory/customSecurityAttributeAuditLogs/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/customSecurityAttributeAuditLogs/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "1076ac91-f3d9-41a7-a339-dcdf5f480acc",
@@ -3051,7 +5022,12 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/allEntities/allProperties/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/allEntities/allProperties/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "aa38014f-0993-46e9-9b45-30501a20909d",
@@ -3071,7 +5047,20 @@
       "microsoft.teams/callQuality/allProperties/read",
       "microsoft.teams/voice/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.skypeForBusiness/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/callQuality/allProperties/read",
+      "microsoft.teams/voice/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "963797fb-eb3b-4cde-8ce3-5878b3f32a3f",
@@ -3089,7 +5078,18 @@
       "microsoft.office365.serviceHealth/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.directory/domains/standard/read",
+      "microsoft.directory/organization/standard/read",
+      "microsoft.directory/subscribedSkus/standard/read",
+      "microsoft.directory/users/standard/read",
+      "microsoft.dynamics365.businessCentral/allEntities/allProperties/allTasks",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "8c8b803f-96e1-4129-9349-20738d9f9652",
@@ -3102,7 +5102,13 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.migrations/allEntities/allProperties/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "1a7d78b6-429f-476b-b8eb-35fb715fffd4",
@@ -3118,7 +5124,16 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.fileStorageContainers/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "92ed04bf-c94a-4b82-9729-b799a7a4c178",
@@ -3129,7 +5144,11 @@
     "permissions": [
       "microsoft.directory/loginOrganizationBranding/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/loginOrganizationBranding/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e48398e2-f4bb-4074-8f31-4586725e205b",
@@ -3142,7 +5161,13 @@
       "microsoft.office365.organizationalMessages/allEntities/allProperties/update",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/read",
+      "microsoft.office365.organizationalMessages/allEntities/allProperties/update",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "ee67aa9c-e510-4759-b906-227085a7fd4d",
@@ -3159,7 +5184,17 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.graph.dataConnect/allEntities/allProperties/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "1707125e-0aa2-4d4d-8655-a7c786c76a25",
@@ -3177,7 +5212,18 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "a92aed5d-d78a-4d16-b381-09adb37eb3b0",
@@ -3199,7 +5245,11 @@
     "permissions": [
       "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "ecb2c6bf-0ab6-418e-bd87-7986f8d63bbe",
@@ -3211,7 +5261,12 @@
       "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/read",
       "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/read",
+      "microsoft.directory/servicePrincipals/synchronization.customSecurityAttributes/schema/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "843318fb-79a6-4168-9e6f-aa9a07481cc4",
@@ -3222,7 +5277,11 @@
     "permissions": [
       "microsoft.networkAccess/trafficLogs/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.networkAccess/trafficLogs/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "9d70768a-0cbc-4b4c-aea3-2e124b2477f4",
@@ -3239,7 +5298,17 @@
       "microsoft.office365.supportTickets/allEntities/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.microsoft365.organizationalData/allEntities/allProperties/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "024906de-61e5-49c8-8572-40335f1e0e10",
@@ -3254,7 +5323,15 @@
       "microsoft.peopleAdmin/organization/allProperties/read",
       "microsoft.peopleAdmin/organization/allProperties/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.people/users/photo/read",
+      "microsoft.people/users/photo/update",
+      "microsoft.peopleAdmin/organization/allProperties/read",
+      "microsoft.peopleAdmin/organization/allProperties/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "2ea5ce4c-b2d8-4668-bd81-3680bd2d227a",
@@ -3274,7 +5351,20 @@
       "microsoft.directory/deviceTemplates/owners/read",
       "microsoft.directory/deviceTemplates/owners/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/certificateBasedDeviceAuthConfigurations/create",
+      "microsoft.directory/certificateBasedDeviceAuthConfigurations/credentials/update",
+      "microsoft.directory/certificateBasedDeviceAuthConfigurations/delete",
+      "microsoft.directory/certificateBasedDeviceAuthConfigurations/standard/read",
+      "microsoft.directory/deviceTemplates/create",
+      "microsoft.directory/deviceTemplates/createDeviceFromTemplate",
+      "microsoft.directory/deviceTemplates/delete",
+      "microsoft.directory/deviceTemplates/deviceInstances/read",
+      "microsoft.directory/deviceTemplates/owners/read",
+      "microsoft.directory/deviceTemplates/owners/update"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "0ec3f692-38d6-4d14-9e69-0377ca7797ad",
@@ -3291,7 +5381,17 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.viva.glint/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.office365.messageCenter/messages/read",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.viva.glint/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "78b0ccd1-afc2-4f92-9116-b41aedd09592",
@@ -3302,7 +5402,11 @@
     "permissions": [
       "microsoft.places/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.places/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "9d3e04ba-3ee4-4d1b-a3a7-9aef423a09be",
@@ -3329,7 +5433,27 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/oneDriveForBusinessProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/oneDriveForBusinessRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/restorePoints/sites/allProperties/allTasks",
+      "microsoft.backup/restorePoints/userDrives/allProperties/allTasks",
+      "microsoft.backup/sharePointProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/sharePointRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/siteProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/siteRestoreArtifacts/allProperties/allTasks",
+      "microsoft.backup/userDriveProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/userDriveRestoreArtifacts/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "49eb8f75-97e9-4e37-9b2b-6c3ebfcffa31",
@@ -3351,7 +5475,22 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/exchangeProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/exchangeRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/restorePoints/userMailboxes/allProperties/allTasks",
+      "microsoft.backup/userMailboxProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/userMailboxRestoreArtifacts/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "e93e3737-fa85-474a-aee4-7d3fb86510f3",
@@ -3369,7 +5508,18 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.healthPlatform/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "99009c4a-3b3f-4957-82a9-9d35e12db77e",
@@ -3407,7 +5557,38 @@
       "microsoft.office365.usageReports/allEntities/allProperties/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.backup/oneDriveForBusinessProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/oneDriveForBusinessRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/restorePoints/sites/allProperties/allTasks",
+      "microsoft.backup/restorePoints/userDrives/allProperties/allTasks",
+      "microsoft.backup/sharePointProtectionPolicies/allProperties/allTasks",
+      "microsoft.backup/sharePointRestoreSessions/allProperties/allTasks",
+      "microsoft.backup/siteProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/siteRestoreArtifacts/allProperties/allTasks",
+      "microsoft.backup/userDriveProtectionUnits/allProperties/allTasks",
+      "microsoft.backup/userDriveRestoreArtifacts/allProperties/allTasks",
+      "microsoft.directory/groups.unified/assignedLabels/update",
+      "microsoft.directory/groups.unified/basic/update",
+      "microsoft.directory/groups.unified/create",
+      "microsoft.directory/groups.unified/delete",
+      "microsoft.directory/groups.unified/members/update",
+      "microsoft.directory/groups.unified/owners/update",
+      "microsoft.directory/groups.unified/restore",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.office365.migrations/allEntities/allProperties/allTasks",
+      "microsoft.office365.network/performance/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.sharePoint/allEntities/allTasks",
+      "microsoft.office365.sharePointAdvancedManagement/allEntities/allProperties/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks",
+      "microsoft.office365.usageReports/allEntities/allProperties/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "2fe872fb-daa8-4afc-8f6c-53c4565cfef4",
@@ -3421,7 +5602,14 @@
       "microsoft.office365.webPortal/allEntities/standard/read",
       "microsoft.teams/policies/externalAccessPolicy/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/authorizationPolicy/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read",
+      "microsoft.teams/policies/externalAccessPolicy/allTasks"
+    ],
+    "docsReviewedDate": "2026-03-23"
   },
   {
     "id": "adb2368d-a9be-41b5-8667-d96778e081b0",
@@ -3433,7 +5621,12 @@
       "microsoft.directory/agentIdentityBlueprints/createAsOwner",
       "microsoft.directory/servicePrincipals/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/agentIdentityBlueprints/createAsOwner",
+      "microsoft.directory/servicePrincipals/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-11"
   },
   {
     "id": "0b00bede-4072-4d22-b441-e7df02a1ef63",
@@ -3445,7 +5638,11 @@
       "microsoft.directory/onPasswordSubmitCustomAuthenticationExtension/allProperties/allTasks",
       "microsoft.directory/onPasswordUpdateCustomAuthenticationExtension/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/onPasswordSubmitCustomAuthenticationExtension/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-02-24"
   },
   {
     "id": "6b942400-691f-4bf0-9d12-d8a254a2baf5",
@@ -3456,7 +5653,11 @@
     "permissions": [
       "microsoft.agentRegistry/allEntities/allProperties/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.agentRegistry/allEntities/allProperties/allTasks"
+    ],
+    "docsReviewedDate": "2026-01-26"
   },
   {
     "id": "db506228-d27e-4b7d-95e5-295956d6615f",
@@ -3532,7 +5733,74 @@
       "microsoft.office365.serviceHealth/allEntities/allTasks",
       "microsoft.office365.supportTickets/allEntities/allTasks"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.azure.serviceHealth/allEntities/allTasks",
+      "microsoft.azure.supportTickets/allEntities/allTasks",
+      "microsoft.directory/agentIdentities/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentities/authentication/update",
+      "microsoft.directory/agentIdentities/basic/update",
+      "microsoft.directory/agentIdentities/create",
+      "microsoft.directory/agentIdentities/delete",
+      "microsoft.directory/agentIdentities/disable",
+      "microsoft.directory/agentIdentities/enable",
+      "microsoft.directory/agentIdentities/owners/update",
+      "microsoft.directory/agentIdentities/tag/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/appRoleAssignedTo/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/authentication/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/basic/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/create",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/delete",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/disable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/enable",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/owners/update",
+      "microsoft.directory/agentIdentityBlueprintPrincipals/tag/update",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/read",
+      "microsoft.directory/agentIdentityBlueprints/allProperties/update",
+      "microsoft.directory/agentIdentityBlueprints/appRoles/update",
+      "microsoft.directory/agentIdentityBlueprints/audience/update",
+      "microsoft.directory/agentIdentityBlueprints/authentication/update",
+      "microsoft.directory/agentIdentityBlueprints/basic/update",
+      "microsoft.directory/agentIdentityBlueprints/create",
+      "microsoft.directory/agentIdentityBlueprints/credentials/update",
+      "microsoft.directory/agentIdentityBlueprints/delete",
+      "microsoft.directory/agentIdentityBlueprints/owners/update",
+      "microsoft.directory/agentIdentityBlueprints/permissions/update",
+      "microsoft.directory/agentIdentityBlueprints/tag/update",
+      "microsoft.directory/agentUsers/assignLicense",
+      "microsoft.directory/agentUsers/basic/update",
+      "microsoft.directory/agentUsers/create",
+      "microsoft.directory/agentUsers/delete",
+      "microsoft.directory/agentUsers/disable",
+      "microsoft.directory/agentUsers/enable",
+      "microsoft.directory/agentUsers/invalidateAllRefreshTokens",
+      "microsoft.directory/agentUsers/lifeCycleInfo/read",
+      "microsoft.directory/agentUsers/lifeCycleInfo/update",
+      "microsoft.directory/agentUsers/manager/update",
+      "microsoft.directory/agentUsers/photo/update",
+      "microsoft.directory/agentUsers/reprocessLicenseAssignment",
+      "microsoft.directory/agentUsers/restore",
+      "microsoft.directory/agentUsers/revokeSignInSessions",
+      "microsoft.directory/agentUsers/sponsors/update",
+      "microsoft.directory/agentUsers/usageLocation/update",
+      "microsoft.directory/agentUsers/userPrincipalName/update",
+      "microsoft.directory/auditLogs/allProperties/read",
+      "microsoft.directory/deletedItems.agentIdentities/delete",
+      "microsoft.directory/deletedItems.agentIdentities/restore",
+      "microsoft.directory/deletedItems.agentIdentityBlueprintPrincipals/delete",
+      "microsoft.directory/deletedItems.agentIdentityBlueprintPrincipals/restore",
+      "microsoft.directory/deletedItems.agentIdentityBlueprints/delete",
+      "microsoft.directory/deletedItems.agentIdentityBlueprints/restore",
+      "microsoft.directory/externalUserProfiles/standard/read",
+      "microsoft.directory/groups.unified/createAsOwner",
+      "microsoft.directory/groups/hiddenMembers/read",
+      "microsoft.directory/organization/standard/read",
+      "microsoft.directory/policies/standard/read",
+      "microsoft.directory/signInReports/allProperties/read",
+      "microsoft.office365.serviceHealth/allEntities/allTasks",
+      "microsoft.office365.supportTickets/allEntities/allTasks"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "e07494ad-1654-4dd2-922e-6f81a71bf00f",
@@ -3541,7 +5809,9 @@
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [],
+    "docsReviewedDate": "2026-06-19"
   },
   {
     "id": "02d5655b-c1cf-4e5f-98da-5fb919085bf6",
@@ -3550,7 +5820,9 @@
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [],
+    "docsReviewedDate": "2026-06-19"
   },
   {
     "id": "3f04f91a-4ad7-4bd3-bcfa-49882ea1a88a",
@@ -3559,7 +5831,9 @@
     "isBuiltIn": true,
     "isPrivileged": false,
     "permissions": [],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [],
+    "docsReviewedDate": "2026-06-19"
   },
   {
     "id": "fc8ad4e2-40e4-4724-8317-bcda7503ecbf",
@@ -3571,7 +5845,12 @@
       "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.commerce.tenantRelationships/customerDelegatedAdminPrivileges/allProperties/allTasks",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-04-29"
   },
   {
     "id": "f42252d9-5400-4d7b-b9ef-cc582dbb8577",
@@ -3585,7 +5864,14 @@
       "microsoft.directory/backup/preview/create",
       "microsoft.directory/backup/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/auditLogs/standard/read",
+      "microsoft.directory/backup/preview/cancel",
+      "microsoft.directory/backup/preview/create",
+      "microsoft.directory/backup/standard/read"
+    ],
+    "docsReviewedDate": "2026-04-29"
   },
   {
     "id": "b6a27b2b-f905-4b2e-81b5-0d90e0ef1fdb",
@@ -3601,7 +5887,16 @@
       "microsoft.directory/backup/recovery/create",
       "microsoft.directory/backup/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/auditLogs/standard/read",
+      "microsoft.directory/backup/preview/cancel",
+      "microsoft.directory/backup/preview/create",
+      "microsoft.directory/backup/recovery/cancel",
+      "microsoft.directory/backup/recovery/create",
+      "microsoft.directory/backup/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "1981f584-96e9-4a6f-95b0-f522373f8fae",
@@ -3636,7 +5931,34 @@
       "microsoft.directory/tenantGovernance/settings/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/crossTenantAccessPolicy/basic/update",
+      "microsoft.directory/crossTenantAccessPolicy/default/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/partners/create",
+      "microsoft.directory/crossTenantAccessPolicy/partners/delete",
+      "microsoft.directory/crossTenantAccessPolicy/partners/standard/read",
+      "microsoft.directory/crossTenantAccessPolicy/standard/read",
+      "microsoft.directory/tenantGovernance/invitations/create",
+      "microsoft.directory/tenantGovernance/invitations/delete",
+      "microsoft.directory/tenantGovernance/invitations/standard/read",
+      "microsoft.directory/tenantGovernance/policyTemplates/allProperties/update",
+      "microsoft.directory/tenantGovernance/policyTemplates/create",
+      "microsoft.directory/tenantGovernance/policyTemplates/delete",
+      "microsoft.directory/tenantGovernance/policyTemplates/standard/read",
+      "microsoft.directory/tenantGovernance/relatedTenants/refresh",
+      "microsoft.directory/tenantGovernance/relatedTenants/standard/read",
+      "microsoft.directory/tenantGovernance/relationships/allProperties/update",
+      "microsoft.directory/tenantGovernance/relationships/create",
+      "microsoft.directory/tenantGovernance/relationships/standard/read",
+      "microsoft.directory/tenantGovernance/requests/allProperties/update",
+      "microsoft.directory/tenantGovernance/requests/create",
+      "microsoft.directory/tenantGovernance/requests/standard/read",
+      "microsoft.directory/tenantGovernance/settings/allProperties/update",
+      "microsoft.directory/tenantGovernance/settings/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-07-17"
   },
   {
     "id": "e0a4caa6-fe82-443f-b92f-d87341d17b2e",
@@ -3654,7 +5976,17 @@
       "microsoft.directory/tenantGovernance/settings/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/tenantGovernance/invitations/standard/read",
+      "microsoft.directory/tenantGovernance/policyTemplates/standard/read",
+      "microsoft.directory/tenantGovernance/relatedTenants/standard/read",
+      "microsoft.directory/tenantGovernance/relationships/standard/read",
+      "microsoft.directory/tenantGovernance/requests/standard/read",
+      "microsoft.directory/tenantGovernance/settings/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "b8e31d83-1534-480f-9b10-0338ded51b7e",
@@ -3678,7 +6010,23 @@
       "microsoft.directory/tenantGovernance/settings/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/tenantGovernance/invitations/standard/read",
+      "microsoft.directory/tenantGovernance/policyTemplates/allProperties/update",
+      "microsoft.directory/tenantGovernance/policyTemplates/create",
+      "microsoft.directory/tenantGovernance/policyTemplates/delete",
+      "microsoft.directory/tenantGovernance/policyTemplates/standard/read",
+      "microsoft.directory/tenantGovernance/relatedTenants/standard/read",
+      "microsoft.directory/tenantGovernance/relationships/allProperties/update",
+      "microsoft.directory/tenantGovernance/relationships/create",
+      "microsoft.directory/tenantGovernance/relationships/standard/read",
+      "microsoft.directory/tenantGovernance/requests/create",
+      "microsoft.directory/tenantGovernance/requests/standard/read",
+      "microsoft.directory/tenantGovernance/settings/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-06-30"
   },
   {
     "id": "124577f8-48ed-456a-839f-13b419002e33",
@@ -3694,7 +6042,16 @@
       "microsoft.directory/tenantGovernance/settings/standard/read",
       "microsoft.office365.webPortal/allEntities/standard/read"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/tenantGovernance/invitations/standard/read",
+      "microsoft.directory/tenantGovernance/policyTemplates/standard/read",
+      "microsoft.directory/tenantGovernance/relationships/standard/read",
+      "microsoft.directory/tenantGovernance/requests/standard/read",
+      "microsoft.directory/tenantGovernance/settings/standard/read",
+      "microsoft.office365.webPortal/allEntities/standard/read"
+    ],
+    "docsReviewedDate": "2026-03-02"
   },
   {
     "id": "d35481f7-cda1-4fa2-8344-5a21f7f3724d",
@@ -3719,6 +6076,13 @@
       "microsoft.directory/users/invalidateAllRefreshTokens",
       "microsoft.directory/users/password/update"
     ],
-    "isShadowRole": false
+    "isShadowRole": false,
+    "permissionsInDocs": [
+      "microsoft.directory/users/disable",
+      "microsoft.directory/users/enable",
+      "microsoft.directory/users/invalidateAllRefreshTokens",
+      "microsoft.directory/users/password/update"
+    ],
+    "docsReviewedDate": "2026-06-17"
   }
 ]
