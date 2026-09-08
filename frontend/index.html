@@ -1247,19 +1247,30 @@
     .whats-new-entry.type-removed .wn-action  { color: var(--danger); opacity: 0.85; }
     .wn-date   { font-family: var(--font-mono); font-size: 14px; color: var(--muted); white-space: nowrap; }
 
-    .wn-show-all { display: flex; justify-content: center; padding: 10px 0 4px; }
+    .wn-show-all { display: flex; justify-content: center; padding: 16px 0 4px; }
     .wn-show-all-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 12.5px;
-      padding: 5px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--accent-dim);
+      border-radius: 100px;
+      color: var(--accent);
+      font-family: 'Chakra Petch', var(--font-head);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      padding: 10px 24px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: all 0.2s ease;
     }
-    .wn-show-all-btn:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .wn-show-all-btn:hover {
+      background: var(--accent);
+      color: #07080D;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(47,158,245,0.4);
+    }
+    .wn-show-all-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
 
     /* ── Explainer grid ─────────────────────────────────────────────── */
     .explainer-grid {
@@ -3489,13 +3500,17 @@ Content-Type: application/json
   function _wnShowAllBtn(total) {
     return `<div class="wn-show-all" id="wn-show-all-row">` +
       `<button class="wn-show-all-btn" id="wn-show-all-btn" onclick="toggleWnShowAll()">` +
-      `Show all ${total} ↓</button></div>`;
+      `Show all ${total}` +
+      `<svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>` +
+      `</button></div>`;
   }
 
   function _wnShowLessBtn() {
     return `<div class="wn-show-all" id="wn-show-all-row">` +
       `<button class="wn-show-all-btn" id="wn-show-all-btn" onclick="toggleWnShowAll()">` +
-      `Show less ↑</button></div>`;
+      `Show less` +
+      `<svg viewBox="0 0 16 16" fill="none"><path d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>` +
+      `</button></div>`;
   }
 
   async function loadWhatsNew() {
