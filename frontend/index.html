@@ -239,11 +239,13 @@
     .ac-ring-cw {
       background: conic-gradient(from 0deg, #00d4ff, transparent 70%, #00d4ff);
       animation: ac-spin-cw 3.8s linear infinite;
+      will-change: transform;
     }
     .ac-ring-ccw {
       background: conic-gradient(from 0deg, #7fe3ff, transparent 70%, #7fe3ff);
       opacity: 0.8;
       animation: ac-spin-ccw 5.2s linear infinite;
+      will-change: transform;
     }
     @keyframes ac-spin-cw  { to { transform: rotate(360deg); } }
     @keyframes ac-spin-ccw { to { transform: rotate(-360deg); } }
@@ -251,10 +253,16 @@
       .ac-ring-cw  { animation: none; transform: rotate(20deg); }
       .ac-ring-ccw { animation: none; transform: rotate(-20deg); }
     }
-    @media (pointer: coarse) {
-      .ac-ring-cw  { animation: none; transform: rotate(20deg); }
-      .ac-ring-ccw { animation: none; transform: rotate(-20deg); }
-    }
+    /* Unlike the text-shadow/box-shadow glows below (and the WebGL bg),
+       the ring only animates `transform`, which is compositor-only and
+       doesn't force main-thread repaint -- measured no FPS/task-time
+       regression under the same Pixel 5 + 4x-CPU-throttle profile used for
+       the pointer:coarse perf fix (#170), so it doesn't need the freeze
+       that pass swept it into. will-change: transform (above) hints the
+       browser to promote it to its own layer despite the mask, since a
+       masked element can otherwise fall back to main-thread compositing on
+       some engines. Left spinning on mobile; the
+       prefers-reduced-motion freeze above still applies for accessibility. */
 
     @media (max-width: 640px) {
       .ac-chip { width: 44px; height: 44px; border-radius: 12px; }
