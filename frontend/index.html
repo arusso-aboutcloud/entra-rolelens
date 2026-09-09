@@ -1557,6 +1557,17 @@
       color: var(--text);
       margin-bottom: 16px;
     }
+    /* Shown when one or both compared roles carry zero Entra directory
+       permissions -- e.g. Purview Workload Content roles, which are governed
+       entirely within their own service portal. Without this, a 0/0/0 diff
+       grid reads as a broken result rather than an expected one. */
+    .diff-zero-note {
+      display: none;
+      font-size: 14.5px; line-height: 1.6; margin: -4px 0 18px; padding: 10px 14px;
+      border-radius: 6px; max-width: 68ch;
+      color: var(--accent); background: rgba(47, 158, 245, 0.08);
+    }
+    .diff-zero-note.visible { display: block; }
 
     /* ── More tools section ─────────────────────────────────────────── */
     .tools-section {
@@ -1877,6 +1888,7 @@
 
       <div id="diff-results">
         <div class="diff-summary" id="diff-summary"></div>
+        <div class="diff-zero-note" id="diff-zero-note"></div>
         <div class="diff-header" id="diff-header"></div>
         <div class="diff-grid" id="diff-grid"></div>
       </div>
@@ -3015,6 +3027,28 @@ Content-Type: application/json
 
     const newBadgeA = isNewRole(ra.id) ? NEW_BADGE : '';
     const newBadgeB = isNewRole(rb.id) ? NEW_BADGE : '';
+
+    // Some built-in roles (Purview Workload Content roles are the current
+    // example) carry zero Entra directory permissions by design — access is
+    // governed entirely within their own service portal, not the Entra admin
+    // center. Without a note, a 0/0/0 result reads as a broken diff rather
+    // than an expected one. Kept service-agnostic: applies to any role with
+    // permission_count === 0, not hardcoded to Purview.
+    const zeroNoteEl = document.getElementById('diff-zero-note');
+    if (zeroNoteEl) {
+      const aZero = ra.permission_count === 0;
+      const bZero = rb.permission_count === 0;
+      let note = '';
+      if (aZero && bZero) {
+        note = `Neither role carries any Entra directory permissions — there's nothing to diff at the permission level. Both are workload roles governed within their own service portal, not the Entra admin center. See each role's description for where access is actually managed.`;
+      } else if (aZero) {
+        note = `${esc(ra.display_name)} carries no Entra directory permissions — it's a workload role governed within its own service portal, not the Entra admin center. All permissions below belong to ${esc(rb.display_name)}.`;
+      } else if (bZero) {
+        note = `${esc(rb.display_name)} carries no Entra directory permissions — it's a workload role governed within its own service portal, not the Entra admin center. All permissions below belong to ${esc(ra.display_name)}.`;
+      }
+      zeroNoteEl.innerHTML = note;
+      zeroNoteEl.classList.toggle('visible', !!note);
+    }
 
     document.getElementById('diff-header').innerHTML = `
       <div class="diff-col-header">
